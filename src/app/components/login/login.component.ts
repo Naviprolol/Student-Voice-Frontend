@@ -10,12 +10,21 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   first_page: boolean = true;
+  second_page: boolean = !this.first_page;
 
   isFilledUser = false; // Состояние заполненного поля для имени пользователя
   isInvalidUser = false; // Состояние валидации (ошибка) для имени пользователя
 
   isFilledPassword = false; // Состояние заполненного поля для пароля
   isInvalidPassword = false; // Состояние валидации (ошибка) для пароля
+
+  openEye: boolean = true;
+  passwordType: string = 'password'; // Тип инпута для пароля, изначально 'password'
+
+  toggleEye() {
+    this.openEye = !this.openEye
+    this.passwordType = this.openEye ? 'password' : 'text'; // Переключение типа инпута
+  }
 
   openSecondPage() {
     this.first_page = !this.first_page;

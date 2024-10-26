@@ -258,7 +258,7 @@ button {
   cursor: pointer;
   color: #FFFFFF;
   transition: background-color 0.1s ease, color 0.1s ease;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .blue-button {
