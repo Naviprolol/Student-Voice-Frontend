@@ -408,3 +408,8 @@ button {
 .input-field.invalid {
   border-color: #EF302B;
 }
+
+.white-center-text {
+  color: white;
+  text-align: center;
+}

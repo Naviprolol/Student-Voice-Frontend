@@ -15,29 +15,26 @@
     <button type="button" class="transparent-button small-button center-button"
       (click)="openSecondPage()">Войти</button>
   </div>
-  <div *ngIf="first_page">
-    <div class="form">
-      <h3 class="black-center-text enter-text">Авторизация</h3>
-      <div class="input-center">
-        <div class="input-container user-name-container">
-          <input id="user-name" type="text" class="input-field user-name"
-            [ngClass]="{'filled': isFilledUser, 'invalid': isInvalidUser}" (focus)="onFocus('user')"
-            (blur)="onBlur('user')" (input)="onInput($event, 'user')" />
-          <span class="placeholder-text" *ngIf="!isFilledUser">Введите имя пользователя <span
-              class="red">*</span></span>
-        </div>
-        <div class="input-container password-container">
-          <input id="password" [type]="passwordType" type="text" class="input-field password"
-            [ngClass]="{'filled': isFilledPassword, 'invalid': isInvalidPassword}" (focus)="onFocus('password')"
-            (blur)="onBlur('password')" (input)="onInput($event, 'password')" />
-          <span class="placeholder-text" *ngIf="!isFilledPassword">Введите пароль <span class="red">*</span></span>
-          <img *ngIf="openEye" (click)="toggleEye()" class="eye open-eye" src="/img/open-eye.svg" alt="open-eye">
-          <img *ngIf="!openEye" (click)="toggleEye()" class="eye hiden-eye" src="/img/hiden-eye.svg" alt="hiden-eye">
-        </div>
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="first_page">
+    <h3 class="black-center-text enter-text">Авторизация</h3>
+    <div class="input-center">
+      <div class="input-container user-name-container">
+        <input id="user-name" type="text" class="input-field user-name" formControlName="username"
+          [ngClass]="{'filled': isFilledUser, 'invalid': isInvalidUser}" (focus)="onFocus('user')"
+          (blur)="onBlur('user')" (input)="onInput($event, 'user')" />
+        <span class="placeholder-text" *ngIf="!isFilledUser">Введите имя пользователя <span class="red">*</span></span>
       </div>
-      <button class="main-text">Забыли пароль?</button>
-      <button type="button" class="blue-button small-button center-button">Войти</button>
+      <div class="input-container password-container">
+        <input id="password" [type]="passwordType" type="text" class="input-field password" formControlName="password"
+          [ngClass]="{'filled': isFilledPassword, 'invalid': isInvalidPassword}" (focus)="onFocus('password')"
+          (blur)="onBlur('password')" (input)="onInput($event, 'password')" />
+        <span class="placeholder-text" *ngIf="!isFilledPassword">Введите пароль <span class="red">*</span></span>
+        <img *ngIf="openEye" (click)="toggleEye()" class="eye open-eye" src="/img/open-eye.svg" alt="open-eye">
+        <img *ngIf="!openEye" (click)="toggleEye()" class="eye hiden-eye" src="/img/hiden-eye.svg" alt="hiden-eye">
+      </div>
     </div>
-  </div>
-
+    <button class="main-text">Забыли пароль?</button>
+    <button type="submit" [disabled]="form.invalid || form.disabled"
+      class="blue-button small-button center-button">Войти</button>
+  </form>
 </div>

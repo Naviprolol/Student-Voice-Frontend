@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'] // Исправлено на styleUrls
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
   first_page: boolean = true;
   second_page: boolean = !this.first_page;
 
@@ -20,6 +24,19 @@ export class LoginComponent {
 
   openEye: boolean = true;
   passwordType: string = 'password'; // Тип инпута для пароля, изначально 'password'
+
+  form!: FormGroup
+
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {
+
+  }
+
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      username: new FormControl(null),
+      password: new FormControl(null)
+    })
+  }
 
   toggleEye() {
     this.openEye = !this.openEye
@@ -62,5 +79,21 @@ export class LoginComponent {
         this.isInvalidPassword = false; // Если есть текст, ошибки нет
       }
     }
+  }
+
+  onSubmit() {
+    this.form.disable();
+    this.auth.login(this.form.value.username, this.form.value.password).subscribe(
+      (isLoggedIn) => {
+        if (!isLoggedIn) {
+          console.log("Неверный логин или пароль");
+          this.form.enable();
+        }
+      },
+      (error) => {
+        console.error(error);
+        this.form.enable();
+      }
+    );
   }
 }
