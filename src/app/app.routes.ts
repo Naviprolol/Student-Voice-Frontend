@@ -8,7 +8,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'main', component: MainPageComponent },
   { path: 'subjects', component: SubjectsComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/subjects', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,9 +1,42 @@
 <div class="subjects-page background-image">
+
   <div class="header">
     <img src="/img/rtf-logo.svg" class="logo">
+    <button type="button">
+      <img src="/img/header-button.svg" alt="header-button" class="header-button">
+    </button>
     <div class="titles">
       <h1 class="white-center-text main-title">Голос студента</h1>
       <h3 class="white-center-text secondary-title">Student Voice</h3>
     </div>
+    <h4 class="user-name">Иванов Иван Иванович</h4>
   </div>
+
+  <div class="main-content">
+    <h3 class="white-center-text title-subjects">Предметы</h3>
+    <div class="table-container">
+      <div class="search-bar">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
+        <input type="text" placeholder="Название предмета" class="search-input" [(ngModel)]="searchTerm">
+      </div>
+
+      <div class="table-content">
+        <!-- Вторая строка с длинным названием предмета -->
+        <div *ngFor="let row of filteredRows">
+          <div class="table-row">
+            <div class="column-subject main-text">{{row.subject}}</div>
+            <div class="column-address main-text">{{row.address}}</div>
+            <div class="column-details">
+              <button class="details-button main-text">Подробнее</button>
+              <img src="/img/info-icon.svg" alt="info-icon" class="info-icon">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button class="small-button red-button add-subject-button"><span>Добавить предмет</span></button>
+
 </div>

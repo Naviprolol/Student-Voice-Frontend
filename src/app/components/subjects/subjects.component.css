@@ -11,13 +11,16 @@
 
 .logo {
   position: absolute;
-  top: 40px;
+  top: 50%;
+  transform: translateY(-50%);
   left: 40px;
 }
 
 .header {
   height: 128px;
   width: 100%;
+  position: relative;
+  margin-bottom: 48px;
 }
 
 .titles {
@@ -31,4 +34,140 @@
 
 .secondary-title {
   margin-top: 19px;
+}
+
+.header-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 280px;
+}
+
+.user-name {
+  position: absolute;
+  right: 53px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  /* Отступ подчеркивания */
+}
+
+.title-subjects {
+  margin-bottom: 8px;
+}
+
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.title-subjects {
+  margin-bottom: 10px;
+}
+
+.table-container {
+  width: 752px;
+  height: 511px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 525px;
+  height: 34px;
+  border-bottom: 1px solid #7A7A7A;
+  margin-bottom: 30px;
+  padding-top: 30px;
+  margin-left: 46px;
+}
+
+.search-icon {
+  margin-right: 12px;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+
+.table-content {
+  width: 613px;
+  height: 385px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 45px;
+  padding-right: 60px;
+  /* Создаем отступ справа */
+  margin-bottom: 32px;
+  overflow-y: auto;
+  /* добавляет вертикальный скролл */
+}
+
+.table-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.table-content::-webkit-scrollbar-track {
+  background-color: #D9D9D9;
+  box-shadow: inset 0 0 0 0.5px #1E4391;
+  border-radius: 5px;
+}
+
+.table-content::-webkit-scrollbar-thumb {
+  background-color: #1E4391;
+  /* Цвет бегунка */
+  border-radius: 5px;
+  border: 1px solid transparent;
+  /* Создание отступа вокруг бегунка */
+  background-clip: content-box;
+  /* Чтобы цвет не затенял границы */
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+}
+
+.column-subject {
+  width: 200px;
+  /* Задает фиксированное пространство для предмета */
+  margin-right: 18px;
+}
+
+.column-address {
+  width: 238px;
+  margin-right: 18px;
+}
+
+.column-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.details-button {
+  color: #1E4391;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.info-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.add-subject-button {
+  margin: 0 auto;
 }
