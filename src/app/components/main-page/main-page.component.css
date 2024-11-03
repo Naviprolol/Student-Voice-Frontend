@@ -1,0 +1,77 @@
+.datepicker-container {
+  width: 250px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: #1E4391;
+  color: #ffffff;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  background: url('/path/to/icon.svg') no-repeat center center;
+  margin-right: 8px;
+}
+
+.date-range {
+  font-size: 14px;
+}
+
+.calendar {
+  padding: 16px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day-name,
+.empty-cell {
+  text-align: center;
+  color: #999;
+}
+
+.date {
+  text-align: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.date.start {
+  background-color: #1E4391;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.date.end {
+  background-color: #1E4391;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.date.in-range {
+  background-color: rgba(30, 67, 145, 0.2);
+}

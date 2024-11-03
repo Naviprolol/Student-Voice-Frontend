@@ -2,11 +2,20 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url('/img/main-backgroun.svg');
+  background-color: #1E4391;
+  background-image: url('/img/noise.svg');
+  /* Наложенное изображение */
+  /* Основной цвет фона */
   background-size: cover;
+  /* Подгонка изображения под размеры контейнера */
   background-position: center;
+  /* Центрирование изображения */
   background-repeat: no-repeat;
+  /* Запрет на повтор изображения */
+  mix-blend-mode: overlay;
+  /* Наложение с эффектом overlay */
   overflow: hidden;
+  /* Прятать переполнение */
 }
 
 .logo {

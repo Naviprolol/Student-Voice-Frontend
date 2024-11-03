@@ -25,4 +25,37 @@
     [ngClass]="{'filled': isFilled, 'invalid': isInvalid}" (focus)="onFocus()" (blur)="onBlur()"
     (input)="onInput($event)" />
 
+  <div class="datepicker-container">
+    <!-- Верхняя панель с иконкой и выбранным диапазоном -->
+    <div class="header">
+      <div class="icon"></div>
+      <span class="date-range">{{ selectedRange }}</span>
+    </div>
+
+    <!-- Основной календарь -->
+    <div class="calendar">
+      <div class="calendar-header">
+        <button (click)="goToPreviousMonth()">&#x2039;</button>
+        <span>{{ currentMonth }} {{ currentYear }}</span>
+        <button (click)="goToNextMonth()">&#x203A;</button>
+      </div>
+
+      <!-- Сетка дней недели -->
+      <div class="calendar-grid">
+        <div *ngFor="let day of daysOfWeek" class="day-name">{{ day }}</div>
+
+        <!-- Пустые ячейки для выравнивания начала месяца -->
+        <div *ngFor="let _ of emptyDays" class="empty-cell"></div>
+
+        <!-- Числа месяца -->
+        <div *ngFor="let date of dates" class="date" [class.start]="isStartDate(date)" [class.end]="isEndDate(date)"
+          [class.in-range]="isInRange(date)" (click)="selectDate(date)">
+          {{ date }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </div>
