@@ -16,7 +16,10 @@
       (click)="openSecondPage()">Войти</button>
   </div>
   <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="first_page">
-    <h3 class="black-center-text enter-text">Авторизация</h3>
+    <div class="a">
+      <h3 class="black-center-text enter-text">Авторизация</h3>
+      <p *ngIf="loginError" class="error-text">Неверный идентификатор пользователя или пароль</p>
+    </div>
     <div class="input-center">
       <div class="input-container user-name-container">
         <input id="user-name" type="text" class="input-field user-name" formControlName="username"

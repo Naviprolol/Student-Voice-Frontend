@@ -1,0 +1,48 @@
+<div class="header">
+  <div class="header-left">
+    <div class="titles">
+      <h3>Голос студента</h3>
+      <h4 class="secondary-title">Student Voice</h4>
+    </div>
+    <button type="button" (click)="toggleNav()" class="header-button">
+      <img [src]="isNavOpen ? '/img/close-icon.svg' : '/img/header-button.svg'" alt="header-button"
+        class="header-button-icon" [@iconAnimation]="isNavOpen ? 'open' : 'closed'" />
+    </button>
+    <div class="nav-buttons" *ngIf="isNavOpen" @slideInOut>
+      <button class="nav-text">
+        <h4>Главная</h4>
+      </button>
+      <button class="nav-text">
+        <h4>Предметы</h4>
+      </button>
+      <button class="nav-text">
+        <h4>Пары</h4>
+      </button>
+    </div>
+  </div>
+  <div class="header-right">
+    <button type=button class="small-button red-button plan-lesson buttons"><span>Запланировать пару</span></button>
+    <button type=button class="small-button red-button create-subject buttons"><span>Создать предмет</span></button>
+    <div class="header-profile">
+      <button type="button" (click)="toggleDropdown()" class="dropdown-button">
+        <img src="/img/avatar.svg" alt="avatar" class="avatar" />
+      </button>
+      <div>
+        <div class="user-name-container">
+          <h4 class="user-name main-text">афафывыфв Ивааавваыаывн</h4>
+          <button (click)="toggleDropdown()" class="dropdown-icon-button">
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon.svg" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen" />
+          </button>
+        </div>
+        <div *ngIf="isDropdownOpen" class="dropdown-menu" @dropdownAnimation>
+          <div class="dropdown-item dropdown-first-item"><span class="main-text dropdown-text">Личный кабинет</span>
+          </div>
+          <button class="dropdown-item dropdown-second-item" (click)="logout($event)"><span
+              class="main-text dropdown-text">Выйти</span></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
