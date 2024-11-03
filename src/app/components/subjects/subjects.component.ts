@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from "../../shared/header/header.component";
 
 @Component({
   selector: 'app-subjects',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './subjects.component.html',
   styleUrl: './subjects.component.css'
 })

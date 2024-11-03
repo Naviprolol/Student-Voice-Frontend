@@ -2,8 +2,6 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: #1E4391;
-  background-image: url('/img/noise.svg');
   /* Наложенное изображение */
   /* Основной цвет фона */
   background-size: cover;
@@ -14,99 +12,96 @@
   /* Запрет на повтор изображения */
   mix-blend-mode: overlay;
   /* Наложение с эффектом overlay */
-  overflow: hidden;
+  /* overflow: hidden; */
   /* Прятать переполнение */
 }
 
-.logo {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 40px;
+
+.return-button {
+  margin-left: 40px;
+  width: 60px;
+  height: 60px;
 }
 
-.header {
-  height: 128px;
-  width: 100%;
-  position: relative;
-  margin-bottom: 48px;
-}
-
-.titles {
-  text-align: center;
-  padding-top: 30px;
-}
-
-.main-title {
-  font-size: 40px;
-}
-
-.secondary-title {
-  margin-top: 19px;
-}
-
-.header-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 280px;
-}
-
-.user-name {
-  position: absolute;
-  right: 53px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  /* Отступ подчеркивания */
-}
-
-.title-subjects {
-  margin-bottom: 8px;
-}
-
-
-.main-content {
+.top-content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 28px;
+  margin-top: 34px;
+  margin-bottom: 60px;
+  justify-content: space-between;
 }
 
-.title-subjects {
-  margin-bottom: 10px;
+.top-left-content {
+  display: flex;
 }
 
-.table-container {
-  width: 752px;
-  height: 511px;
-  background-color: white;
-  border-radius: 10px;
+.subject-title {
+  margin-left: 70px;
+  color: #0F2B5E;
+  padding-top: 6px;
+  margin-right: 5px;
+}
+
+.top-right-content {
+  padding-top: 6px;
+  padding-right: 168px;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  width: 525px;
-  height: 34px;
-  border-bottom: 1px solid #7A7A7A;
-  margin-bottom: 30px;
-  padding-top: 30px;
-  margin-left: 46px;
+  width: 752px;
+  height: 64px;
+  border: 1px solid #7A7A7A;
+  border-radius: 16px;
+  margin-bottom: 20px;
 }
 
 .search-icon {
-  margin-right: 12px;
+  margin-right: 20px;
+  padding-left: 20px;
 }
 
 .search-input {
   width: 100%;
+  background-color: transparent;
   border: none;
   outline: none;
 }
 
+.filters {
+  display: flex;
+  gap: 40px;
+}
+
+.filter {
+  gap: 12px;
+  color: #222222;
+}
+
+.main-content {
+  width: 1264px;
+  margin: 0 auto;
+  margin-bottom: 28px;
+}
+
+.table-container {
+  width: 100%;
+  height: 511px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.main-content .columns {
+  display: flex;
+  color: #0F2B5E;
+  gap: 338px;
+  padding-left: 37px;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  background-color: #F6F6F6;
+}
 
 .table-content {
   width: 613px;

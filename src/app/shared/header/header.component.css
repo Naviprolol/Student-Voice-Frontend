@@ -1,0 +1,130 @@
+.header {
+  height: 128px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  /* white-space: nowrap; */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+}
+
+.titles {
+  width: 193px;
+  text-align: center;
+  color: #0F2B5E;
+}
+
+.header-right {
+  display: flex;
+  gap: 17px;
+  align-items: center;
+  padding-right: 40px;
+}
+
+.header-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-name-container {
+  display: flex;
+  gap: 7px;
+}
+
+.secondary-title {
+  margin-top: 17px;
+}
+
+.header-button {
+  margin-left: 63px;
+  height: 52px;
+  width: 52px;
+}
+
+.header-button-icon {}
+
+.user-name {
+  color: #0F2B5E;
+  max-width: 140px;
+}
+
+.dropdown-icon {
+  transition: transform 0.3s;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  margin-top: 15px;
+  /* Отступ от имени пользователя */
+  right: 2px;
+  position: absolute;
+  width: 164px;
+  height: 72px;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dropdown-item {
+  padding-left: 12px;
+}
+
+.dropdown-text {
+  color: #0F2B5E;
+}
+
+.dropdown-first-item {
+  padding-top: 10px;
+}
+
+.dropdown-second-item {
+  padding-bottom: 10px;
+}
+
+.dropdown-item {
+  color: #333;
+  font-size: 14px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 70px;
+  margin-left: 40px;
+}
+
+.nav-text {
+  color: #0F2B5E;
+}
+
+@media (max-width: 1550px) {
+  .nav-buttons {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 1465px) {
+  .nav-buttons {
+    gap: 10px;
+    margin-left: 10px;
+  }
+
+  .header-button {
+    margin-left: 20px;
+  }
+
+  .buttons {
+    width: 175px;
+  }
+}

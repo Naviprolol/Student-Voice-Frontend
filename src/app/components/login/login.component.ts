@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   passwordType: string = 'password'; // Тип инпута для пароля, изначально 'password'
 
   form!: FormGroup
+  loginError: boolean = false;
 
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {
 
@@ -82,17 +83,20 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loginError = false;
     this.form.disable();
     this.auth.login(this.form.value.username, this.form.value.password).subscribe(
       (isLoggedIn) => {
         if (!isLoggedIn) {
           console.log("Неверный логин или пароль");
           this.form.enable();
+          this.loginError = true;
         }
       },
       (error) => {
         console.error(error);
         this.form.enable();
+        this.loginError = true;
       }
     );
   }

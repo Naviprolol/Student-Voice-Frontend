@@ -1,25 +1,40 @@
 <div class="subjects-page background-image">
 
-  <div class="header">
-    <img src="/img/rtf-logo.svg" class="logo">
-    <button type="button">
-      <img src="/img/header-button.svg" alt="header-button" class="header-button">
-    </button>
-    <div class="titles">
-      <h1 class="white-center-text main-title">Голос студента</h1>
-      <h3 class="white-center-text secondary-title">Student Voice</h3>
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="top-left-content">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button">
+      <h2 class="subject-title">Предметы</h2>
     </div>
-    <h4 class="user-name">Иванов Иван Иванович</h4>
+    <div class="top-right-content">
+      <div class="search-bar">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
+        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm">
+      </div>
+      <div class="filters">
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 1</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 2</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 3</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="main-content">
-    <h3 class="white-center-text title-subjects">Предметы</h3>
+    <div class="columns">
+      <h4>Название</h4>
+      <h4>Место проведения</h4>
+    </div>
     <div class="table-container">
-      <div class="search-bar">
-        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" placeholder="Название предмета" class="search-input" [(ngModel)]="searchTerm">
-      </div>
-
       <div class="table-content">
         <!-- Вторая строка с длинным названием предмета -->
         <div *ngFor="let row of filteredRows">

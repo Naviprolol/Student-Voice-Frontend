@@ -134,3 +134,18 @@
   transition: 0.2s ease;
   color: #7A7A7A;
 }
+
+.a {
+  position: relative;
+}
+
+.error-text {
+  position: absolute;
+  color: #EF302B;
+  text-align: center;
+  top: 75px;
+  /* Задайте положение между заголовком и первым полем */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
