@@ -1,142 +1,95 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { CustomDatePickerComponent } from '../../shared/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent, CustomDatePickerComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent implements OnInit {
-  isActiveBlueToggle: boolean = false;
-  isActiveGradientToggle: boolean = false;
 
-  isFilled = false; // Состояние заполненного поля
-  isInvalid = false; // Состояние валидации (ошибка)
+  @Input() rating: number = 0; // Рейтинг от 0 до 5
+  starsArray: number[] = [1, 2, 3, 4, 5]; // Массив для пяти звезд
 
-  daysOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-  dates: number[] = [];
-  emptyDays: number[] = [];
-  currentMonth: string = 'октябрь';
-  currentYear: number = 2024;
-  startDate: Date | null = null;
-  endDate: Date | null = null;
-  selectedRange: string = '';
+  ratingRows = [
+    { title: 'Подача материала', rating: 4.8 },
+    { title: 'Полезность материала', rating: 2.7 },
+    { title: 'Взаимодействие со студентами', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано', rating: 5.0 },
+    { title: 'Аудитория и оборудование', rating: 1.5 },
+    { title: 'Атмосфера на паре', rating: 4.0 }
+  ];
+
+  schedule = [
+    { dayOfWeek: this.getDayOfWeek(0), date: this.getFormattedDate(0), pairs: [{ time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }] },
+    { dayOfWeek: this.getDayOfWeek(1), date: this.getFormattedDate(1), pairs: [{ time: '10:00-11:30', location: 'Мира 32/Р232', subject: 'Математика' }] },
+    { dayOfWeek: this.getDayOfWeek(2), date: this.getFormattedDate(2), pairs: [] }
+  ];
+
+  subjects = [
+    { subject: 'Информационные технологии', place: 'Мира 32 / Р888', rating: 5.0 },
+    { subject: 'Теория и практика программной инженерии', place: 'Ленина Пушкина авбабав ква 12214', rating: 3.5 },
+    { subject: 'Физика', place: 'Мира 32 / Р888', rating: 1.0 },
+    { subject: 'История', place: 'Мира 32 / Р888', rating: 4.2 },
+    { subject: 'Химия', place: 'Мира 32 / Р888', rating: 2.3 },
+    { subject: 'Биология', place: 'Мира 32 / Р888', rating: 4.7 }
+  ];
+
+  currentPage = 0;
+  itemsPerPage = 5;
 
   ngOnInit() {
-    const today = new Date();
-    this.currentMonth = today.toLocaleString('default', { month: 'long' });
-    this.currentYear = today.getFullYear();
-    this.generateDates();
+
   }
 
-  toggleBlue() {
-    this.isActiveBlueToggle = !this.isActiveBlueToggle;
+  // Получаем название дня недели на основе смещения
+  getDayOfWeek(dayOffset: number): string {
+    const daysOfWeek = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+    const date = new Date();
+    date.setDate(date.getDate() + dayOffset);
+    return daysOfWeek[date.getDay()];
   }
 
-  toggleGradient() {
-    this.isActiveGradientToggle = !this.isActiveGradientToggle;
+  // Получаем текущую дату с учетом смещения
+  getFormattedDate(dayOffset: number): string {
+    const date = new Date();
+    date.setDate(date.getDate() + dayOffset);
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+    return `${day}.${month}`;
   }
 
-  onFocus() {
-    // Действие при фокусе (когда пользователь начинает вводить текст)
-    this.isInvalid = false;
+  // get filteredRows() {
+  //   return this.subjects.filter(row =>
+  //     row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+  //   );
+  // }
+
+  get paginatedRows() {
+    const start = this.currentPage * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.subjects.slice(start, end);
   }
 
-  onBlur() {
-    // Действие при выходе из фокуса (проверка на валидацию)
-    if (!this.isFilled) {
-      this.isInvalid = true; // Показываем ошибку, если поле пустое
+  get totalPages() {
+    return Math.ceil(this.subjects.length / this.itemsPerPage);
+  }
+
+  goToNextPage() {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
     }
   }
 
-  onInput(event: any) {
-    // Проверяем, введен ли текст
-    this.isFilled = event.target.value.length > 0;
-    if (this.isFilled) {
-      this.isInvalid = false; // Если есть текст, ошибки нет
+  goToPreviousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
     }
   }
 
-
-
-  generateDates() {
-    const firstDayOfMonth = new Date(this.currentYear, this.getCurrentMonthIndex(), 1).getDay();
-    const daysInMonth = new Date(this.currentYear, this.getCurrentMonthIndex() + 1, 0).getDate();
-
-    // Пустые ячейки, чтобы месяц начинался с правильного дня недели
-    this.emptyDays = Array(firstDayOfMonth ? firstDayOfMonth - 1 : 6).fill(0);
-
-    // Заполняем числами
-    this.dates = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  }
-
-  goToPreviousMonth() {
-    if (this.getCurrentMonthIndex() === 0) {
-      this.currentYear--;
-      this.currentMonth = 'декабрь';
-    } else {
-      this.currentMonth = new Date(this.currentYear, this.getCurrentMonthIndex() - 1, 1)
-        .toLocaleString('default', { month: 'long' });
-    }
-    this.generateDates();
-  }
-
-  goToNextMonth() {
-    if (this.getCurrentMonthIndex() === 11) {
-      this.currentYear++;
-      this.currentMonth = 'январь';
-    } else {
-      this.currentMonth = new Date(this.currentYear, this.getCurrentMonthIndex() + 1, 1)
-        .toLocaleString('default', { month: 'long' });
-    }
-    this.generateDates();
-  }
-
-  getCurrentMonthIndex(): number {
-    return new Date(`${this.currentMonth} 1, ${this.currentYear}`).getMonth();
-  }
-
-  selectDate(day: number) {
-    const selectedDate = new Date(this.currentYear, this.getCurrentMonthIndex(), day);
-
-    if (!this.startDate || (this.startDate && this.endDate)) {
-      // Начинаем выбор диапазона заново
-      this.startDate = selectedDate;
-      this.endDate = null;
-    } else if (this.startDate && !this.endDate) {
-      // Завершаем выбор диапазона
-      if (selectedDate > this.startDate) {
-        this.endDate = selectedDate;
-      } else {
-        this.endDate = this.startDate;
-        this.startDate = selectedDate;
-      }
-      this.updateSelectedRange();
-    }
-  }
-
-  isStartDate(day: number): boolean {
-    return this.startDate?.getDate() === day && this.startDate?.getMonth() === this.getCurrentMonthIndex();
-  }
-
-  isEndDate(day: number): boolean {
-    return this.endDate?.getDate() === day && this.endDate?.getMonth() === this.getCurrentMonthIndex();
-  }
-
-  isInRange(day: number): boolean {
-    if (!this.startDate || !this.endDate) return false;
-    const date = new Date(this.currentYear, this.getCurrentMonthIndex(), day);
-    return date > this.startDate && date < this.endDate;
-  }
-
-  updateSelectedRange() {
-    if (this.startDate && this.endDate) {
-      const startDay = this.startDate.getDate();
-      const endDay = this.endDate.getDate();
-      const month = this.startDate.toLocaleString('default', { month: 'short' });
-      this.selectedRange = `${startDay} - ${endDay} ${month}. ${this.currentYear} г.`;
-    }
-  }
 }

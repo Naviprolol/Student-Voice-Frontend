@@ -39,10 +39,6 @@
   margin-bottom: 63px;
 }
 
-.center-button {
-  margin: 0 auto;
-}
-
 .second-page-titles {
   text-align: center;
   padding-top: 30px;
@@ -50,15 +46,15 @@
 
 .form {
   width: 752px;
-  height: 485px;
+  height: 449px;
   background-color: white;
   border-radius: 10px;
   margin: 0 auto;
-  margin-top: 72px;
+  margin-top: 80px;
 }
 
 .enter-text {
-  padding-top: 31px;
+  padding-top: 25px;
   margin-bottom: 60px;
 }
 
@@ -70,9 +66,8 @@
   margin-bottom: 8px;
 }
 
-.main-text {
-  margin-bottom: 26px;
-  margin-left: 119px;
+.forgot-password {
+  margin-left: 130px;
   color: #1E4391;
 }
 
@@ -118,7 +113,7 @@
 }
 
 .user-name-container {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 
 .red {
@@ -128,14 +123,14 @@
 .placeholder-text {
   position: absolute;
   top: 50%;
-  left: 136px;
+  left: 145px;
   transform: translateY(-50%);
   pointer-events: none;
   transition: 0.2s ease;
   color: #7A7A7A;
 }
 
-.a {
+.main-top-content {
   position: relative;
 }
 
@@ -143,9 +138,18 @@
   position: absolute;
   color: #EF302B;
   text-align: center;
-  top: 75px;
+  top: 85px;
   /* Задайте положение между заголовком и первым полем */
-  left: 50%;
+  left: 47%;
   transform: translateX(-50%);
   width: 100%;
+}
+
+.enter-button {
+  margin-top: 40px;
+}
+
+.center-button {
+  margin-left: auto;
+  margin-right: auto;
 }

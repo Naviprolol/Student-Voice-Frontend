@@ -1,61 +1,140 @@
-<div>
-  <button class="blue-button big-button">Большая синяя кнопка</button>
-  <button class="transparent-button big-button">Большая прозрачная кнопка</button>
-  <button class="red-button big-button">Большая красная кнопка</button>
+<app-header></app-header>
+<div class="main-page">
+  <div class="rating-and-notifications-container flex">
 
-  <button class="blue-button medium-button">Средняя синяя кнопка</button>
-  <button class="transparent-button medium-button">Средняя прозрачная кнопка</button>
-  <button class="red-button medium-button">Средняя красная кнопка</button>
-
-  <button class="blue-button small-button">Малая синяя кнопка</button>
-  <button class="transparent-button small-button">Малая прозрачная кнопка</button>
-  <button class="red-button small-button">Малая красная кнопка</button>
-
-  <div class="toggle-switch" [ngClass]="{'toggle-switch-active': isActiveBlueToggle}" (click)="toggleBlue()">
-    <div class="toggle-knob"></div>
-  </div>
-
-  <div class="gradient-toggle-switch" [ngClass]="{'gradient-toggle-switch-active': isActiveGradientToggle}"
-    (click)="toggleGradient()">
-    <div class="gradient-toggle-knob"></div>
-  </div>
-  <p>testing</p>
-
-  <input type="text" class="input-field" placeholder="Введите текст"
-    [ngClass]="{'filled': isFilled, 'invalid': isInvalid}" (focus)="onFocus()" (blur)="onBlur()"
-    (input)="onInput($event)" />
-
-  <div class="datepicker-container">
-    <!-- Верхняя панель с иконкой и выбранным диапазоном -->
-    <div class="header">
-      <div class="icon"></div>
-      <span class="date-range">{{ selectedRange }}</span>
-    </div>
-
-    <!-- Основной календарь -->
-    <div class="calendar">
-      <div class="calendar-header">
-        <button (click)="goToPreviousMonth()">&#x2039;</button>
-        <span>{{ currentMonth }} {{ currentYear }}</span>
-        <button (click)="goToNextMonth()">&#x203A;</button>
-      </div>
-
-      <!-- Сетка дней недели -->
-      <div class="calendar-grid">
-        <div *ngFor="let day of daysOfWeek" class="day-name">{{ day }}</div>
-
-        <!-- Пустые ячейки для выравнивания начала месяца -->
-        <div *ngFor="let _ of emptyDays" class="empty-cell"></div>
-
-        <!-- Числа месяца -->
-        <div *ngFor="let date of dates" class="date" [class.start]="isStartDate(date)" [class.end]="isEndDate(date)"
-          [class.in-range]="isInRange(date)" (click)="selectDate(date)">
-          {{ date }}
+    <div class="left-side">
+      <div class="rating-row flex week-rating-row">
+        <h4>Рейтинг за текущую неделю</h4>
+        <div class="rating-container flex">
+          <div class="rating-stars">
+            <div *ngFor="let star of starsArray; let i = index" class="star-container">
+              <img src="/img/full-star.svg" alt="/img/full-star.svg">
+              <!-- <img src="/img/half-star.svg" alt="/img/full-star.svg"> -->
+            </div>
+          </div>
+          <h4 class="rating">5.0</h4>
         </div>
       </div>
+      <div class="rating-row flex criteria-rating-row" *ngFor="let row of ratingRows; let last = last"
+        [ngClass]="{'last-row': last}">
+        <span class="main-text">{{row.title}}</span>
+        <div class="rating-container flex">
+          <div class="rating-stars">
+            <div *ngFor="let star of starsArray; let i = index" class="star-container">
+              <img src="/img/full-star.svg" alt="/img/full-star.svg">
+              <!-- <img src="/img/half-star.svg" alt="/img/full-star.svg"> -->
+            </div>
+          </div>
+          <span class="rating">{{row.rating.toFixed(1)}}</span>
+        </div>
+      </div>
+      <div class="flex rating-buttons-container">
+        <button class="big-button blue-button flex generate-button">Сгенерировать<img src="/img/generate-qr-icon.svg"
+            alt="generate-qr-icon"></button>
+        <button class="big-button blue-button">Обновить данные из Модеуса</button>
+      </div>
+    </div>
+
+    <div class="notifications-container">
+      <h3 class="notifications-title">Уведомления</h3>
+      <div class="notification">
+        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
+          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+      </div>
+      <div class="notification">
+        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
+          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+      </div>
+      <div class="notification last-notification">
+        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
+          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+      </div>
+      <button class="watch-all-notifications-button"><span class="watch-all-notifications-button-text">Смотреть
+          все</span></button>
     </div>
   </div>
 
+  <div class="schedule">
+    <div class="schedule-container flex">
+      <div class="schedule-column" *ngFor="let day of schedule; let i = index" [ngClass]="{ 'first-column': i === 0 }">
+        <h3 class="schedule-title">{{ day.dayOfWeek }} {{ day.date }}</h3>
+        <div class="pairs">
+          <div *ngIf="day.pairs.length > 0; else noPairs">
+            <div class="pair" *ngFor="let pair of day.pairs">
+              <b>{{ pair.time }}</b> {{ pair.location }}<br>{{ pair.subject }}
+            </div>
+          </div>
+        </div>
+        <ng-template #noPairs>
+          <div class="no-pairs">
+            <h4>Нет занятий</h4>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <button class="small-button transparent-button schedule-redirect-button">Перейти к расписанию</button>
+  </div>
 
+  <div class="subjects">
+    <div class="search">
+      <div class="search-bar">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
+        <input type="text" placeholder="Введите название предмета" class="search-input">
+      </div>
+      <div class="filters">
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 1</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 2</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+        <button class="filter">
+          <h4 class="filter-text">Фильтр 3</h4>
+          <img src="/img/dropdown-filter.svg" alt="dropdown-filter">
+        </button>
+      </div>
+    </div>
+
+    <div class="subjects-container">
+      <div class="subjects-headers flex">
+        <h4 class="column subject-title">Название</h4>
+        <h4 class="column time-title">Место проведения</h4>
+      </div>
+      <div class="table-container">
+        <div class="table-row" *ngFor="let subject of paginatedRows; let i = index"
+          [ngClass]="{ 'first-subject': i === 0 }">
+          <span class="cell subject-name">{{subject.subject}}</span>
+          <span class="cell place-name">{{subject.place}}</span>
+          <div class="actions flex">
+            <div class="rating-subject-container" *ngIf="subject.rating" [ngClass]="{
+              'high-rating': subject.rating > 3.5,
+              'medium-rating': subject.rating > 2.0 && subject.rating <= 3.5,
+              'low-rating': subject.rating <= 2.0
+            }">
+              <h4 class="rating-subject">{{ subject.rating.toFixed(1) }}</h4>
+              <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-subject-img">
+            </div>
+            <img src="/img/delete-icon.svg" alt="delete-icon" class="icon">
+            <img src="/img/edit-icon.svg" alt="edit-icon" class="icon icon-last">
+            <button class="blue-button reviews-button">Отзывы</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Пагинация -->
+      <div class="pagination">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+          <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
+        </button>
+        <span class="pagination-info main-text">{{ currentPage + 1 }} из {{ totalPages }}</span>
+        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages - 1">
+          <img src="/img/pagination-button.svg" alt="Next Page" class="pagination-arrow right-arrow">
+        </button>
+      </div>
+
+    </div>
+  </div>
 
 </div>

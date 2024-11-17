@@ -1,0 +1,25 @@
+<div class="datepicker">
+  <div class="datepicker-header">
+    <button (click)="previousMonth()">
+      <img src="/img/navigation-button-left.svg" alt="Previous Month">
+    </button>
+    <span class="month-year">{{ format(currentMonth, 'LLLL yyyy') }}</span>
+    <button (click)="nextMonth()">
+      <img src="/img/navigation-button-right.svg" alt="Next Month">
+    </button>
+  </div>
+
+  <div class="datepicker-body">
+    <div class="day-names">
+      <span *ngFor="let day of ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']">{{ day }}</span>
+    </div>
+    <div class="weeks">
+      <div class="week" *ngFor="let week of weeks">
+        <div class="day" *ngFor="let day of week" (click)="selectWeek(day)" [class.outside]="!isSameMonth(day)"
+          [class.selected]="isDateInSelectedWeek(day)">
+          {{ format(day, 'd') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

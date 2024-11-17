@@ -1,77 +1,305 @@
-.datepicker-container {
-  width: 250px;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.main-page {
+  margin-top: 40px;
 }
 
-.header {
+.left-side {
   display: flex;
-  align-items: center;
-  padding: 8px;
-  background-color: #1E4391;
-  color: #ffffff;
-  font-weight: bold;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  flex-direction: column;
+  /* Расположение детей по вертикали */
 }
 
-.icon {
-  width: 24px;
-  height: 24px;
-  background: url('/path/to/icon.svg') no-repeat center center;
+.rating-and-notifications-container {
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  width: 1520px;
+}
+
+.rating-and-notifications-container .generate-button {
+  gap: 19px;
+}
+
+.rating-and-notifications-container .rating-row {
+  color: #0F2B5E;
+  width: 567px;
+  justify-content: space-between;
+  line-height: 22.4px;
+}
+
+.rating-and-notifications-container .week-rating-row {
+  margin-bottom: 31px;
+}
+
+.rating-and-notifications-container .criteria-rating-row {
+  margin-bottom: 22px;
+}
+
+.rating-and-notifications-container .criteria-rating-row.last-row {
+  margin-bottom: 0;
+}
+
+.rating-and-notifications-container .rating-buttons-container {
+  margin-top: auto;
+  gap: 79px;
+}
+
+.rating-and-notifications-container .notifications-container {
+  width: 750px;
+  height: 380px;
+  border-radius: 20px;
+  background-color: rgba(233, 132, 70, 0.4);
+  /* Полупрозрачный фон */
+}
+
+.rating-and-notifications-container .rating-stars {
   margin-right: 8px;
 }
 
-.date-range {
+.rating-and-notifications-container .rating {
+  width: 24px;
+}
+
+.rating-container {
+  align-items: center;
+}
+
+.notifications-container .notifications-title {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 25px;
+}
+
+.notifications-container .notification {
+  margin-bottom: 32px;
+}
+
+.notifications-container .last-notification {
+  margin-bottom: 28px;
+}
+
+.notifications-container .watch-all-notifications-button {
+  width: 224px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: #E98446;
+  margin: 0 auto;
+  opacity: 100%;
+}
+
+.notifications-container .notification-text {
+  line-height: 22.4px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.watch-all-notifications-button-text {
+  font-weight: 600;
   font-size: 14px;
 }
 
-.calendar {
-  padding: 16px;
+.notifications-container .notification-redirect {
+  color: #1E4391;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.calendar-header {
+.rating-stars {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
   gap: 4px;
+  /* Отступы между звездами */
 }
 
-.day-name,
-.empty-cell {
-  text-align: center;
-  color: #999;
+/* --------------------------------------------- */
+/* РАСПИСАНИЕ */
+.schedule {
+  width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-bottom: 32px;
 }
 
-.date {
+.schedule-container {
+  height: 578px;
+  justify-content: space-between;
+}
+
+.schedule-container .schedule-column {
+  display: flex;
+  flex-direction: column;
+  width: 496px;
+  border-radius: 20px;
+  background-color: #F6F6F6;
+  /* Центровка текста по горизонтали */
+}
+
+.schedule-container .schedule-title {
+  padding-top: 16px;
+  margin-bottom: 30px;
+  color: #1E4391;
   text-align: center;
-  padding: 8px;
+}
+
+.schedule-container .first-column {
+  background-color: rgba(59, 166, 140, 0.25);
+}
+
+.schedule-container .pairs {
+  margin: 0 auto;
+}
+
+.schedule-container .pair {
+  line-height: 22.4px;
+  margin-bottom: 20px;
+}
+
+.schedule-container .no-pairs {
+  margin-top: 215px;
+}
+
+.schedule .schedule-redirect-button {
+  margin-top: 20px;
+  color: #1E4391;
+  margin-left: auto;
+  border: 2px #1E4391 solid !important;
+
+}
+
+.search {
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  width: 1520px;
+  margin-bottom: 40px;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 40px;
+  padding-left: 64px;
+}
+
+.filter {
+  gap: 12px;
+  color: #222222;
+}
+
+.subjects-container {
+  display: flex;
+  flex-direction: column;
+  width: 1520px;
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.subjects-container .subjects-headers {
+  gap: 480px;
+  margin-bottom: 20px;
+  color: #0F2B5E;
+  padding-left: 64px;
+}
+
+.subjects-container .table-container {
+  margin-bottom: 60px;
+}
+
+.subjects-container .table-row {
+  display: flex;
+  align-items: center;
+  padding-left: 64px;
+  padding-right: 64px;
+  height: 76px;
+  margin-bottom: 20px;
+  background-color: #F6F6F6;
+  border-radius: 16px;
+}
+
+.subjects-container .subject-name {
+  width: 320px;
+  margin-right: 278px;
+}
+
+.subjects-container .place-name {
+  width: 270px;
+}
+
+.subjects-container .actions {
+  align-items: center;
+  margin-left: auto;
+}
+
+.subjects-container .reviews-button {
+  width: 164px;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+.subjects-container .icon {
+  margin-right: 34px;
+}
+
+.subjects-container .icon-last {
+  margin-right: 50px;
+}
+
+.rating-subject-container {
+  display: flex;
+  width: 67px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #3BA68C;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 60px;
+}
+
+.rating-subject-container .rating-subject {
+  padding-left: 6px;
+  color: white;
+}
+
+.high-rating {
+  background-color: #3BA68C;
+  color: white;
+}
+
+.medium-rating {
+  background-color: #E98446;
+  color: white;
+}
+
+.low-rating {
+  background-color: #7A7A7A;
+  color: white;
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 32px;
+  margin-top: auto;
+}
+
+.pagination-arrow {
   cursor: pointer;
-  border-radius: 50%;
-  font-weight: bold;
 }
 
-.date.start {
-  background-color: #1E4391;
-  color: #fff;
-  border-radius: 50%;
+.pagination-info {
+  font-size: 16px;
 }
 
-.date.end {
-  background-color: #1E4391;
-  color: #fff;
-  border-radius: 50%;
-}
-
-.date.in-range {
-  background-color: rgba(30, 67, 145, 0.2);
+.pagination .left-arrow {
+  transform: rotate(180deg);
 }

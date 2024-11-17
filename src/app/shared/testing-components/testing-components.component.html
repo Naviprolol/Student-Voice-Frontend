@@ -1,0 +1,31 @@
+<app-header></app-header>
+<div>
+  <button class="blue-button big-button">Большая синяя кнопка</button>
+  <button class="transparent-button big-button">Большая прозрачная кнопка</button>
+  <button class="red-button big-button">Большая красная кнопка</button>
+
+  <button class="blue-button medium-button">Средняя синяя кнопка</button>
+  <button class="transparent-button medium-button">Средняя прозрачная кнопка</button>
+  <button class="red-button medium-button">Средняя красная кнопка</button>
+
+  <app-custom-datepicker *ngIf="!isCalendarOpen" (weekSelected)="currentWeekRange = $event"></app-custom-datepicker>
+
+  <button class="blue-button small-button">Малая синяя кнопка</button>
+  <button class="transparent-button small-button">Малая прозрачная кнопка</button>
+  <button class="red-button small-button">Малая красная кнопка</button>
+
+  <div class="toggle-switch" [ngClass]="{'toggle-switch-active': isActiveBlueToggle}" (click)="toggleBlue()">
+    <div class="toggle-knob"></div>
+  </div>
+
+  <div class="gradient-toggle-switch" [ngClass]="{'gradient-toggle-switch-active': isActiveGradientToggle}"
+    (click)="toggleGradient()">
+    <div class="gradient-toggle-knob"></div>
+  </div>
+  <p>testing</p>
+
+  <input type="text" class="input-field" placeholder="Введите текст"
+    [ngClass]="{'filled': isFilled, 'invalid': isInvalid}" (focus)="onFocus()" (blur)="onBlur()"
+    (input)="onInput($event)" />
+
+</div>

@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   first_page: boolean = true;
-  second_page: boolean = !this.first_page;
+  second_page: boolean = false;
 
   isFilledUser = false; // Состояние заполненного поля для имени пользователя
   isInvalidUser = false; // Состояние валидации (ошибка) для имени пользователя
@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 
   openSecondPage() {
     this.first_page = !this.first_page;
+    this.second_page = !this.second_page
   }
 
   onFocus(type: 'user' | 'password') {
@@ -90,6 +91,9 @@ export class LoginComponent implements OnInit {
         if (!isLoggedIn) {
           console.log("Неверный логин или пароль");
           this.form.enable();
+          this.form.reset();
+          this.isFilledUser = false;
+          this.isFilledPassword = false;
           this.loginError = true;
         }
       },

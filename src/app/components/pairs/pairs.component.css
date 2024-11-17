@@ -1,12 +1,8 @@
 .top-content {
   display: flex;
   margin-top: 34px;
-  margin-bottom: 37px;
+  margin-bottom: 30px;
   justify-content: space-between;
-}
-
-.top-left-content {
-  display: flex;
 }
 
 .subject-title {
@@ -35,6 +31,39 @@
   gap: 12px;
   color: #222222;
 }
+
+.navigation-buttons {
+  gap: 8px;
+}
+
+.navigation-button {
+  width: 30px;
+  height: 30px;
+}
+
+.calendar-container {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-left: 168px;
+  margin-top: 25px;
+  gap: 32px;
+}
+
+.calendar {
+  height: inherit;
+}
+
+.calendar .current-week {
+  color: #0F2B5E;
+}
+
+.calendar .calendar-buttons {
+  display: flex;
+  padding-top: 5px;
+  gap: 12px;
+}
+
 
 /* Контейнер таблицы */
 .table-container {
@@ -71,11 +100,16 @@
 
 .table-header .subject {
   padding-left: 32px;
-  margin-right: 254px;
+  margin-right: 268px;
 }
 
 .table-header .time {
   margin-right: 195px;
+}
+
+.table-header .status {
+  width: 140px;
+  margin-right: 204px;
 }
 
 /* Тело таблицы */
@@ -107,15 +141,23 @@
   /* Разрешаем перенос текста */
 }
 
-.cell.place {
-  max-width: 270px;
-  margin-left: 84px;
+.cell.time {
+  width: 95px;
+  text-align: center;
+  margin-left: 113px;
+  line-height: 22.4px;
+}
+
+.cell.status {
+  width: 140px;
+  text-align: center;
+  margin-left: 204px;
 }
 
 /* Контейнер с иконками */
 .cell.actions {
   margin-left: auto;
-  padding-right: 38px;
+  padding-right: 25px;
   display: flex;
   gap: 30px;
 }
@@ -123,17 +165,6 @@
 .icon {
   width: 60px;
   height: 60px;
-}
-
-.reviews-button {
-  width: 164px;
-  height: 56px;
-  border-radius: 14px;
-}
-
-.reviews-button .reviews-text {
-  font-weight: 600;
-  font-size: 12px;
 }
 
 .rating-container {

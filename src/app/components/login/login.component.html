@@ -3,20 +3,20 @@
   <div class="right-circle"></div>
   <div class="header">
     <img src="/img/rtf-logo.svg" class="logo">
-    <div *ngIf="first_page" class="second-page-titles">
+    <div *ngIf="second_page" class="second-page-titles">
       <h1 class="white-center-text title-second-page">Голос студента</h1>
       <h3 class="white-center-text third-title">Student Voice</h3>
     </div>
   </div>
-  <div *ngIf="second_page">
+  <div *ngIf="first_page">
     <h1 class="white-center-text title-first-page">Голос студента</h1>
     <h3 class="white-center-text third-title">Student Voice</h3>
     <h3 class="white-center-text hello">Добро пожаловать!</h3>
     <button type="button" class="transparent-button small-button center-button"
       (click)="openSecondPage()">Войти</button>
   </div>
-  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="first_page">
-    <div class="a">
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="second_page">
+    <div class="main-top-content">
       <h3 class="black-center-text enter-text">Авторизация</h3>
       <p *ngIf="loginError" class="error-text">Неверный идентификатор пользователя или пароль</p>
     </div>
@@ -36,8 +36,8 @@
         <img *ngIf="!openEye" (click)="toggleEye()" class="eye hiden-eye" src="/img/hiden-eye.svg" alt="hiden-eye">
       </div>
     </div>
-    <button class="main-text">Забыли пароль?</button>
+    <button class="forgot-password"><span class="main-text">Забыли пароль?</span></button>
     <button type="submit" [disabled]="form.invalid || form.disabled"
-      class="blue-button small-button center-button">Войти</button>
+      class="blue-button medium-button center-button enter-button"><span class="main-text">Войти</span></button>
   </form>
 </div>

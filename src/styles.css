@@ -78,6 +78,11 @@ video {
   font-style: normal;
 }
 
+b {
+  font-weight: 600;
+  font-size: 18px;
+}
+
 /* body,
 html {
   overflow-x: hidden;
@@ -274,8 +279,8 @@ button {
 }
 
 .transparent-button:active {
-  background-color: #FFFFFF !important;
-  color: #1E4391 !important;
+  background-color: #FFFFFF;
+  color: #1E4391;
 }
 
 .red-button {
@@ -375,7 +380,7 @@ button {
 
 /* Базовый стиль для поля ввода */
 .input-field {
-  width: 496px;
+  width: 478px;
   height: 72px;
   border-radius: 12px;
   border: 1px solid #7A7A7A;
@@ -412,4 +417,58 @@ button {
 .white-center-text {
   color: white;
   text-align: center;
+}
+
+
+/* КОМПОНЕНТ ПОИСКА */
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 752px;
+  height: 64px;
+  border: 1px solid #7A7A7A;
+  border-radius: 16px;
+}
+
+.search-icon {
+  margin-right: 20px;
+  padding-left: 20px;
+}
+
+.search-input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* КНОПКА ВОЗВРАТА НАЗАД */
+.return-button {
+  margin-left: 40px;
+  width: 60px;
+  height: 60px;
+}
+
+/* ЗАДНИЙ ФОН */
+.background-image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* Наложенное изображение */
+  /* Основной цвет фона */
+  background-size: cover;
+  /* Подгонка изображения под размеры контейнера */
+  background-position: center;
+  /* Центрирование изображения */
+  background-repeat: no-repeat;
+  /* Запрет на повтор изображения */
+  mix-blend-mode: overlay;
+  /* Наложение с эффектом overlay */
+  /* overflow: hidden; */
+  /* Прятать переполнение */
+}
+
+/* ФЛЕКС */
+.flex {
+  display: flex;
 }

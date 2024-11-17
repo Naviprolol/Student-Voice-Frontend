@@ -1,11 +1,33 @@
 <div class="subjects-page background-image">
-
   <app-header></app-header>
 
   <div class="top-content">
     <div class="top-left-content">
-      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/main']">
-      <h2 class="subject-title">Предметы</h2>
+      <div class="flex">
+        <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/main']">
+        <h2 class="subject-title">Пары</h2>
+      </div>
+      <div class="calendar-container">
+        <div class="flex navigation-buttons">
+          <button type="button">
+            <img src="/img/navigation-button-left.svg" alt="navigation-button-left" class="navigation-button"
+              (click)="goToPreviousWeek()">
+          </button>
+          <button type="button">
+            <img src="/img/navigation-button-right.svg" alt="navigation-button-right" class="navigation-button"
+              (click)="goToNextWeek()">
+          </button>
+        </div>
+        <div class="calendar">
+          <button (click)="toggleCalendar()" class="calendar-buttons">
+            <img src="/img/calendar.svg" alt="calendar" class="calendar-img">
+            <span class="main-text current-week">{{currentWeekRange}}</span>
+          </button>
+          <app-custom-datepicker *ngIf="isCalendarOpen"
+            (weekSelected)="currentWeekRange = $event"></app-custom-datepicker>
+        </div>
+
+      </div>
     </div>
     <div class="top-right-content">
       <div class="search-bar">
@@ -31,14 +53,16 @@
 
   <div class="table-container">
     <div class="table-header">
-      <h4 class="column subject">Название</h4>
-      <h4 class="column time">Место проведения</h4>
+      <h4 class="column subject">Предмет</h4>
+      <h4 class="column time">Время проведения</h4>
+      <h4 class="column status">Статус</h4>
     </div>
     <!-- Таблица и её строки -->
     <div *ngFor="let row of paginatedRows" class="table-row">
       <!-- Содержимое строки -->
       <span class="cell subject">{{ row.subject }}</span>
-      <span class="cell place">{{ row.place }}</span>
+      <span class="cell time">{{ row.date }}<br>{{ row.time }}</span>
+      <span class="cell status">{{ row.status }}</span>
       <div class="cell actions">
         <div class="rating-container" *ngIf="row.rating" [ngClass]="{
                'high-rating': row.rating > 3.5,
@@ -48,9 +72,9 @@
           <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
           <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
         </div>
-        <img src="/img/delete-icon.svg" alt="delete-icon.svg" class="icon">
+        <img *ngIf="!row.rating" src="/img/qr-code-icon.svg" alt="qr-code-icon.svg" class="icon">
         <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon">
-        <button class="blue-button reviews-button"><span class="reviews-text main-text">Отзывы</span></button>
+        <img src="/img/students-icon.png" alt="students-icon.png" class="icon">
       </div>
     </div>
 
@@ -65,5 +89,6 @@
       </button>
     </div>
   </div>
+
 
 </div>

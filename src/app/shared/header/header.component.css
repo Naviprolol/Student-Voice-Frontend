@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   /* white-space: nowrap; */
+  box-shadow: 0px 1px 5px 0px #00000040;
 }
 
 .header-left {
@@ -21,9 +22,9 @@
 
 .header-right {
   display: flex;
-  gap: 17px;
+  gap: 16px;
   align-items: center;
-  padding-right: 40px;
+  padding-right: 80px;
 }
 
 .header-profile {
@@ -100,8 +101,15 @@
 
 .nav-buttons {
   display: flex;
-  gap: 70px;
-  margin-left: 40px;
+  margin-left: 63px;
+}
+
+.nav-buttons .nav-main {
+  margin-right: 52px;
+}
+
+.nav-buttons .nav-subjects {
+  margin-right: 27px;
 }
 
 .nav-text {

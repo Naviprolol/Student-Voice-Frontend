@@ -22,7 +22,7 @@ export class AuthService {
         // Сохраняем токен (например, в localStorage) и перенаправляем пользователя
         localStorage.setItem('authToken', response.token);
         this.setToken(response.token)
-        this.router.navigate(['/subjects']);
+        this.router.navigate(['/main']);
         return true; // Успешный вход
       }),
       catchError((error: HttpErrorResponse) => {
