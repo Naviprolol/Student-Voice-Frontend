@@ -2,24 +2,27 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CustomDatePickerComponent } from '../../shared/custom-datepicker/custom-datepicker.component';
+import { FormsModule } from '@angular/forms';
+import { RatingRow } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, CustomDatePickerComponent],
+  imports: [CommonModule, HeaderComponent, CustomDatePickerComponent, FormsModule],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent implements OnInit {
 
-  @Input() rating: number = 0; // Рейтинг от 0 до 5
+  rating: number = 5.0; // Рейтинг от 0 до 5
   starsArray: number[] = [1, 2, 3, 4, 5]; // Массив для пяти звезд
+  searchTerm: string = '';
 
-  ratingRows = [
+  ratingRows: RatingRow[] = [
     { title: 'Подача материала', rating: 4.8 },
     { title: 'Полезность материала', rating: 2.7 },
     { title: 'Взаимодействие со студентами', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано', rating: 5.0 },
-    { title: 'Аудитория и оборудование', rating: 1.5 },
+    { title: 'Аудитория и оборудование', rating: 1.3 },
     { title: 'Атмосфера на паре', rating: 4.0 }
   ];
 
@@ -42,7 +45,15 @@ export class MainPageComponent implements OnInit {
   itemsPerPage = 5;
 
   ngOnInit() {
+    this.ratingRows.forEach(row => {
+      const fullStars = Math.floor(row.rating); // Полные звезды
+      const hasHalfStar = row.rating % 1 > 0; // Есть ли половинчатая звезда
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Пустые звезды
 
+      row.goodStars = Array(fullStars)
+      row.halfStar = hasHalfStar; // Boolean, есть ли половинчатая звезда
+      row.badStars = Array(emptyStars).fill(1); // Массив из emptyStars элементов
+    });
   }
 
   // Получаем название дня недели на основе смещения
@@ -64,20 +75,21 @@ export class MainPageComponent implements OnInit {
     return `${day}.${month}`;
   }
 
-  // get filteredRows() {
-  //   return this.subjects.filter(row =>
-  //     row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
-  //   );
-  // }
+  get filteredRows() {
+    return this.subjects.filter(row =>
+      row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
 
   get paginatedRows() {
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.subjects.slice(start, end);
+    return this.filteredRows.slice(start, end);
   }
 
   get totalPages() {
-    return Math.ceil(this.subjects.length / this.itemsPerPage);
+    const filteredRows = this.filteredRows;
+    return Math.max(Math.ceil(filteredRows.length / this.itemsPerPage), 1);
   }
 
   goToNextPage() {
@@ -90,6 +102,11 @@ export class MainPageComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage--;
     }
+  }
+
+  // Сброс текущей страницы при изменении поискового запроса
+  onSearchTermChange() {
+    this.currentPage = 0;
   }
 
 }

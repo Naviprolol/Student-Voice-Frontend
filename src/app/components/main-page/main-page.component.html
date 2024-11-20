@@ -9,6 +9,7 @@
           <div class="rating-stars">
             <div *ngFor="let star of starsArray; let i = index" class="star-container">
               <img src="/img/full-star.svg" alt="/img/full-star.svg">
+              <!-- <img src="/img/empty-star.svg" alt="/img/full-star.svg"> -->
               <!-- <img src="/img/half-star.svg" alt="/img/full-star.svg"> -->
             </div>
           </div>
@@ -20,9 +21,14 @@
         <span class="main-text">{{row.title}}</span>
         <div class="rating-container flex">
           <div class="rating-stars">
-            <div *ngFor="let star of starsArray; let i = index" class="star-container">
+            <div *ngFor="let goodStar of row.goodStars; let i = index" class="star-container">
               <img src="/img/full-star.svg" alt="/img/full-star.svg">
-              <!-- <img src="/img/half-star.svg" alt="/img/full-star.svg"> -->
+            </div>
+            <div *ngIf="row.halfStar">
+              <img src="/img/half-star.svg" alt="/img/half-star.svg">
+            </div>
+            <div *ngFor="let badStar of row.badStars">
+              <img src="/img/empty-star.svg" alt="/img/empty-star.svg">
             </div>
           </div>
           <span class="rating">{{row.rating.toFixed(1)}}</span>
@@ -79,7 +85,8 @@
     <div class="search">
       <div class="search-bar">
         <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" placeholder="Введите название предмета" class="search-input">
+        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchTermChange()">
       </div>
       <div class="filters">
         <button class="filter">
@@ -103,6 +110,9 @@
         <h4 class="column time-title">Место проведения</h4>
       </div>
       <div class="table-container">
+        <div class="no-results" *ngIf="filteredRows.length === 0">
+          Ничего не найдено
+        </div>
         <div class="table-row" *ngFor="let subject of paginatedRows; let i = index"
           [ngClass]="{ 'first-subject': i === 0 }">
           <span class="cell subject-name">{{subject.subject}}</span>

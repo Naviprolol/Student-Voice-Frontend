@@ -18,12 +18,11 @@ export class PairsComponent implements OnInit {
 
   searchTerm: string = '';
   currentWeekRange: string = '';
-  currentDate: Date = new Date(); // Текущая выбранная дата
   newDate: Date = new Date();
   isCalendarOpen: boolean = false;
 
   rows = [
-    { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'Запланировано', rating: 5.0 },
+    { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'нировано', rating: 5.0 },
     { subject: 'Математика', date: '29.10.2024', time: '09:00-10:30', status: 'Запланировано', rating: 3.5 },
     { subject: 'Физика', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано' },
     { subject: 'История', date: '31.10.2024', time: '13:00-14:30', status: 'Запланировано', rating: 4.2 },
@@ -33,9 +32,10 @@ export class PairsComponent implements OnInit {
 
   currentPage = 0;
   itemsPerPage = 5;
+  filteredRows: any[] = [];
 
   ngOnInit() {
-    this.setNewWeekRange(this.currentDate);
+    this.setNewWeekRange(this.newDate);
   }
 
   setNewWeekRange(newDate: Date) {
@@ -61,14 +61,18 @@ export class PairsComponent implements OnInit {
   }
 
   get paginatedRows() {
+    this.filteredRows = this.rows.filter(row =>
+      row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.rows.slice(start, end);
+    return this.filteredRows.slice(start, end);
   }
 
   get totalPages() {
-    return Math.ceil(this.rows.length / this.itemsPerPage);
+    return Math.max(Math.ceil(this.filteredRows.length / this.itemsPerPage), 1);
   }
+
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
@@ -80,6 +84,11 @@ export class PairsComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage--;
     }
+  }
+
+  onSearchTermChange() {
+    this.currentPage = 0;
+    console.log(this.paginatedRows);
   }
 
 }

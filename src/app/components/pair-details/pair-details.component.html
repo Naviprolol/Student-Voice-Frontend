@@ -1,0 +1,83 @@
+<div class="pair-details-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/pairs']">
+      <h2 class="subject-title">Информационные технологии</h2>
+    </div>
+  </div>
+
+  <div class="pair-info-container">
+    <div class="pair-info">
+      <div class="pair-info-time">
+        <h3 class="pair-info-title">Время проведения</h3>
+        <div class="time-range">
+          <div class="time-start">
+            <h4 class="time-title">Начало</h4>
+            <div class="time"><span>28.10.2024 Пн 19:15</span></div>
+          </div>
+          <div class="time-end">
+            <h4 class="time-title">Завершение</h4>
+            <div class="time"><span>28.10.2024 Пн 20:45</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pair-info-place">
+        <h3 class="pair-info-title">Место проведения</h3>
+        <div><span>Софьи Ковалевской 5, Т106б</span></div>
+      </div>
+    </div>
+    <div class="pair-buttons">
+      <button class="blue-button small-button">Редактировать</button>
+      <button class="blue-button small-button generate-button">Сгенерировать<img src="/img/generate-qr-icon.svg"
+          alt="generate-qr-icon"></button>
+    </div>
+  </div>
+
+  <div class="students-list-container">
+    <h3 class="table-header">Список студентов</h3>
+    <button class="redirect-button small-button">Перейти к списку посещения</button>
+
+    <div class="students-table-container">
+      <div class="students-headers">
+        <h4 class="column fio-header">ФИО</h4>
+        <h4 class="column review-time-header">Время отзыва</h4>
+        <h4 class="column review-text-header">Отзыв</h4>
+      </div>
+      <!-- Таблица и её строки -->
+      <div class="students-table">
+        <div class="table-rows-container">
+          <div class="table-row" *ngFor="let row of paginatedRows; let last = last" [ngClass]="{'last-row': last}">
+            <div class="row-fio"><span class="row-fio-text">Иванов Иван Иванович</span></div>
+            <div class="row-review-time"><span>28.10.2024, 15:30</span></div>
+            <div class="rating-container invisible" *ngIf="!row.rating"></div>
+            <div class="rating-container" *ngIf="row.rating" [ngClass]="{
+            'high-rating': row.rating > 3.5,
+            'medium-rating': row.rating > 2.0 && row.rating <= 3.5,
+            'low-rating': row.rating <= 2.0
+          }">
+              <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
+              <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
+            </div>
+            <div class="row-review-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+              eget dolor. Aenean massa</div>
+          </div>
+        </div>
+
+        <!-- Пагинация -->
+        <div class="pagination">
+          <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+            <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
+          </button>
+          <span class="pagination-info main-text">{{ currentPage + 1 }} из {{ totalPages }}</span>
+          <button (click)="goToNextPage()" [disabled]="currentPage === totalPages - 1">
+            <img src="/img/pagination-button.svg" alt="Next Page" class="pagination-arrow right-arrow">
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

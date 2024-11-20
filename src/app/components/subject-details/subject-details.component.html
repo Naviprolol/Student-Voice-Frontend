@@ -1,0 +1,75 @@
+<div class="subject-details-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/subjects']">
+      <h2 class="subject-title">Пары информационные технологии</h2>
+    </div>
+    <div class="calendar-container">
+      <div class="flex navigation-buttons">
+        <button type="button">
+          <img src="/img/navigation-button-left.svg" alt="navigation-button-left" class="navigation-button"
+            (click)="goToPreviousWeek()">
+        </button>
+        <button type="button">
+          <img src="/img/navigation-button-right.svg" alt="navigation-button-right" class="navigation-button"
+            (click)="goToNextWeek()">
+        </button>
+      </div>
+      <div class="calendar">
+        <button (click)="toggleCalendar()" class="calendar-buttons">
+          <img src="/img/calendar.svg" alt="calendar" class="calendar-img">
+          <span class="main-text current-week">{{currentWeekRange}}</span>
+        </button>
+        <app-custom-datepicker *ngIf="isCalendarOpen"
+          (weekSelected)="currentWeekRange = $event"></app-custom-datepicker>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div class="table-header">
+      <h4 class="column time">Время проведения</h4>
+      <h4 class="column status">Статус</h4>
+      <h4 class="column teacher">Преподаватель</h4>
+    </div>
+
+    <div class="no-results" *ngIf="paginatedRows.length === 0">
+      Ничего не найдено
+    </div>
+
+    <!-- Таблица и её строки -->
+    <div *ngFor="let row of paginatedRows" class="table-row">
+      <!-- Содержимое строки -->
+      <span class="cell time">{{ row.date }}<br>{{ row.time }}</span>
+      <span class="cell status">{{ row.status }}</span>
+      <span class="cell teacher">{{ row.teacher }}</span>
+      <div class="cell actions">
+        <div class="rating-container" *ngIf="row.rating" [ngClass]="{
+               'high-rating': row.rating > 3.5,
+               'medium-rating': row.rating > 2.0 && row.rating <= 3.5,
+               'low-rating': row.rating <= 2.0
+             }">
+          <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
+          <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
+        </div>
+        <img *ngIf="!row.rating" src="/img/qr-code-icon.svg" alt="qr-code-icon.svg" class="icon">
+        <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon">
+        <img src="/img/students-icon.png" alt="students-icon.png" class="icon">
+      </div>
+    </div>
+
+    <!-- Пагинация -->
+    <div class="pagination">
+      <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+        <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
+      </button>
+      <span class="pagination-info main-text">{{ currentPage + 1 }} из {{ totalPages }}</span>
+      <button (click)="goToNextPage()" [disabled]="currentPage === totalPages - 1">
+        <img src="/img/pagination-button.svg" alt="Next Page" class="pagination-arrow right-arrow">
+      </button>
+    </div>
+  </div>
+
+</div>

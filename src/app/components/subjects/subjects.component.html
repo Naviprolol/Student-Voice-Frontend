@@ -10,7 +10,8 @@
     <div class="top-right-content">
       <div class="search-bar">
         <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm">
+        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchTermChange()">
       </div>
       <div class="filters">
         <button class="filter">
@@ -34,8 +35,13 @@
       <h4 class="column subject">Название</h4>
       <h4 class="column time">Место проведения</h4>
     </div>
+
+    <div class="no-results" *ngIf="filteredRows.length === 0">
+      Ничего не найдено
+    </div>
+
     <!-- Таблица и её строки -->
-    <div *ngFor="let row of paginatedRows" class="table-row">
+    <div *ngFor="let row of paginatedRows" class="table-row" [routerLink]="['/subject']">
       <!-- Содержимое строки -->
       <span class="cell subject">{{ row.subject }}</span>
       <span class="cell place">{{ row.place }}</span>

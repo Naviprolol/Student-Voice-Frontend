@@ -1,4 +1,4 @@
-<div class="subjects-page background-image">
+<div class="pairs-page background-image">
   <app-header></app-header>
 
   <div class="top-content">
@@ -32,7 +32,8 @@
     <div class="top-right-content">
       <div class="search-bar">
         <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm">
+        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchTermChange()">
       </div>
       <div class="filters">
         <button class="filter">
@@ -57,8 +58,13 @@
       <h4 class="column time">Время проведения</h4>
       <h4 class="column status">Статус</h4>
     </div>
+
+    <div class="no-results" *ngIf="paginatedRows.length === 0">
+      Ничего не найдено
+    </div>
+
     <!-- Таблица и её строки -->
-    <div *ngFor="let row of paginatedRows" class="table-row">
+    <div *ngFor="let row of paginatedRows" class="table-row" [routerLink]="['/pair']">
       <!-- Содержимое строки -->
       <span class="cell subject">{{ row.subject }}</span>
       <span class="cell time">{{ row.date }}<br>{{ row.time }}</span>

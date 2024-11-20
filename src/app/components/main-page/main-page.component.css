@@ -208,7 +208,10 @@
 }
 
 .subjects-container .table-container {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 60px;
+  height: 460px;
 }
 
 .subjects-container .table-row {

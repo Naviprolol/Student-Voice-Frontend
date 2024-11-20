@@ -35,12 +35,14 @@ export class SubjectsComponent {
   get paginatedRows() {
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.rows.slice(start, end);
+    return this.filteredRows.slice(start, end);
   }
 
   get totalPages() {
-    return Math.ceil(this.rows.length / this.itemsPerPage);
+    const filteredRows = this.filteredRows;
+    return Math.max(Math.ceil(filteredRows.length / this.itemsPerPage), 1);
   }
+
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
@@ -52,5 +54,10 @@ export class SubjectsComponent {
     if (this.currentPage > 0) {
       this.currentPage--;
     }
+  }
+
+  // Сброс текущей страницы при изменении поискового запроса
+  onSearchTermChange() {
+    this.currentPage = 0;
   }
 }
