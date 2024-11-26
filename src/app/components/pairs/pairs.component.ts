@@ -6,6 +6,8 @@ import { addWeeks, endOfWeek, format, startOfWeek, subWeeks } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { CustomDatePickerComponent } from '../../shared/custom-datepicker/custom-datepicker.component';
 import { RouterModule } from '@angular/router';
+import { Pair } from '../../interfaces/interfaces';
+import { PairsService } from '../../services/pairs.service';
 
 @Component({
   selector: 'app-pairs',
@@ -21,21 +23,34 @@ export class PairsComponent implements OnInit {
   newDate: Date = new Date();
   isCalendarOpen: boolean = false;
 
-  rows = [
-    { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'нировано', rating: 5.0 },
-    { subject: 'Математика', date: '29.10.2024', time: '09:00-10:30', status: 'Запланировано', rating: 3.5 },
-    { subject: 'Физика', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано' },
-    { subject: 'История', date: '31.10.2024', time: '13:00-14:30', status: 'Запланировано', rating: 4.2 },
-    { subject: 'Химия', date: '01.11.2024', time: '15:00-16:30', status: 'Запланировано', rating: 2.3 },
-    { subject: 'Биология', date: '02.11.2024', time: '17:00-18:30', status: 'Запланировано', rating: 4.7 }
-  ];
+  rows: Pair[] = []; // Данные, полученные с сервера
+  totalPages: number = 0;
+
+  // rows = [
+  //   { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'нировано', rating: 5.0 },
+  //   { subject: 'Математика', date: '29.10.2024', time: '09:00-10:30', status: 'Запланировано', rating: 3.5 },
+  //   { subject: 'Физика', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано' },
+  //   { subject: 'История', date: '31.10.2024', time: '13:00-14:30', status: 'Запланировано', rating: 4.2 },
+  //   { subject: 'Химия', date: '01.11.2024', time: '15:00-16:30', status: 'Запланировано', rating: 2.3 },
+  //   { subject: 'Биология', date: '02.11.2024', time: '17:00-18:30', status: 'Запланировано', rating: 4.7 }
+  // ];
 
   currentPage = 0;
   itemsPerPage = 5;
-  filteredRows: any[] = [];
+
+  constructor(private pairsService: PairsService) { }
 
   ngOnInit() {
     this.setNewWeekRange(this.newDate);
+    this.loadPairs(this.currentPage);
+  }
+
+  // Загрузка пар с сервера
+  loadPairs(page: number): void {
+    this.pairsService.getPairsByPage(page).subscribe(response => {
+      this.rows = response.content;
+      this.totalPages = response.totalPages;
+    });
   }
 
   setNewWeekRange(newDate: Date) {
@@ -60,35 +75,54 @@ export class PairsComponent implements OnInit {
     this.isCalendarOpen = !this.isCalendarOpen
   }
 
-  get paginatedRows() {
-    this.filteredRows = this.rows.filter(row =>
-      row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
+  // Фильтрация пар
+  get filteredRows() {
+    return this.rows.filter(row =>
+      row.course_name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  // Постраничное отображение пар
+  get paginatedRows() {
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     return this.filteredRows.slice(start, end);
   }
 
-  get totalPages() {
-    return Math.max(Math.ceil(this.filteredRows.length / this.itemsPerPage), 1);
-  }
-
+  // get totalPages() {
+  //   return Math.max(Math.ceil(this.filteredRows.length / this.itemsPerPage), 1);
+  // }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
+      this.loadPairs(this.currentPage);
     }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
+      this.loadPairs(this.currentPage);
     }
   }
 
   onSearchTermChange() {
     this.currentPage = 0;
     console.log(this.paginatedRows);
+  }
+
+
+  // Формат даты у пары
+  formatDateTime(dateStart: string, dateEnd: string): string {
+    const startDate = new Date(dateStart);
+    const endDate = new Date(dateEnd);
+
+    const formattedDate = format(startDate, 'dd.MM.yyyy', { locale: ru }); // 28.10.2024
+    const startTime = format(startDate, 'HH:mm'); // 19:15
+    const endTime = format(endDate, 'HH:mm'); // 20:45
+
+    return `${formattedDate} ${startTime}-${endTime}`;
   }
 
 }

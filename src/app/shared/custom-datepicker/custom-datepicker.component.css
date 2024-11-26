@@ -1,4 +1,7 @@
 .datepicker {
+  position: absolute;
+  z-index: 1000;
+  /* Значение z-index должно быть выше, чем у других элементов */
   width: 300px;
   background-color: #f6f6f6;
   border: 1px solid #ddd;

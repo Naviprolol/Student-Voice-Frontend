@@ -472,3 +472,61 @@ button {
 .flex {
   display: flex;
 }
+
+
+/* ЕСЛИ ПОСЛЕ ПОИСКА НЕ НАЙДЕНЫ ЭЛЕМЕНТЫ */
+.no-results {
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+
+/* КАСТОНМНЫЙ РАДИОБАТОН (РЕАЛИЗАЦИЯ В PAIR-VIVIS-LIST.HTML */
+input[type="radio"] {
+  display: none;
+}
+
+.custom-radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-button {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* ПАГИНАЦИЯ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 32px;
+  margin-top: auto;
+}
+
+.pagination-arrow {
+  cursor: pointer;
+}
+
+.pagination-info {
+  font-size: 16px;
+}
+
+.pagination .left-arrow {
+  transform: rotate(180deg);
+}
+
+
+/* Кнопка включения настроек */
+.setting-on-button {
+  position: absolute;
+  left: 60%;
+  top: 150px;
+}

@@ -1,0 +1,52 @@
+<div class="schedule-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/main']">
+      <h2 class="title">Расписание</h2>
+    </div>
+    <div class="calendar-container">
+      <div class="flex navigation-buttons">
+        <button type="button">
+          <img src="/img/navigation-button-left.svg" alt="navigation-button-left" class="navigation-button"
+            (click)="goToPreviousWeek()">
+        </button>
+        <button type="button">
+          <img src="/img/navigation-button-right.svg" alt="navigation-button-right" class="navigation-button"
+            (click)="goToNextWeek()">
+        </button>
+      </div>
+      <div class="calendar">
+        <button (click)="toggleCalendar()" class="calendar-buttons">
+          <img src="/img/calendar.svg" alt="calendar" class="calendar-img">
+          <span class="main-text current-week">{{currentWeekRange}}</span>
+        </button>
+        <app-custom-datepicker *ngIf="isCalendarOpen"
+          (weekSelected)="currentWeekRange = $event"></app-custom-datepicker>
+      </div>
+      <button class="small-button transparent-button update-modeus-button">Обновить данные из модеуса</button>
+    </div>
+  </div>
+
+  <div class="schedule">
+    <div class="schedule-container flex">
+      <div class="schedule-column" *ngFor="let day of schedule; let i = index" [ngClass]="{ 'first-column': i === 0 }">
+        <h3 class="schedule-title">{{ day.dayOfWeek }} {{ day.date }}</h3>
+        <div class="pairs">
+          <div *ngIf="day.pairs.length > 0; else noPairs">
+            <div class="pair" *ngFor="let pair of day.pairs">
+              <b>{{ pair.time }}</b> {{ pair.location }}<br>{{ pair.subject }}
+            </div>
+          </div>
+        </div>
+        <ng-template #noPairs>
+          <div class="no-pairs">
+            <h4>Нет занятий</h4>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+</div>

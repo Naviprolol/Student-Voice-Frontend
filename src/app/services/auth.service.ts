@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -44,6 +44,16 @@ export class AuthService {
     this.setToken(null)
     localStorage.clear()
     this.router.navigate(['/login'])
+  }
+
+  getSubjectsByPage(page: number): Observable<any[]> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    console.log('Token:', token); // Проверяем, что возвращается из localStorage
+    console.log('123')
+
+    return this.http.get<any[]>(`http://213.189.217.151:8000/api/courses/list?page=${page}&size=5`, { headers: headers })
   }
 
 }

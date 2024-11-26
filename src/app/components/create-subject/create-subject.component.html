@@ -1,0 +1,105 @@
+<div class="create-subject-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/main']">
+      <h2 class="title">Создать предмет</h2>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="create-container">
+      <div class="row subject-name">
+        <h3 class="row-title">Название предмета</h3>
+        <input type="text" class="custom-input" placeholder="Введите название предмета" [(ngModel)]="subjectName" />
+      </div>
+      <div class="row addres">
+        <h3 class="row-title">Адрес</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('address')">
+            <span class="placeholder" *ngIf="!selectedAddress">Выберите адрес</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedAddress">{{ selectedAddress }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon" *ngIf="!selectedAddress"
+              [class.rotated]="isDropdownOpen['address']" />
+            <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" *ngIf="selectedAddress"
+              (click)="selectClear('address', $event)">
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['address']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let address of addresses; let last = last; let first = first;"
+                [ngClass]="{'last-row': last}" (click)="selectOption('address', address)">
+                {{ address }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row institute">
+        <h3 class="row-title">Институт</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('institute')">
+            <span class="placeholder" *ngIf="!selectedInstitute">Выберите институт</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedInstitute">{{ selectedInstitute }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon" *ngIf="!selectedInstitute"
+              [class.rotated]="isDropdownOpen['institute']" />
+            <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" *ngIf="selectedInstitute"
+              (click)="selectClear('institute', $event)">
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['institute']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let institute of institutes; let last = last; let first = first;"
+                [ngClass]="{'last-row': last}" (click)="selectOption('institute', institute)">
+                {{ institute }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row teacher-names">
+        <h3 class="row-title">Имена преподавателей</h3>
+        <div class="custom-select-container">
+          <div class="custom-select custom-select-teacher" (click)="toggleDropdown('teachers')">
+            <span class="placeholder" *ngIf="!selectedTeachers?.length">Выберите преподавателей</span>
+            <div class="selected-value-container-teacher" *ngIf="selectedTeachers?.length">
+              <span class="selected-teacher" *ngFor="let teacher of selectedTeachers">
+                {{ teacher }}
+                <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon"
+                  (click)="removeTeacher(teacher, $event)" />
+              </span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon" *ngIf="!selectedTeachers"
+              [class.rotated]="isDropdownOpen['teachers']" />
+            <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" *ngIf="selectedTeachers"
+              (click)="selectClear('teachers', $event)">
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['teachers']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let teacher of teachers; let last = last;"
+                [ngClass]="{'last-row': last, 'selected': selectedTeachers?.includes(teacher)}"
+                (click)="selectOption('teachers', teacher)">
+                {{ teacher }}
+                <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon"
+                  *ngIf="selectedTeachers?.includes(teacher)" (click)="removeTeacher(teacher, $event)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row create-link-container">
+        <h3 class="row-title">Создать постоянную ссылку</h3>
+        <div class="custom-checkbox" (click)="toggleCheckbox()">
+          <img [src]="isCheckboxActive ? '/img/checkbox-active.svg' : '/img/checkbox-disabled.svg'"
+            alt="checkbox-icon" />
+        </div>
+      </div>
+    </div>
+
+    <button class="small-button blue-button create-button">Создать</button>
+  </div>
+
+</div>

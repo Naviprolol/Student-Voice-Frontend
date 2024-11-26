@@ -4,7 +4,7 @@
   <div class="top-content">
     <div class="flex">
       <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/pairs']">
-      <h2 class="subject-title">Информационные технологии</h2>
+      <h2 class="title">Информационные технологии</h2>
     </div>
   </div>
 
@@ -36,10 +36,15 @@
   </div>
 
   <div class="students-list-container">
-    <h3 class="table-header">Список студентов</h3>
-    <button class="redirect-button small-button">Перейти к списку посещения</button>
+    <div class="table-headers">
+      <h3 class="table-header">Список студентов</h3>
+      <button class="redirect-button small-button" [routerLink]="['/pair/visit-list']">Перейти к списку
+        посещения</button>
+      <button (click)="toggleSetting()" class="small-button red-button setting-on-button">
+        {{setting ? 'Отключить настройку' : 'Включить настройку'}}</button>
+    </div>
 
-    <div class="students-table-container">
+    <div class="students-table-container" *ngIf="setting">
       <div class="students-headers">
         <h4 class="column fio-header">ФИО</h4>
         <h4 class="column review-time-header">Время отзыва</h4>
@@ -49,8 +54,8 @@
       <div class="students-table">
         <div class="table-rows-container">
           <div class="table-row" *ngFor="let row of paginatedRows; let last = last" [ngClass]="{'last-row': last}">
-            <div class="row-fio"><span class="row-fio-text">Иванов Иван Иванович</span></div>
-            <div class="row-review-time"><span>28.10.2024, 15:30</span></div>
+            <div class="row-fio"><span class="row-fio-text">{{row.FIO}}</span></div>
+            <div class="row-review-time"><span>{{row.date + ', ' + row.time}}</span></div>
             <div class="rating-container invisible" *ngIf="!row.rating"></div>
             <div class="rating-container" *ngIf="row.rating" [ngClass]="{
             'high-rating': row.rating > 3.5,
@@ -60,8 +65,48 @@
               <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
               <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
             </div>
-            <div class="row-review-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-              eget dolor. Aenean massa</div>
+
+            <div class="row-review-text">
+              <span class="review-text" *ngIf="row.reviewText.length > 130 && !row.expanded">{{
+                row.reviewText.substring(0, 130) + '...' || 'Отзыв отсутствует' }}</span>
+              <span class="review-text" *ngIf="row.reviewText.length < 130 || row.expanded">
+                {{ row.reviewText || 'Отзыв отсутствует' }} </span>
+              <div class="toggle-button" (click)="toggleReview(row)" *ngIf="!row.expanded">Развернуть</div>
+              <div class="review-details" *ngIf="row.expanded">
+                <div class="review-category">
+                  <span class="review-category-text">Подача материала:</span>
+                  <div class="stars">
+                    <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  </div>
+                </div>
+                <div class="review-category">
+                  <span class="review-category-text">Полезность материала:</span>
+                  <div class="stars">
+                    <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  </div>
+                </div>
+                <div class="review-category">
+                  <span class="review-category-text">Взаимодействие со студентами:</span>
+                  <div class="stars">
+                    <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  </div>
+                </div>
+                <div class="review-category">
+                  <span class="review-category-text">Аудитория и оборудование:</span>
+                  <div class="stars">
+                    <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  </div>
+                </div>
+                <div class="review-category">
+                  <span class="review-category-text">Атмосфера на паре:</span>
+                  <div class="stars">
+                    <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  </div>
+                </div>
+                <div class="toggle-button" (click)="toggleReview(row)" *ngIf="row.expanded">Свернуть</div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -78,6 +123,33 @@
 
       </div>
     </div>
+
+    <div class="students-table-container" *ngIf="!setting">
+      <div class="students-table">
+        <div class="table-columns-container">
+          <div class="students-columns">
+            <!-- Отображение колонок -->
+            <div class="column" *ngFor="let column of paginatedStudents">
+              <div class="student-name" *ngFor="let student of column">
+                {{ student.FIO }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Пагинация -->
+          <div class="pagination">
+            <button (click)="goToPreviousPage_off()" [disabled]="currentPage_off === 0">
+              <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
+            </button>
+            <span class="pagination-info main-text">{{ currentPage_off + 1 }} из {{ totalPages_off }}</span>
+            <button (click)="goToNextPage_off()" [disabled]="currentPage_off === totalPages_off - 1">
+              <img src="/img/pagination-button.svg" alt="Next Page" class="pagination-arrow right-arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>

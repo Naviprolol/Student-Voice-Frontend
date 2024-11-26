@@ -1,0 +1,115 @@
+.top-content {
+  margin-top: 34px;
+  margin-bottom: 34px;
+}
+
+.title {
+  margin-left: 67px;
+  color: #0F2B5E;
+  padding-top: 6px;
+  line-height: 48px;
+}
+
+.main-content-container {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.students-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 620px;
+  height: 627px;
+  background-color: #F6F6F6;
+  border-radius: 30px;
+}
+
+.table-columns-container {
+  padding-left: 42px;
+  padding-top: 26px;
+  padding-right: 42px;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  width: 624px;
+}
+
+.settings-container .settings-table {
+  width: 100%;
+  background-color: #F6F6F6;
+  border-radius: 30px;
+}
+
+.settings-container .save-file-button {
+  margin-top: 32px;
+  margin-left: auto;
+}
+
+.settings-container .table-title {
+  display: flex;
+  justify-self: center;
+  width: 560px;
+  padding-top: 30px;
+  color: #1E4391;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.settings-container .file-format-container {
+  display: flex;
+  padding-left: 32px;
+  height: 66px;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 45px;
+}
+
+.file-format-container .formats-container {
+  display: flex;
+  gap: 51px;
+}
+
+/* Тип загрузки */
+.settings-container .file-type-container {
+  display: flex;
+  padding-left: 32px;
+  height: 66px;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 45px;
+}
+
+.file-type-container .types-container {
+  display: flex;
+  gap: 30px;
+}
+
+.formats-radio {
+  gap: 20px;
+}
+
+.types-radio {
+  gap: 10px;
+}
+
+.types-radio:nth-child(2) {
+  width: 220px;
+}
+
+/* Пагинация */
+
+
+.students-columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.student-name {
+  margin-bottom: 22px;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 250px;
+}

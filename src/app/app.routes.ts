@@ -6,6 +6,11 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { PairsComponent } from './components/pairs/pairs.component';
 import { TestingComponentsComponent } from './shared/testing-components/testing-components.component';
+import { SubjectDetailsComponent } from './components/subject-details/subject-details.component';
+import { PairDetailsComponent } from './components/pair-details/pair-details.component';
+import { PairVisitListComponent } from './components/pair-visit-list/pair-visit-list.component';
+import { TeacherScheduleComponent } from './components/teacher-schedule/teacher-schedule.component';
+import { CreateSubjectComponent } from './components/create-subject/create-subject.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -13,7 +18,15 @@ export const routes: Routes = [
   { path: 'main', canActivate: [AuthGuard], component: MainPageComponent },
   { path: 'subjects', canActivate: [AuthGuard], component: SubjectsComponent },
   { path: 'pairs', canActivate: [AuthGuard], component: PairsComponent },
-  { path: 'testing', canActivate: [AuthGuard], component: TestingComponentsComponent }
+  { path: 'testing', canActivate: [AuthGuard], component: TestingComponentsComponent },
+  // { path: 'subject/:id', canActivate: [AuthGuard], component: SubjectDetailsComponent }
+  { path: 'subject', canActivate: [AuthGuard], component: SubjectDetailsComponent },
+  // { path: 'pair:/id', canActivate: [AuthGuard], component: PairDetailsComponent }
+  { path: 'pair', canActivate: [AuthGuard], component: PairDetailsComponent },
+  // { path: 'pair:/id/visit-list', canActivate: [AuthGuard], component: PairVisitListComponent },
+  { path: 'pair/visit-list', canActivate: [AuthGuard], component: PairVisitListComponent },
+  { path: 'schedule', canActivate: [AuthGuard], component: TeacherScheduleComponent },
+  { path: 'create', canActivate: [AuthGuard], component: CreateSubjectComponent },
 ];
 
 @NgModule({

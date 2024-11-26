@@ -1,0 +1,65 @@
+<div class="pair-visit-list-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/pair']">
+      <h2 class="title">Список посещения</h2>
+    </div>
+  </div>
+
+  <div class="main-content-container">
+    <div class="students-table-container">
+      <div class="table-columns-container">
+        <div class="students-columns">
+          <!-- Отображение колонок -->
+          <div class="column" *ngFor="let column of paginatedStudents">
+            <div class="student-name" *ngFor="let student of column">
+              {{ student.FIO }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Пагинация -->
+      <div class="pagination">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+          <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
+        </button>
+        <span class="pagination-info main-text">{{ currentPage + 1 }} из {{ totalPages }}</span>
+        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages - 1">
+          <img src="/img/pagination-button.svg" alt="Next Page" class="pagination-arrow right-arrow">
+        </button>
+      </div>
+    </div>
+    <div class="settings-container">
+      <div class="settings-table">
+        <h3 class="table-title">Настройки для выгрузки списка посещения</h3>
+        <div class="file-format-container">
+          <p><span>Выберите формат сохранения документа:</span></p>
+          <div class="formats-container">
+            <div class="custom-radio formats-radio" *ngFor="let format of formats" (click)="selectFormat(format)">
+              <img [src]="selectedFormat === format ? '/img/active-radio.svg' : '/img/disable-radio.svg'"
+                alt="radio-button" class="radio-button">
+              <span>{{ format }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="file-type-container" *ngIf="setting">
+          <p><span>Выберите, что будете выгружать:</span></p>
+          <div class="types-container">
+            <div class="custom-radio types-radio" *ngFor="let type of types" (click)="selectType(type)">
+              <img [src]="selectedType === type ? '/img/active-radio.svg' : '/img/disable-radio.svg'" alt="radio-button"
+                class="radio-button">
+              <span>{{ type }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="blue-button small-button save-file-button">Выгрузить список</button>
+    </div>
+  </div>
+
+  <button (click)="toggleSetting()" class="small-button red-button setting-on-button">
+    {{setting ? 'Отключить настройку' : 'Включить настройку'}}</button>
+
+</div>

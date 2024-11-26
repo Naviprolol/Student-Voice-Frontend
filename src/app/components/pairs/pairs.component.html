@@ -66,8 +66,10 @@
     <!-- Таблица и её строки -->
     <div *ngFor="let row of paginatedRows" class="table-row" [routerLink]="['/pair']">
       <!-- Содержимое строки -->
-      <span class="cell subject">{{ row.subject }}</span>
-      <span class="cell time">{{ row.date }}<br>{{ row.time }}</span>
+      <span class="cell subject">{{ row.course_name }}</span>
+      <span class="cell time">
+        {{ formatDateTime(row.date_start, row.date_end) }}
+      </span>
       <span class="cell status">{{ row.status }}</span>
       <div class="cell actions">
         <div class="rating-container" *ngIf="row.rating" [ngClass]="{

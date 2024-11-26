@@ -43,8 +43,8 @@
     <!-- Таблица и её строки -->
     <div *ngFor="let row of paginatedRows" class="table-row" [routerLink]="['/subject']">
       <!-- Содержимое строки -->
-      <span class="cell subject">{{ row.subject }}</span>
-      <span class="cell place">{{ row.place }}</span>
+      <span class="cell subject">{{ row.name }}</span>
+      <span class="cell place">{{ row.address }}</span>
       <div class="cell actions">
         <div class="rating-container" *ngIf="row.rating" [ngClass]="{
                'high-rating': row.rating > 3.5,

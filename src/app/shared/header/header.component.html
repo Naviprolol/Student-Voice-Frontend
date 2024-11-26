@@ -22,10 +22,11 @@
   </div>
   <div class="header-right">
     <button type=button class="small-button blue-button plan-lesson buttons"><span>Запланировать пару</span></button>
-    <button type=button class="small-button blue-button create-subject buttons"><span>Создать предмет</span></button>
+    <button type=button class="small-button blue-button create-subject buttons" [routerLink]="['/create']"><span>Создать
+        предмет</span></button>
     <div class="header-profile">
       <button type="button" (click)="toggleDropdown()" class="dropdown-button">
-        <img src="/img/avatar.svg" alt="avatar" class="avatar" />
+        <!-- <img src="/img/avatar.svg" alt="avatar" class="avatar" /> -->
       </button>
       <div>
         <div class="user-name-container">
@@ -38,8 +39,8 @@
         <div *ngIf="isDropdownOpen" class="dropdown-menu" @dropdownAnimation>
           <div class="dropdown-item dropdown-first-item"><span class="main-text dropdown-text">Личный кабинет</span>
           </div>
-          <button class="dropdown-item dropdown-second-item" (click)="logout($event)"><span
-              class="main-text dropdown-text">Выйти</span></button>
+          <div class="dropdown-item dropdown-second-item" (click)="logout($event)"><span
+              class="main-text dropdown-text">Выйти</span></div>
         </div>
       </div>
     </div>

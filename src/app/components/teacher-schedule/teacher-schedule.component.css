@@ -1,0 +1,107 @@
+.top-content {
+  margin-top: 34px;
+  margin-bottom: 32px;
+}
+
+.title {
+  margin-left: 67px;
+  color: #0F2B5E;
+  padding-top: 6px;
+  line-height: 48px;
+}
+
+.navigation-buttons {
+  gap: 8px;
+}
+
+.navigation-button {
+  width: 30px;
+  height: 30px;
+}
+
+.calendar-container {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-left: 168px;
+  margin-top: 25px;
+  gap: 32px;
+}
+
+.calendar {
+  height: inherit;
+}
+
+.calendar .current-week {
+  color: #0F2B5E;
+}
+
+.calendar .calendar-buttons {
+  display: flex;
+  padding-top: 5px;
+  gap: 12px;
+}
+
+.update-modeus-button {
+  color: #1E4391;
+  margin-left: auto;
+  border: 2px #1E4391 solid !important;
+  margin-right: 40px;
+}
+
+/*  */
+/* РАСПИСАНИЕ */
+.schedule {
+  width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 32px;
+}
+
+.schedule-container {
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.schedule-container .schedule-column {
+  height: 578px;
+  display: flex;
+  flex-direction: column;
+  min-width: 496px;
+  border-radius: 20px;
+  background-color: #F6F6F6;
+  /* Центровка текста по горизонтали */
+}
+
+.schedule-container .schedule-title {
+  padding-top: 16px;
+  margin-bottom: 30px;
+  color: #1E4391;
+  text-align: center;
+}
+
+.schedule-container .first-column {
+  background-color: rgba(59, 166, 140, 0.25);
+}
+
+.schedule-container .pairs {
+  margin: 0 auto;
+}
+
+.schedule-container .pair {
+  line-height: 22.4px;
+  margin-bottom: 20px;
+}
+
+.schedule-container .no-pairs {
+  margin-top: 215px;
+}
+
+.schedule .schedule-redirect-button {
+  margin-top: 20px;
+  color: #1E4391;
+  margin-left: auto;
+  border: 2px #1E4391 solid !important;
+}
