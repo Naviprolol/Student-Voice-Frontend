@@ -11,6 +11,8 @@ import { PairDetailsComponent } from './components/pair-details/pair-details.com
 import { PairVisitListComponent } from './components/pair-visit-list/pair-visit-list.component';
 import { TeacherScheduleComponent } from './components/teacher-schedule/teacher-schedule.component';
 import { CreateSubjectComponent } from './components/create-subject/create-subject.component';
+import { CreatePairComponent } from './components/create-pair/create-pair.component';
+import { QrFilledComponent } from './components/qr-codes/qr-filled/qr-filled.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -19,14 +21,15 @@ export const routes: Routes = [
   { path: 'subjects', canActivate: [AuthGuard], component: SubjectsComponent },
   { path: 'pairs', canActivate: [AuthGuard], component: PairsComponent },
   { path: 'testing', canActivate: [AuthGuard], component: TestingComponentsComponent },
-  // { path: 'subject/:id', canActivate: [AuthGuard], component: SubjectDetailsComponent }
-  { path: 'subject', canActivate: [AuthGuard], component: SubjectDetailsComponent },
-  // { path: 'pair:/id', canActivate: [AuthGuard], component: PairDetailsComponent }
-  { path: 'pair', canActivate: [AuthGuard], component: PairDetailsComponent },
-  // { path: 'pair:/id/visit-list', canActivate: [AuthGuard], component: PairVisitListComponent },
-  { path: 'pair/visit-list', canActivate: [AuthGuard], component: PairVisitListComponent },
+  { path: 'subject/:id', canActivate: [AuthGuard], component: SubjectDetailsComponent },
+  { path: 'pair/:id', canActivate: [AuthGuard], component: PairDetailsComponent },
+  { path: 'pair/:id/visit-list', canActivate: [AuthGuard], component: PairVisitListComponent },
   { path: 'schedule', canActivate: [AuthGuard], component: TeacherScheduleComponent },
-  { path: 'create', canActivate: [AuthGuard], component: CreateSubjectComponent },
+  { path: 'create-subject', canActivate: [AuthGuard], component: CreateSubjectComponent },
+  { path: 'create-pair', canActivate: [AuthGuard], component: CreatePairComponent },
+  { path: 'edit/subject/:id', canActivate: [AuthGuard], component: CreateSubjectComponent },
+  { path: 'edit/pair/:id', canActivate: [AuthGuard], component: CreatePairComponent },
+  { path: 'qr', canActivate: [AuthGuard], component: QrFilledComponent },
 ];
 
 @NgModule({

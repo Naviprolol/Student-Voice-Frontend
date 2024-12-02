@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
 import { CustomDatePickerComponent } from "../../shared/custom-datepicker/custom-datepicker.component";
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { addWeeks, endOfWeek, format, startOfWeek, subWeeks } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { CommonModule } from '@angular/common';
+import { PairsService } from '../../services/pairs.service';
+import { Pair } from '../../interfaces/interfaces';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
   selector: 'app-subject-details',
@@ -21,18 +24,31 @@ export class SubjectDetailsComponent implements OnInit {
 
   currentPage = 0;
   itemsPerPage = 5;
+  rows: Pair[] = [];
+  totalPages: number = 0;
 
-  rows = [
-    { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'Запланировано', rating: 5.0, teacher: 'Иванович' },
-    { subject: 'Математика', date: '29.10.2024', time: '09:00-10:30', status: 'Запланировано', rating: 3.5, teacher: 'Иванов Иван Ивановиffasdasч' },
-    { subject: 'Физика', date: '30.10.2024', time: '11:00-12:30', status: 'Завершено', teacher: 'Иван Иванович' },
-    { subject: 'История', date: '31.10.2024', time: '13:00-14:30', status: 'Запланировано', rating: 4.2, teacher: 'Иванов Иван Иванович' },
-    { subject: 'Химия', date: '01.11.2024', time: '15:00-16:30', status: 'Завершено', rating: 2.3, teacher: 'Иванов Иван Иванович' },
-    { subject: 'Биология', date: '02.11.2024', time: '17:00-18:30', status: 'Запланировано', rating: 4.7, teacher: 'Иванов Иван Иванович' }
-  ];
+  subjectName: string = '';
+
+  courseId!: number;
+
+  constructor(private pairsService: PairsService, private subjectService: SubjectsService, private route: ActivatedRoute,) { }
 
   ngOnInit() {
     this.setNewWeekRange(this.newDate);
+
+    this.route.params.subscribe(params => {
+      this.courseId = params['id'];
+      this.loadPairsOfSubject(this.courseId, this.currentPage);
+    });
+  }
+
+  // Загрузка пар с сервера
+  loadPairsOfSubject(courseId: number, page: number): void {
+    this.pairsService.getPairsOfSubject(courseId, page).subscribe(response => {
+      this.rows = response.content;
+      this.totalPages = response.totalPages;
+      this.subjectName = response.content[0].course_name;
+    });
   }
 
   setNewWeekRange(newDate: Date) {
@@ -59,25 +75,33 @@ export class SubjectDetailsComponent implements OnInit {
 
   // Таблица (Отображение и пагинация)
 
-  get paginatedRows() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.rows.slice(start, end);
-  }
-
-  get totalPages() {
-    return Math.max(Math.ceil(this.rows.length / this.itemsPerPage), 1);
-  }
+  // get totalPages() {
+  //   return Math.max(Math.ceil(this.rows.length / this.itemsPerPage), 1);
+  // }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
+      this.loadPairsOfSubject(this.courseId, this.currentPage);
     }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
+      this.loadPairsOfSubject(this.courseId, this.currentPage);
     }
+  }
+
+  // Формат даты у пары
+  formatDateTime(dateStart: string, dateEnd: string): string {
+    const startDate = new Date(dateStart);
+    const endDate = new Date(dateEnd);
+
+    const formattedDate = format(startDate, 'dd.MM.yyyy', { locale: ru }); // 28.10.2024
+    const startTime = format(startDate, 'HH:mm'); // 19:15
+    const endTime = format(endDate, 'HH:mm'); // 20:45
+
+    return `${formattedDate} ${startTime}-${endTime}`;
   }
 }

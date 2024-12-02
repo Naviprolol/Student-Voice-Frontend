@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PairsService } from '../../services/pairs.service';
+import { Review } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-pair-visit-list',
@@ -12,6 +14,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './pair-visit-list.component.css'
 })
 export class PairVisitListComponent implements OnInit {
+
   setting: boolean = false // Настройка
   toggleSetting() {
     this.setting = !this.setting;
@@ -37,80 +40,74 @@ export class PairVisitListComponent implements OnInit {
     this.selectedType = type; // Сохраняем выбранный тип
   }
 
-  // Отображение таблицы
-  rows = [
-    { FIO: '1Иванов Иван Иванович', date: '28.10.2024', time: '19:15', status: 'нировано', rating: 5.0, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '2Иванов Иван Иванович', date: '29.10.2024', time: '09:00', status: 'Запланировано', rating: 3.5, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '3Иванов Иван Иванович', date: '30.10.2024', time: '11:00', status: 'Запланировано', expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '4Иванов Иван Иванович', date: '31.10.2024', time: '13:00', status: 'Запланировано', rating: 4.2, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '5Иванов Иван Иванович', date: '01.11.2024', time: '15:00', status: 'Запланировано', rating: 2.3, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '6Иванов Иван Иванович', date: '02.11.2024', time: '17:00', status: 'Запланировано', rating: 4.7, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '7Иванов Иван Иванович', date: '28.10.2024', time: '19:15', status: 'нировано', rating: 5.0, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '8Иванов Иван Иванович', date: '29.10.2024', time: '09:00', status: 'Запланировано', rating: 3.5, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '9Иванов Иван Иванович', date: '30.10.2024', time: '11:00', status: 'Запланировано', expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '10Иванов Иван Иванович', date: '31.10.2024', time: '13:00', status: 'Запланировано', rating: 4.2, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '11Иванов Иван Иванович', date: '01.11.2024', time: '15:00', status: 'Запланировано', rating: 2.3, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '12Иванов Иван Иванович', date: '02.11.2024', time: '17:00', status: 'Запланировано', rating: 4.7, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '13Иванов Иван Иванович', date: '28.10.2024', time: '19:15', status: 'нировано', rating: 5.0, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '14Иванов Иван Иванович', date: '29.10.2024', time: '09:00', status: 'Запланировано', rating: 3.5, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '15Иванов Иван Иванович', date: '30.10.2024', time: '11:00', status: 'Запланировано', expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '16Иванов Иван Иванович', date: '31.10.2024', time: '13:00', status: 'Запланировано', rating: 4.2, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '17Иванов Иван Иванович', date: '01.11.2024', time: '15:00', status: 'Запланировано', rating: 2.3, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '18Иванов Иван Иванович', date: '02.11.2024', time: '17:00', status: 'Запланировано', rating: 4.7, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '19Иванов Иван Иванович', date: '28.10.2024', time: '19:15', status: 'нировано', rating: 5.0, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '20Иванов Иван Иванович', date: '29.10.2024', time: '09:00', status: 'Запланировано', rating: 3.5, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '21Иванов Иван Иванович', date: '30.10.2024', time: '11:00', status: 'Запланировано', expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '22Иванов Иван Иванович', date: '31.10.2024', time: '13:00', status: 'Запланировано', rating: 4.2, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '23Иванов Иван Иванович', date: '01.11.2024', time: '15:00', status: 'Запланировано', rating: 2.3, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '24Иванов Иван Иванович', date: '02.11.2024', time: '17:00', status: 'Запланировано', rating: 4.7, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '25Иванов Иван Иванович', date: '28.10.2024', time: '19:15', status: 'нировано', rating: 5.0, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '26Иванов Иван Иванович', date: '29.10.2024', time: '09:00', status: 'Запланировано', rating: 3.5, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '27Иванов Иван Иванович', date: '30.10.2024', time: '11:00', status: 'Запланировано', expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '28Иванов Иван Иванович', date: '31.10.2024', time: '13:00', status: 'Запланировано', rating: 4.2, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '29Иванов Иван Иванович', date: '01.11.2024', time: '15:00', status: 'Запланировано', rating: 2.3, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' },
-    { FIO: '30Ивановyhntr Иван Иванович', date: '02.11.2024', time: '17:00', status: 'Запланировано', rating: 4.7, expanded: false, reviewText: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa' }
-  ];
+  lessonId!: number;
+  rows!: Review[];
+  totalPages!: number
 
   currentPage = 0;
   studentsPerPage = 24; // 12 в каждом столбце
   paginatedStudents: any[] = []; // Массив для текущей страницы студентов
   columns = 2; // Количество столбцов
 
+  constructor(private route: ActivatedRoute, private pairsService: PairsService) { }
+
   ngOnInit() {
-    this.updatePaginatedStudents();
     if (!this.setting) {
       this.selectedType = null;
     }
+    this.lessonId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadReviews(this.lessonId, this.currentPage)
+  }
+
+  // Подгрузка отзывов о паре
+  loadReviews(lesson_id: number, page: number) {
+    this.pairsService.getReviewsByPair(lesson_id, page, this.studentsPerPage).subscribe(reviews => {
+      // Убедимся, что контент существует
+      if (reviews.content && reviews.content.length > 0) {
+        this.rows = reviews.content.map(review => ({
+          ...review,
+          fio: review.fio, // Поле `fio` из ответа сервера
+        }));
+      } else {
+        this.rows = [];
+      }
+      this.totalPages = reviews.totalPages || 1;
+
+      // Обновляем пагинацию после загрузки
+      this.updatePaginatedStudents();
+    });
   }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
-      this.updatePaginatedStudents();
+      this.loadReviews(this.lessonId, this.currentPage)
     }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.updatePaginatedStudents();
+      this.loadReviews(this.lessonId, this.currentPage)
     }
   }
 
   updatePaginatedStudents() {
+    // Обрабатываем только если есть данные
+    if (!this.rows || this.rows.length === 0) {
+      this.paginatedStudents = [];
+      return;
+    }
+
     const start = this.currentPage * this.studentsPerPage;
     const end = start + this.studentsPerPage;
-    const currentStudents = this.rows.slice(start, end);
+    const currentStudents = this.rows.slice(start, end); // Безопасное использование slice
 
     const studentsPerColumn = Math.ceil(currentStudents.length / this.columns);
 
     this.paginatedStudents = Array.from({ length: this.columns }, (_, colIndex) =>
       currentStudents.slice(colIndex * studentsPerColumn, (colIndex + 1) * studentsPerColumn)
     );
-  }
-
-  get totalPages() {
-    return Math.max(Math.ceil(this.rows.length / this.studentsPerPage), 1);
   }
 
 }

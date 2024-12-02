@@ -59,12 +59,12 @@
       <h4 class="column status">Статус</h4>
     </div>
 
-    <div class="no-results" *ngIf="paginatedRows.length === 0">
+    <div class="no-results" *ngIf="rows && rows.length === 0">
       Ничего не найдено
     </div>
 
     <!-- Таблица и её строки -->
-    <div *ngFor="let row of paginatedRows" class="table-row" [routerLink]="['/pair']">
+    <div *ngFor="let row of rows" class="table-row" [routerLink]="['/pair', row.lesson_id]">
       <!-- Содержимое строки -->
       <span class="cell subject">{{ row.course_name }}</span>
       <span class="cell time">
@@ -81,13 +81,13 @@
           <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
         </div>
         <img *ngIf="!row.rating" src="/img/qr-code-icon.svg" alt="qr-code-icon.svg" class="icon">
-        <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon">
+        <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon" [routerLink]="['/edit/pair', row.lesson_id]">
         <img src="/img/students-icon.png" alt="students-icon.png" class="icon">
       </div>
     </div>
 
     <!-- Пагинация -->
-    <div class="pagination">
+    <div class="pagination" *ngIf="rows && rows.length > 5">
       <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
         <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
       </button>

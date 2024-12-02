@@ -4,7 +4,7 @@
   <div class="top-content">
     <div class="flex">
       <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/subjects']">
-      <h2 class="subject-title">Пары информационные технологии</h2>
+      <h2 class="subject-title">Пары {{ subjectName }}</h2>
     </div>
     <div class="calendar-container">
       <div class="flex navigation-buttons">
@@ -35,16 +35,18 @@
       <h4 class="column teacher">Преподаватель</h4>
     </div>
 
-    <div class="no-results" *ngIf="paginatedRows.length === 0">
+    <div class="no-results" *ngIf="rows && rows.length === 0">
       Ничего не найдено
     </div>
 
     <!-- Таблица и её строки -->
-    <div *ngFor="let row of paginatedRows" class="table-row">
+    <div *ngFor="let row of rows" class="table-row">
       <!-- Содержимое строки -->
-      <span class="cell time">{{ row.date }}<br>{{ row.time }}</span>
+      <span class="cell time">
+        {{ formatDateTime(row.date_start, row.date_end) }}
+      </span>
       <span class="cell status">{{ row.status }}</span>
-      <span class="cell teacher">{{ row.teacher }}</span>
+      <span class="cell teacher">Фамилия Имя Отчество</span>
       <div class="cell actions">
         <div class="rating-container" *ngIf="row.rating" [ngClass]="{
                'high-rating': row.rating > 3.5,
@@ -61,7 +63,7 @@
     </div>
 
     <!-- Пагинация -->
-    <div class="pagination">
+    <div class="pagination" *ngIf="rows && rows.length > 5">
       <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
         <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
       </button>

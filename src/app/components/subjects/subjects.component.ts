@@ -35,15 +35,6 @@ export class SubjectsComponent implements OnInit {
 
   searchTerm: string = '';
 
-  // rows = [
-  //   { subject: 'Информационные технологии', place: 'Мира 32 / Р888', rating: 5.0 },
-  //   { subject: 'Теория и практика программной инженерии', place: 'Ленина Пушкина авбабав ква 12214', rating: 3.5 },
-  //   { subject: 'Физика', place: 'Мира 32 / Р888', rating: 1.0 },
-  //   { subject: 'История', place: 'Мира 32 / Р888', rating: 4.2 },
-  //   { subject: 'Химия', place: 'Мира 32 / Р888', rating: 2.3 },
-  //   { subject: 'Биология', place: 'Мира 32 / Р888', rating: 4.7 }
-  // ];
-
   currentPage = 0;
   itemsPerPage = 5;
 
@@ -51,12 +42,6 @@ export class SubjectsComponent implements OnInit {
     return this.rows.filter(row =>
       row.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
-  }
-
-  get paginatedRows() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredRows.slice(start, end);
   }
 
   // get totalPages() {

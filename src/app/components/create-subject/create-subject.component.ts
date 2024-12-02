@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
   selector: 'app-create-subject',
@@ -11,7 +12,11 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './create-subject.component.html',
   styleUrl: './create-subject.component.css'
 })
-export class CreateSubjectComponent {
+export class CreateSubjectComponent implements OnInit {
+
+  // Режим работы: true = редактирование, false = создание
+  isEditMode!: boolean;
+
   isDropdownOpen: { [key: string]: boolean } = { address: false, institute: false, teachers: false };
   selectedAddress: string | null = null;
   selectedInstitute: string | null = null;
@@ -25,13 +30,29 @@ export class CreateSubjectComponent {
 
   isCheckboxActive: boolean = false;
 
+  constructor(private subjectsService: SubjectsService, private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    const subjectId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
+    this.isEditMode = !!subjectId; // Если ID есть, режим редактирования
+    if (this.isEditMode) {
+      this.loadSubjectData(Number(subjectId));
+    }
+  }
+
+  loadSubjectData(id: number): void {
+    this.subjectsService.getSubjectById(id).subscribe(subject => {
+      this.subjectName = subject.name;
+      this.selectedAddress = subject.address;
+      // this.selectedInstitute = subject.;
+      // this.selectedTeachers = subject.teachers || []; Добавить обработку института и преподавателей у предмета при редактировании
+    });
+  }
 
   toggleDropdown(type: string): void {
-    // Закрываем все открытые выпадающие списки
     Object.keys(this.isDropdownOpen).forEach((key) => {
       if (key !== type) this.isDropdownOpen[key] = false;
     });
-    // Переключаем состояние текущего выпадающего списка
     this.isDropdownOpen[type] = !this.isDropdownOpen[type];
   }
 
@@ -46,19 +67,18 @@ export class CreateSubjectComponent {
       this.selectedInstitute = value;
     } else if (field === 'teachers') {
       if (!this.selectedTeachers) this.selectedTeachers = [];
-      // Проверяем, есть ли уже преподаватель в списке
       const index = this.selectedTeachers.indexOf(value);
       if (index === -1) {
-        this.selectedTeachers.push(value); // Добавляем, если не выбран
+        this.selectedTeachers.push(value);
       } else {
-        this.selectedTeachers.splice(index, 1); // Удаляем, если уже выбран
+        this.selectedTeachers.splice(index, 1);
       }
     }
     this.isDropdownOpen[field] = false;
   }
 
   selectClear(field: string, event: MouseEvent): void {
-    event.stopPropagation(); // Остановить распространение события
+    event.stopPropagation();
     if (field === 'address') {
       this.selectedAddress = null;
     } else if (field === 'institute') {
@@ -68,9 +88,8 @@ export class CreateSubjectComponent {
     }
   }
 
-  // Метод для удаления преподавателя из выбранных
   removeTeacher(teacher: string, event: MouseEvent) {
-    event.stopPropagation(); // Остановить распространение события
+    event.stopPropagation();
     if (this.selectedTeachers) {
       this.selectedTeachers = this.selectedTeachers.filter(t => t !== teacher);
     }

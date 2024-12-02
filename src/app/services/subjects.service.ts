@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { GetSubjectsApiResponse } from '../interfaces/interfaces';
+import { GetSubjectApiResponse, GetSubjectsApiResponse } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,12 @@ export class SubjectsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
     return this.http.get<GetSubjectsApiResponse>(`${this.apiUrl}?page=${page}&size=5`, { headers: headers })
+  }
+
+  getSubjectById(courseId: number): Observable<GetSubjectApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.get<GetSubjectApiResponse>(`http://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
   }
 }

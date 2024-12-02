@@ -100,7 +100,10 @@
 }
 
 .students-table-container .students-table {
+  display: flex;
+  flex-direction: column;
   background-color: #F6F6F6;
+  min-height: 196px;
 }
 
 .students-table .table-rows-container {
@@ -259,4 +262,9 @@
   font-weight: 600;
   margin-bottom: 22px;
   max-width: 250px;
+}
+
+.empty-table {
+  margin: auto auto;
+  color: rgba(122, 122, 122, 1);
 }

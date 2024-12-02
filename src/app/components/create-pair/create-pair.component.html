@@ -1,0 +1,204 @@
+<div class="create-subject-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button"
+        [routerLink]="isEditMode ? ['/pairs'] : ['/main']">
+      <h2 class="title">{{ isEditMode ? 'Редактирование пары' : 'Запланировать пару' }}</h2>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="create-container">
+      <!-- Название пары -->
+      <div class="row subject-name">
+        <h3 class="row-title">Название пары</h3>
+        <input type="text" class="custom-input" placeholder="Введите название пары" />
+      </div>
+
+      <!-- Предмет -->
+      <div class="row subject">
+        <h3 class="row-title">Предмет</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('subject')">
+            <span class="placeholder" *ngIf="!selectedSubject">Выберите предмет</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedSubject">{{ selectedSubject }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['subject']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['subject']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let subject of subjects" (click)="selectOption('subject', subject)">
+                {{ subject }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Время проведения -->
+      <div class="row time-range">
+        <h3 class="row-title">Время проведения</h3>
+        <div class="time-select-container">
+          <div class="custom-select time-select" (click)="toggleDropdown('startTime')">
+            <span class="placeholder" *ngIf="!selectedStartTime">Выберите время начала пары</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedStartTime">{{ selectedStartTime }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['startTime']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['startTime']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let time of startTimes" (click)="selectOption('startTime', time)">
+                {{ time }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="time-select-container">
+          <div class="custom-select time-select" (click)="toggleDropdown('endTime')">
+            <span class="placeholder" *ngIf="!selectedEndTime">Выберите время окончания пары</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedEndTime">{{ selectedEndTime }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['endTime']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['endTime']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let time of endTimes" (click)="selectOption('endTime', time)">
+                {{ time }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Дата проведения -->
+      <div class="row date-picker">
+        <h3 class="row-title">Дата проведения</h3>
+        <input type="date" class="custom-input date-input" [placeholder]="selectedDate ? '' : 'Выберите дату'"
+          [(ngModel)]="selectedDate" />
+      </div>
+
+      <!-- Формат -->
+      <div class="row format">
+        <h3 class="row-title">Формат</h3>
+        <div class="radio-buttons">
+          <label>
+            <img [src]="selectedFormat === 'Очное' ? '/img/active-radio.svg' : '/img/disable-radio.svg'" alt="radio" />
+            <input type="radio" name="format" [(ngModel)]="selectedFormat" [value]="'Очное'" />
+            Очно
+          </label>
+          <label>
+            <img [src]="selectedFormat === 'Онлайн' ? '/img/active-radio.svg' : '/img/disable-radio.svg'" alt="radio" />
+            <input type="radio" name="format" [(ngModel)]="selectedFormat" [value]="'Онлайн'" />
+            Онлайн
+          </label>
+        </div>
+      </div>
+
+      <!-- Адрес -->
+      <div class="row address">
+        <h3 class="row-title">Адрес</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('address')">
+            <span class="placeholder" *ngIf="!selectedAddress">Выберите адрес</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedAddress">{{ selectedAddress }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['address']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['address']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let address of addresses" (click)="selectOption('address', address)">
+                {{ address }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Институт -->
+      <div class="row institute">
+        <h3 class="row-title">Институт</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('institute')">
+            <span class="placeholder" *ngIf="!selectedInstitute">Выберите институт</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedInstitute">{{ selectedInstitute }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['institute']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['institute']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let institute of institutes"
+                (click)="selectOption('institute', institute)">
+                {{ institute }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кабинет -->
+      <div class="row classroom">
+        <h3 class="row-title">Кабинет</h3>
+        <div class="custom-select-container">
+          <div class="custom-select" (click)="toggleDropdown('classroom')">
+            <span class="placeholder" *ngIf="!selectedClassroom">Выберите кабинет</span>
+            <div class="selected-value-container">
+              <span class="selected-value" *ngIf="selectedClassroom">{{ selectedClassroom }}</span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['classroom']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['classroom']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let classroom of classrooms"
+                (click)="selectOption('classroom', classroom)">
+                {{ classroom }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Преподаватели -->
+      <div class="row teacher-names">
+        <h3 class="row-title">Имена преподавателей</h3>
+        <div class="custom-select-container">
+          <div class="custom-select custom-select-teacher" (click)="toggleDropdown('teachers')">
+            <span class="placeholder" *ngIf="!selectedTeachers?.length">Выберите преподавателей</span>
+            <div class="selected-value-container-teacher" *ngIf="selectedTeachers?.length">
+              <span class="selected-teacher" *ngFor="let teacher of selectedTeachers">
+                {{ teacher }}
+                <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon"
+                  (click)="removeTeacher(teacher, $event)" />
+              </span>
+            </div>
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              [class.rotated]="isDropdownOpen['teachers']" />
+          </div>
+          <div class="dropdown-list" *ngIf="isDropdownOpen['teachers']">
+            <div class="dropdown-items-container">
+              <div class="dropdown-item" *ngFor="let teacher of teachers" (click)="selectOption('teachers', teacher)">
+                {{ teacher }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-content">
+    <button class="small-button blue-button create-button">Запланировать</button>
+  </div>
+</div>

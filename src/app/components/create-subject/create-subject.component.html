@@ -3,8 +3,9 @@
 
   <div class="top-content">
     <div class="flex">
-      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/main']">
-      <h2 class="title">Создать предмет</h2>
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button"
+        [routerLink]="isEditMode ? ['/subjects'] : ['/main']">
+      <h2 class="title">{{ isEditMode ? 'Редактирование предмета' : 'Создать предмет' }}</h2>
     </div>
   </div>
 
@@ -72,10 +73,10 @@
                   (click)="removeTeacher(teacher, $event)" />
               </span>
             </div>
-            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon" *ngIf="!selectedTeachers"
-              [class.rotated]="isDropdownOpen['teachers']" />
-            <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" *ngIf="selectedTeachers"
-              (click)="selectClear('teachers', $event)">
+            <img src="/img/dropdown-icon.svg" alt="dropdown-icon" class="dropdown-icon"
+              *ngIf="!selectedTeachers || selectedTeachers.length === 0" [class.rotated]="isDropdownOpen['teachers']" />
+            <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon"
+              *ngIf="selectedTeachers && selectedTeachers.length !== 0" (click)="selectClear('teachers', $event)">
           </div>
           <div class="dropdown-list" *ngIf="isDropdownOpen['teachers']">
             <div class="dropdown-items-container">
@@ -90,16 +91,19 @@
           </div>
         </div>
       </div>
-      <div class="row create-link-container">
+      <div class="row create-link-container" *ngIf="!isEditMode">
         <h3 class="row-title">Создать постоянную ссылку</h3>
         <div class="custom-checkbox" (click)="toggleCheckbox()">
           <img [src]="isCheckboxActive ? '/img/checkbox-active.svg' : '/img/checkbox-disabled.svg'"
             alt="checkbox-icon" />
         </div>
       </div>
+
     </div>
 
-    <button class="small-button blue-button create-button">Создать</button>
+    <button class="small-button blue-button create-button">
+      {{ isEditMode ? 'Сохранить' : 'Создать' }}
+    </button>
   </div>
 
 </div>

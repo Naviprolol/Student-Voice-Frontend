@@ -26,15 +26,6 @@ export class PairsComponent implements OnInit {
   rows: Pair[] = []; // Данные, полученные с сервера
   totalPages: number = 0;
 
-  // rows = [
-  //   { subject: 'Информационные технологии', date: '28.10.2024', time: '19:15-20:45', status: 'нировано', rating: 5.0 },
-  //   { subject: 'Математика', date: '29.10.2024', time: '09:00-10:30', status: 'Запланировано', rating: 3.5 },
-  //   { subject: 'Физика', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано' },
-  //   { subject: 'История', date: '31.10.2024', time: '13:00-14:30', status: 'Запланировано', rating: 4.2 },
-  //   { subject: 'Химия', date: '01.11.2024', time: '15:00-16:30', status: 'Запланировано', rating: 2.3 },
-  //   { subject: 'Биология', date: '02.11.2024', time: '17:00-18:30', status: 'Запланировано', rating: 4.7 }
-  // ];
-
   currentPage = 0;
   itemsPerPage = 5;
 
@@ -83,11 +74,11 @@ export class PairsComponent implements OnInit {
   }
 
   // Постраничное отображение пар
-  get paginatedRows() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredRows.slice(start, end);
-  }
+  // get paginatedRows() {
+  //   const start = this.currentPage * this.itemsPerPage;
+  //   const end = start + this.itemsPerPage;
+  //   return this.filteredRows.slice(start, end);
+  // }
 
   // get totalPages() {
   //   return Math.max(Math.ceil(this.filteredRows.length / this.itemsPerPage), 1);
@@ -109,7 +100,6 @@ export class PairsComponent implements OnInit {
 
   onSearchTermChange() {
     this.currentPage = 0;
-    console.log(this.paginatedRows);
   }
 
 

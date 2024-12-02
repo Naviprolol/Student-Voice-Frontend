@@ -3,25 +3,27 @@
 
   <div class="top-content">
     <div class="flex">
-      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/pair']">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button"
+        [routerLink]="['/pair', lessonId]">
       <h2 class="title">Список посещения</h2>
     </div>
   </div>
 
   <div class="main-content-container">
     <div class="students-table-container">
+      <h3 class="empty-table" *ngIf="rows && rows.length === 0"><span>Никто не посещал пару</span></h3>
       <div class="table-columns-container">
         <div class="students-columns">
           <!-- Отображение колонок -->
           <div class="column" *ngFor="let column of paginatedStudents">
             <div class="student-name" *ngFor="let student of column">
-              {{ student.FIO }}
+              {{ student.fio }}
             </div>
           </div>
         </div>
       </div>
       <!-- Пагинация -->
-      <div class="pagination">
+      <div class="pagination" *ngIf="rows && rows.length > 24">
         <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
           <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
         </button>
