@@ -207,10 +207,6 @@
   text-underline-offset: 3px;
 }
 
-.toggle-button:hover {
-  background-color: #163d76;
-}
-
 .review-details {
   margin-top: 16px;
   display: flex;

@@ -1,1 +1,82 @@
-<p>qr-filled works!</p>
+<div class="create-qr-page background-image">
+  <app-header></app-header>
+
+  <div class="top-content">
+    <div class="flex">
+      <img src="/img/return-button.svg" alt="return-button.svg" class="return-button" [routerLink]="['/pairs']">
+      <h2 class="title">QR код для отзыва</h2>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="left-content">
+      <h3 class="pair-name">Информационные технологии</h3>
+
+      <div class="pair-info-container">
+        <div class="pair-info">
+          <div class="pair-info-time">
+            <h3 class="pair-info-title">Время проведения</h3>
+            <div class="time-range">
+              <div class="time-start">
+                <h4 class="time-title">Начало</h4>
+                <div class="time"><span>28.10.2024 Пн 19:15</span></div>
+              </div>
+              <div class="time-end">
+                <h4 class="time-title">Завершение</h4>
+                <div class="time"><span>28.10.2024 Пн 20:45</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="pair-info-place">
+            <h3 class="pair-info-title">Место проведения</h3>
+            <div><span>Софьи Ковалевской 5, Т106б</span></div>
+          </div>
+        </div>
+      </div>
+      <button class="small-button transparent-button redirect-to-form-button"><span>Перейти к форме
+          отзыва</span></button>
+
+      <div class="time-picker-container">
+        <h3 class="time-picker-title">Выберите время, на которое ссылка станет рабочей</h3>
+        <div class="time-picker-main-container">
+          <!-- Часы -->
+          <div class="hours-container">
+            <p class="main-text time-picker-text">Час.</p>
+            <div class="hours-picker time-picker">
+              <div class="navigation" (click)="decreaseHours()">
+                <img src="/img/navigation-button-left.svg" alt="navigation-button-left.svg">
+              </div>
+              <p class="time-value">{{ hours }}</p>
+              <div class="navigation-right navigation" (click)="increaseHours()">
+                <img src="/img/navigation-button-right.svg" alt="navigation-button-right.svg">
+              </div>
+            </div>
+          </div>
+
+          <!-- Минуты -->
+          <div class="minutes-container">
+            <p class="main-text time-picker-text">Мин.</p>
+            <div class="minutes-picker time-picker">
+              <div class="navigation" (click)="decreaseMinutes()">
+                <img src="/img/navigation-button-left.svg" alt="navigation-button-left.svg">
+              </div>
+              <p class="time-value">{{ minutes }}</p>
+              <div class="navigation-right navigation" (click)="increaseMinutes()">
+                <img src="/img/navigation-button-right.svg" alt="navigation-button-right.svg">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="blue-button small-button">Временно включить ссылку</button>
+    </div>
+    <div class="right-content">
+      <div class="qr-img-container"><img src="/img/qr-code.svg" alt="qr-img" class="qr-img"></div>
+      <button class="blue-button small-button save-img-button">Скачать изображение</button>
+      <div class="copy-link-container">
+        <a class="copy-link">Скопировать ссылку</a>
+        <img src="img/copy-icon.svg" alt="">
+      </div>
+    </div>
+  </div>
+</div>

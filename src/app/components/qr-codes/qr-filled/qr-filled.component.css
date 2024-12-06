@@ -1,0 +1,134 @@
+.top-content {
+  margin-top: 34px;
+  margin-bottom: 62px;
+}
+
+.title {
+  margin-left: 67px;
+  color: #0F2B5E;
+  padding-top: 6px;
+  line-height: 48px;
+}
+
+.main-content {
+  display: flex;
+  gap: 265px;
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+}
+
+.left-content .pair-name {
+  color: #0F2B5E;
+  margin-bottom: 60px;
+}
+
+.pair-info-container {
+  max-width: 1265px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.pair-info-container .pair-info {
+  width: 760px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pair-info-time .time-range {
+  width: 380px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pair-info-container .pair-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.pair-info-container .pair-info-title {
+  color: #0F2B5E;
+  margin-bottom: 40px;
+}
+
+.time-range .time {
+  width: 115px;
+  line-height: 22px;
+}
+
+.time-range .time-title {
+  margin-bottom: 8px;
+}
+
+.redirect-to-form-button {
+  border: 2px solid #1E4391;
+  margin-bottom: 60px;
+}
+
+.redirect-to-form-button span {
+  color: #1E4391;
+  font-weight: 600;
+}
+
+.time-picker-container {
+  width: 675px;
+  margin-bottom: 40px;
+}
+
+.time-picker-title {
+  color: #0F2B5E;
+  margin-bottom: 40px;
+}
+
+.time-picker-container .time-picker-main-container {
+  display: flex;
+  gap: 16px;
+}
+
+.time-picker-text {
+  margin-bottom: 8px;
+}
+
+.time-picker-main-container .time-picker {
+  width: 240px;
+  height: 50px;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: space-between;
+}
+
+.time-picker .navigation {
+  width: 30px;
+  height: 30px;
+}
+
+.right-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-content .qr-img-container {
+  margin-bottom: 35px;
+}
+
+.right-content .save-img-button {
+  margin-bottom: 20px;
+}
+
+.right-content .copy-link-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+}
+
+.copy-link-container .copy-link {
+  color: #1E4391;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
