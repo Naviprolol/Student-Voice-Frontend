@@ -12,10 +12,13 @@
 
 .main-content {
   display: flex;
-  gap: 265px;
   width: 100%;
   max-width: 1264px;
   margin: 0 auto;
+}
+
+.settings-on-container {
+  margin-right: 265px;
 }
 
 .left-content .pair-name {
@@ -36,7 +39,7 @@
   justify-content: space-between;
 }
 
-.pair-info-time .time-range {
+.pair-info-time .time-range-container {
   width: 380px;
   display: flex;
   justify-content: space-between;
@@ -52,12 +55,12 @@
   margin-bottom: 40px;
 }
 
-.time-range .time {
+.time-range-container .time {
   width: 115px;
   line-height: 22px;
 }
 
-.time-range .time-title {
+.time-range-container .time-title {
   margin-bottom: 8px;
 }
 
@@ -77,6 +80,7 @@
 }
 
 .time-picker-title {
+  text-wrap: nowrap;
   color: #0F2B5E;
   margin-bottom: 40px;
 }
@@ -97,14 +101,20 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
   justify-content: space-between;
 }
 
 .time-picker .navigation {
   width: 30px;
   height: 30px;
+}
+
+.time-picker .navigation-left {
+  margin-left: 10px;
+}
+
+.time-picker .navigation-right {
+  margin-right: 10px;
 }
 
 .right-content {
@@ -131,4 +141,272 @@
   color: #1E4391;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+
+
+
+/*  */
+
+
+
+.create-container {
+  margin-right: 16px;
+}
+
+.create-container .row-title {
+  color: #0F2B5E;
+}
+
+.create-container .row {
+  width: 625px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+/* Поле ввода названия предмета */
+.custom-input {
+  position: relative;
+  margin-left: auto;
+  width: 368px;
+  height: 64px;
+  background-color: #f6f6f6;
+  border-radius: 16px;
+  border: none;
+  padding: 0 26px 0 30px;
+  font-size: 16px;
+  color: #0f2b5e;
+  box-sizing: border-box;
+}
+
+.custom-input::placeholder {
+  color: #7a7a7a;
+}
+
+.custom-input:focus {
+  outline: none;
+}
+
+/*  */
+
+/* Основной контейнер для селекта */
+.custom-select-container {
+  position: relative;
+  width: 368px;
+  margin-left: auto;
+}
+
+/* Селект-элемент */
+.custom-select {
+  width: 100%;
+  height: 64px;
+  background-color: #F6F6F6;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0 26px 0 30px;
+  box-sizing: border-box;
+}
+
+/* Плейсхолдер */
+.placeholder {
+  color: #7A7A7A;
+  font-size: 16px;
+}
+
+/* Выбранное значение */
+.selected-value-container {
+  background-color: rgba(59, 166, 140, 0.4);
+  border-radius: 10px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.selected-value {
+  color: #0F2B5E;
+  padding: 0 8px;
+}
+
+/* Иконка дропдауна */
+.dropdown-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s;
+}
+
+.cancel-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Контейнер выпадающего списка */
+.dropdown-list {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background-color: #F6F6F6;
+  border-radius: 16px;
+  z-index: 1000;
+  border: 2px solid white;
+}
+
+/* Список внутри дропдауна */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  word-wrap: break-word;
+  line-height: 22px;
+  margin-bottom: 20px;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(15, 43, 94, 0.1);
+}
+
+/* Контейнер строк в дропдауне */
+.dropdown-items-container {
+  max-height: 232px;
+  margin-top: 30px;
+  padding-left: 32px;
+  margin-right: 30px;
+  /* Отступ справа внутри контейнера */
+  overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+  /* Для контента внутри */
+}
+
+.dropdown-item.last-row {
+  margin-bottom: 0;
+}
+
+/* Стили чекбокса */
+.create-link-container {
+  display: flex;
+  align-items: center;
+}
+
+.create-link-container .row-title {}
+
+.custom-checkbox {
+  width: 30px;
+  /* Размер чекбокса */
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox img {
+  width: 100%;
+  height: 100%;
+}
+
+.create-button {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/*  */
+
+/* Для отображения выбранных преподавателей */
+.selected-value-container-teacher {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Добавляем перенос на новую строку */
+  gap: 10px;
+  /* Расстояние между элементами */
+  max-width: 500px;
+  /* Ограничиваем ширину */
+  padding: 10px 0;
+  /* Добавляем отступы сверху и снизу */
+  box-sizing: border-box;
+  /* Учитываем отступы в размере контейнера */
+}
+
+/* Стили для каждого выбранного преподавателя */
+.selected-teacher {
+  background-color: rgba(59, 166, 140, 0.4);
+  border-radius: 10px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  /* Увеличиваем отступы внутри блока */
+  box-sizing: border-box;
+  /* Учитываем отступы внутри */
+}
+
+.custom-select-teacher {
+  flex-wrap: wrap;
+  /* Увеличиваем высоту при переносе строк */
+  min-height: 64px;
+  box-sizing: border-box;
+  height: auto;
+  /* Высота подстраивается под содержимое */
+}
+
+.selected-teacher img.cancel-icon {
+  margin-right: 5px;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+
+
+/*  */
+
+.time-select-container {
+  width: 368px;
+  position: relative;
+}
+
+.time-range {
+  min-width: 1010px;
+  display: flex;
+  gap: 10px;
+}
+
+.radio-buttons {
+  display: flex;
+  gap: 40px;
+  margin-left: 160px;
+}
+
+.radio-buttons label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.radio-buttons img {
+  width: 24px;
+  height: 24px;
+}
+
+.radio-buttons input[type="radio"] {
+  display: none;
+}
+
+.bottom-content {
+  padding-bottom: 60px;
 }

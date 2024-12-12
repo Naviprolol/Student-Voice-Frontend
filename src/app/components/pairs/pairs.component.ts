@@ -38,10 +38,24 @@ export class PairsComponent implements OnInit {
 
   // Загрузка пар с сервера
   loadPairs(page: number): void {
-    this.pairsService.getPairsByPage(page).subscribe(response => {
+    const searchText = this.searchTerm.trim();
+    this.pairsService.getPairsByPage(page, searchText).subscribe(response => {
       this.rows = response.content;
       this.totalPages = response.totalPages;
     });
+  }
+
+  // Событие для кнопки поиска
+  onSearchClick(): void {
+    this.currentPage = 0; // Сбрасываем страницу
+    this.loadPairs(this.currentPage);
+  }
+
+  // Событие для нажатия Enter в поле ввода
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.onSearchClick(); // Отправляем запрос
+    }
   }
 
   setNewWeekRange(newDate: Date) {
@@ -65,24 +79,6 @@ export class PairsComponent implements OnInit {
   toggleCalendar() {
     this.isCalendarOpen = !this.isCalendarOpen
   }
-
-  // Фильтрация пар
-  get filteredRows() {
-    return this.rows.filter(row =>
-      row.course_name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
-
-  // Постраничное отображение пар
-  // get paginatedRows() {
-  //   const start = this.currentPage * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
-  //   return this.filteredRows.slice(start, end);
-  // }
-
-  // get totalPages() {
-  //   return Math.max(Math.ceil(this.filteredRows.length / this.itemsPerPage), 1);
-  // }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {

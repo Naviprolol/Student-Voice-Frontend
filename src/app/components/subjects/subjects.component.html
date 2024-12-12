@@ -9,9 +9,10 @@
     </div>
     <div class="top-right-content">
       <div class="search-bar">
-        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon" (click)="onSearchClick()">
+        <!-- Запрос по клику -->
         <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
-          (ngModelChange)="onSearchTermChange()">
+          (keydown)="onKeyPress($event)"> <!-- Запрос по нажатию Enter -->
       </div>
       <div class="filters">
         <button class="filter">
@@ -36,7 +37,7 @@
       <h4 class="column time">Место проведения</h4>
     </div>
 
-    <div class="no-results" *ngIf="filteredRows && filteredRows.length === 0">
+    <div class="no-results" *ngIf="rows.length === 0">
       Ничего не найдено
     </div>
 

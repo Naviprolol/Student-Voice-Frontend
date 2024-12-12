@@ -14,11 +14,16 @@ export class SubjectsService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getSubjectsByPage(page: number): Observable<GetSubjectsApiResponse> {
-    const token = localStorage.getItem('authToken')
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+  getSubjectsByPage(page: number, searchText?: string): Observable<GetSubjectsApiResponse> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    let url = `${this.apiUrl}?page=${page}&size=5`;
 
-    return this.http.get<GetSubjectsApiResponse>(`${this.apiUrl}?page=${page}&size=5`, { headers: headers })
+    if (searchText) {
+      url += `&search-text=${encodeURIComponent(searchText)}`;
+    }
+
+    return this.http.get<GetSubjectsApiResponse>(url, { headers });
   }
 
   getSubjectById(courseId: number): Observable<GetSubjectApiResponse> {

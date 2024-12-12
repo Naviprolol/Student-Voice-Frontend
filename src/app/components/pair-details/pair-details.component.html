@@ -29,8 +29,9 @@
         </div>
       </div>
       <div class="pair-buttons">
-        <button class="blue-button small-button">Редактировать</button>
-        <button class="blue-button small-button generate-button">Сгенерировать<img src="/img/generate-qr-icon.svg"
+        <button class="blue-button small-button" [routerLink]="['/edit/pair', pair.lesson_id]">Редактировать</button>
+        <button class="blue-button small-button generate-button"
+          [routerLink]="['/edit/pair-qr', pair.lesson_id]">Сгенерировать<img src="/img/generate-qr-icon.svg"
             alt="generate-qr-icon"></button>
       </div>
     </div>
@@ -39,7 +40,7 @@
       <div class="table-headers">
         <h3 class="table-header">Список студентов</h3>
         <button class="redirect-button small-button" [routerLink]="['/pair', pair.lesson_id, 'visit-list']">
-          Перейти к списку посещения
+          Перейти к выгрузке списка
         </button>
         <button (click)="toggleSetting()" class="small-button red-button setting-on-button">
           {{setting ? 'Отключить настройку' : 'Включить настройку'}}</button>
@@ -75,34 +76,14 @@
                   {{ row.comment || 'Отзыв отсутствует' }} </span>
                 <div class="toggle-button" (click)="toggleReview(row)" *ngIf="!row.expanded">Развернуть</div>
                 <div class="review-details" *ngIf="row.expanded">
-                  <div class="review-category first-category">
-                    <span class="review-category-text">Подача материала:</span>
-                    <div class="stars">
-                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
-                    </div>
-                  </div>
-                  <div class="review-category second-category">
-                    <span class="review-category-text">Полезность материала:</span>
-                    <div class="stars">
-                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
-                    </div>
-                  </div>
-                  <div class="review-category third-category">
-                    <span class="review-category-text">Взаимодействие со студентами:</span>
-                    <div class="stars">
-                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
-                    </div>
-                  </div>
-                  <div class="review-category fourth-category">
-                    <span class="review-category-text">Аудитория и оборудование:</span>
-                    <div class="stars">
-                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
-                    </div>
-                  </div>
-                  <div class="review-category fifth-category">
-                    <span class="review-category-text">Атмосфера на паре:</span>
-                    <div class="stars">
-                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of stars">
+                  <div class="review-category" *ngFor="let stat of row.statistic_rating_list">
+                    <span class="review-category-text">{{stat.category_name}}</span>
+                    <div class="stars" *ngIf="stat.rating">
+                      <!-- Полные звезды -->
+                      <img src="/img/full-star.svg" alt="star" *ngFor="let star of [].constructor(stat.rating)" />
+
+                      <!-- Пустые звезды -->
+                      <img src="/img/empty-star.svg" alt="star" *ngFor="let star of [].constructor(5 - stat.rating)" />
                     </div>
                   </div>
                   <div class="toggle-button" (click)="toggleReview(row)" *ngIf="row.expanded">Свернуть</div>

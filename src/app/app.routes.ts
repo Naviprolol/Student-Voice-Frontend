@@ -13,6 +13,7 @@ import { TeacherScheduleComponent } from './components/teacher-schedule/teacher-
 import { CreateSubjectComponent } from './components/create-subject/create-subject.component';
 import { CreatePairComponent } from './components/create-pair/create-pair.component';
 import { QrFilledComponent } from './components/qr-codes/qr-filled/qr-filled.component';
+import { QrFormComponent } from './components/qr-form/qr-form.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -30,6 +31,8 @@ export const routes: Routes = [
   { path: 'edit/subject/:id', canActivate: [AuthGuard], component: CreateSubjectComponent },
   { path: 'edit/pair/:id', canActivate: [AuthGuard], component: CreatePairComponent },
   { path: 'qr', canActivate: [AuthGuard], component: QrFilledComponent },
+  { path: 'edit/pair-qr/:id', canActivate: [AuthGuard], component: QrFilledComponent },
+  { path: 'form', canActivate: [AuthGuard], component: QrFormComponent }
 ];
 
 @NgModule({

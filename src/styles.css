@@ -66,6 +66,7 @@ summary,
 time,
 mark,
 audio,
+textarea,
 video {
   margin: 0;
   padding: 0;
@@ -76,6 +77,11 @@ video {
   vertical-align: baseline;
   background: transparent;
   font-style: normal;
+}
+
+textarea {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
 }
 
 b {
@@ -207,6 +213,7 @@ select {
   vertical-align: middle;
 }
 
+
 html,
 body {
   height: 100%;
@@ -251,6 +258,10 @@ h4 {
 .descriptor {
   font-weight: 700;
   font-size: 14px;
+}
+
+.blue {
+  color: #0F2B5E;
 }
 
 /* -------------------------------------------------- */
@@ -529,4 +540,23 @@ input[type="radio"] {
   position: absolute;
   left: 60%;
   top: 150px;
+}
+
+
+/* Кастомный скролл */
+.dropdown-items-container::-webkit-scrollbar {
+  width: 7px;
+  /* Ширина всего скроллбара */
+}
+
+.dropdown-items-container::-webkit-scrollbar-thumb {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  border: 2px solid #0F2B5E;
+  /* Создаем видимость тонкости */
+}
+
+.dropdown-items-container::-webkit-scrollbar-track {
+  background-color: #0F2B5E;
+  border-radius: 5px;
 }

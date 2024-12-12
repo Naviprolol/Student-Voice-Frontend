@@ -1,0 +1,51 @@
+<div class="form-page">
+  <div class="container">
+    <div class="left-top-circle"></div>
+    <div class="left-bottom-circle"></div>
+    <div class="right-circle"></div>
+    <div class="second-right-circle"></div>
+    <div class="third-right-circle"></div>
+  </div>
+  <div class="top-content blue">
+    <h2 class="main-title">Оценка пары</h2>
+    <div class="pair-time-container">
+      <h3 class="pair-date">28.10.2024</h3>
+      <p><span class="main-text pair-time">19:15-20:45</span></p>
+    </div>
+    <p class="subject-name"><span class="main-text">Предмет “Информационные технологии”</span></p>
+    <p class="teacher-name"><span class="main-text">Преподаватель: Иванов Иван Иванович</span></p>
+  </div>
+
+  <div class="main-content" *ngIf="setting">
+    <div class="input-fio-container">
+      <p class="user-fio-header"><span class="main-text">ФИО</span><span class="required-star">*</span></p>
+      <input id="user-fio" type="text" class="input-field user-fio" placeholder="Введите ваше ФИО">
+    </div>
+    <div *ngFor="let question of questions; let i = index" class="question-block">
+      <p class="question-text blue main-text">Насколько вы удовлетворены
+        <span class="bold-part">{{ question }}</span><span class="required-star bold-part">*</span>
+      </p>
+      <div class="ratings">
+        <div class="rating" *ngFor="let rating of ratings" (click)="selectRating(i, rating.value)">
+          <img [src]="isRatingSelected(i, rating.value) ? '/img/active-radio.svg' : '/img/disable-radio.svg'"
+            alt="Radio" class="radio-icon" />
+          <span class="rating-text main-text">{{ rating.text }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment-container">
+      <p class="comment-header blue"><span class="main-text comment-text">Комментарий</span></p>
+      <textarea id="user-comment" type="text" class="input-field user-comment"
+        placeholder="Введите комментарий"></textarea>
+    </div>
+
+    <button class="blue-button small-button send-button">Отправить</button>
+  </div>
+
+  <div class="main-content disable-container" *ngIf="!setting">
+    <h2 class="disable-main-title">Оценка пары недоступна.</h2>
+    <h3 class="disable-title">Описание причины...</h3>
+  </div>
+
+</div>

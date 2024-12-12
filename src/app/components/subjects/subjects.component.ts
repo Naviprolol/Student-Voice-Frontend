@@ -7,6 +7,9 @@ import { AuthService } from '../../services/auth.service';
 import { SubjectsService } from '../../services/subjects.service';
 import { Subject } from '../../interfaces/interfaces';
 
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject as RxSubject } from 'rxjs';
+
 @Component({
   selector: 'app-subjects',
   standalone: true,
@@ -19,6 +22,11 @@ export class SubjectsComponent implements OnInit {
   totalPages: number = 0;
   rows: Subject[] = [];
 
+  searchTerm: string = '';
+
+  currentPage = 0;
+  itemsPerPage = 5;
+
   constructor(private subjectsService: SubjectsService) { }
 
   ngOnInit() {
@@ -26,29 +34,26 @@ export class SubjectsComponent implements OnInit {
   }
 
 
+  // Метод для загрузки предметов
   loadSubjects(page: number): void {
-    this.subjectsService.getSubjectsByPage(page).subscribe(response => {
-      this.rows = response.content; // Теперь TypeScript знает, что это массив Subject[]
-      this.totalPages = response.totalPages; // totalPages существует в ApiResponse
+    const searchText = this.searchTerm.trim();
+    this.subjectsService.getSubjectsByPage(page, searchText).subscribe(response => {
+      this.rows = response.content;
+      this.totalPages = response.totalPages;
     });
   }
 
-  searchTerm: string = '';
-
-  currentPage = 0;
-  itemsPerPage = 5;
-
-  get filteredRows() {
-    return this.rows.filter(row =>
-      row.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  // Обновление поиска
+  onSearchClick(): void {
+    this.currentPage = 0; // Сбрасываем страницу
+    this.loadSubjects(this.currentPage);
   }
 
-  // get totalPages() {
-  //   const filteredRows = this.filteredRows;
-  //   return Math.max(Math.ceil(filteredRows.length / this.itemsPerPage), 1);
-  // }
-
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.onSearchClick(); // Отправляем запрос
+    }
+  }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
@@ -62,10 +67,5 @@ export class SubjectsComponent implements OnInit {
       this.currentPage--;
       this.loadSubjects(this.currentPage);
     }
-  }
-
-  // Сброс текущей страницы при изменении поискового запроса
-  onSearchTermChange() {
-    this.currentPage = 0;
   }
 }

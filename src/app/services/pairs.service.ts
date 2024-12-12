@@ -12,10 +12,17 @@ export class PairsService {
   constructor(private http: HttpClient) { }
 
   // Получение всех пар
-  getPairsByPage(page: number): Observable<GetPairsApiResponse> {
+  getPairsByPage(page: number, searchText?: string): Observable<GetPairsApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    return this.http.get<GetPairsApiResponse>(`${this.apiUrl}/list?page=${page}&size=5`, { headers: headers })
+
+    let url = `${this.apiUrl}/list?page=${page}&size=5`;
+
+    if (searchText) {
+      url += `&search-text=${encodeURIComponent(searchText)}`;
+    }
+
+    return this.http.get<GetPairsApiResponse>(url, { headers: headers })
   }
 
   // Получение пар по предмету

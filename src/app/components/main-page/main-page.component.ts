@@ -3,8 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CustomDatePickerComponent } from '../../shared/custom-datepicker/custom-datepicker.component';
 import { FormsModule } from '@angular/forms';
-import { RatingRow } from '../../interfaces/interfaces';
+import { RatingRow, Subject } from '../../interfaces/interfaces';
 import { RouterModule } from '@angular/router';
+import { SubjectsService } from '../../services/subjects.service';
 
 @Component({
   selector: 'app-main-page',
@@ -17,7 +18,13 @@ export class MainPageComponent implements OnInit {
 
   rating: number = 5.0; // Рейтинг от 0 до 5
   starsArray: number[] = [1, 2, 3, 4, 5]; // Массив для пяти звезд
+
+  rows: Subject[] = [];
   searchTerm: string = '';
+  totalPages: number = 0;
+
+  currentPage = 0;
+  itemsPerPage = 5;
 
   ratingRows: RatingRow[] = [
     { title: 'Подача материала', rating: 4.8 },
@@ -33,19 +40,11 @@ export class MainPageComponent implements OnInit {
     { dayOfWeek: this.getDayOfWeek(2), date: this.getFormattedDate(2), pairs: [] }
   ];
 
-  subjects = [
-    { subject: 'Информационные технологии', place: 'Мира 32 / Р888', rating: 5.0 },
-    { subject: 'Теория и практика программной инженерии', place: 'Ленина Пушкина авбабав ква 12214', rating: 3.5 },
-    { subject: 'Физика', place: 'Мира 32 / Р888', rating: 1.0 },
-    { subject: 'История', place: 'Мира 32 / Р888', rating: 4.2 },
-    { subject: 'Химия', place: 'Мира 32 / Р888', rating: 2.3 },
-    { subject: 'Биология', place: 'Мира 32 / Р888', rating: 4.7 }
-  ];
-
-  currentPage = 0;
-  itemsPerPage = 5;
+  constructor(private subjectsService: SubjectsService) { }
 
   ngOnInit() {
+    this.loadSubjects(this.currentPage);
+
     this.ratingRows.forEach(row => {
       const fullStars = Math.floor(row.rating); // Полные звезды
       const hasHalfStar = row.rating % 1 > 0; // Есть ли половинчатая звезда
@@ -55,6 +54,27 @@ export class MainPageComponent implements OnInit {
       row.halfStar = hasHalfStar; // Boolean, есть ли половинчатая звезда
       row.badStars = Array(emptyStars).fill(1); // Массив из emptyStars элементов
     });
+  }
+
+  // Метод для загрузки предметов
+  loadSubjects(page: number): void {
+    const searchText = this.searchTerm.trim();
+    this.subjectsService.getSubjectsByPage(page, searchText).subscribe(response => {
+      this.rows = response.content;
+      this.totalPages = response.totalPages;
+    });
+  }
+
+  // Обновление поиска
+  onSearchClick(): void {
+    this.currentPage = 0; // Сбрасываем страницу
+    this.loadSubjects(this.currentPage);
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.onSearchClick(); // Отправляем запрос
+    }
   }
 
   // Получаем название дня недели на основе смещения
@@ -76,38 +96,17 @@ export class MainPageComponent implements OnInit {
     return `${day}.${month}`;
   }
 
-  get filteredRows() {
-    return this.subjects.filter(row =>
-      row.subject.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
-
-  get paginatedRows() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredRows.slice(start, end);
-  }
-
-  get totalPages() {
-    const filteredRows = this.filteredRows;
-    return Math.max(Math.ceil(filteredRows.length / this.itemsPerPage), 1);
-  }
-
   goToNextPage() {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
+      this.loadSubjects(this.currentPage);
     }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
+      this.loadSubjects(this.currentPage);
     }
   }
-
-  // Сброс текущей страницы при изменении поискового запроса
-  onSearchTermChange() {
-    this.currentPage = 0;
-  }
-
 }

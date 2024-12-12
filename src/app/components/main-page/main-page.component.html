@@ -85,9 +85,10 @@
   <div class="subjects">
     <div class="search">
       <div class="search-bar">
-        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon" (click)="onSearchClick()">
+        <!-- Запрос по клику -->
         <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
-          (ngModelChange)="onSearchTermChange()">
+          (keydown)="onKeyPress($event)"> <!-- Запрос по нажатию Enter -->
       </div>
       <div class="filters">
         <button class="filter">
@@ -111,31 +112,34 @@
         <h4 class="column time-title">Место проведения</h4>
       </div>
       <div class="table-container">
-        <div class="no-results" *ngIf="filteredRows.length === 0">
+
+        <div class="no-results" *ngIf="rows.length === 0">
           Ничего не найдено
         </div>
-        <div class="table-row" *ngFor="let subject of paginatedRows; let i = index"
-          [ngClass]="{ 'first-subject': i === 0 }">
-          <span class="cell subject-name">{{subject.subject}}</span>
-          <span class="cell place-name">{{subject.place}}</span>
+
+        <div class="table-row" *ngFor="let row of rows; let i = index" [ngClass]="{ 'first-subject': i === 0 }"
+          [routerLink]="['/subject', row.course_id]">
+          <span class="cell subject-name">{{row.name}}</span>
+          <span class="cell place-name">{{row.address}}</span>
           <div class="actions flex">
-            <div class="rating-subject-container" *ngIf="subject.rating" [ngClass]="{
-              'high-rating': subject.rating > 3.5,
-              'medium-rating': subject.rating > 2.0 && subject.rating <= 3.5,
-              'low-rating': subject.rating <= 2.0
+            <div class="rating-subject-container" *ngIf="row.rating" [ngClass]="{
+              'high-rating': row.rating > 3.5,
+              'medium-rating': row.rating > 2.0 && row.rating <= 3.5,
+              'low-rating': row.rating <= 2.0
             }">
-              <h4 class="rating-subject">{{ subject.rating.toFixed(1) }}</h4>
+              <h4 class="rating-subject">{{ row.rating.toFixed(1) }}</h4>
               <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-subject-img">
             </div>
             <img src="/img/delete-icon.svg" alt="delete-icon" class="icon">
-            <img src="/img/edit-icon.svg" alt="edit-icon" class="icon icon-last">
+            <img src="/img/edit-icon.svg" alt="edit-icon" class="icon icon-last"
+              [routerLink]="['/edit/subject', row.course_id]">
             <button class="blue-button reviews-button">Отзывы</button>
           </div>
         </div>
       </div>
 
       <!-- Пагинация -->
-      <div class="pagination">
+      <div class="pagination" *ngIf="rows && rows.length > 9">
         <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
           <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
         </button>

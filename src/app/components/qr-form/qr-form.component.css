@@ -1,0 +1,335 @@
+.form-page {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.required-star {
+  color: #EF302B;
+}
+
+.main-title,
+.pair-time-container,
+.subject-name,
+.teacher-name {
+  text-align: center;
+}
+
+.main-title {
+  margin-bottom: 40px;
+}
+
+.pair-time-container .pair-date {
+  margin-bottom: 8px;
+}
+
+.pair-time-container {
+  margin-bottom: 32px;
+}
+
+.subject-name {
+  margin-bottom: 32px;
+}
+
+.teacher-name {
+  margin-bottom: 50px;
+}
+
+.user-fio {
+  width: 752px;
+  box-sizing: border-box;
+  padding-left: 45px;
+}
+
+.input-fio-container .user-fio-header,
+.comment-container .comment-header {
+  margin-bottom: 12px;
+}
+
+.input-fio-container {
+  margin-bottom: 60px;
+}
+
+/*  */
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  width: 752px;
+}
+
+.disable-container {
+  height: 1200px;
+  align-items: center;
+}
+
+.disable-main-title {
+  margin-top: 60px;
+  margin-bottom: 40px;
+  color: #7A7A7A;
+}
+
+.disable-title {
+  color: #7A7A7A;
+}
+
+.bold-part {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.question-block {
+  margin-bottom: 60px;
+}
+
+.question-text {
+  margin-bottom: 28px;
+}
+
+.ratings {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.radio-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+}
+
+.comment-container {
+  margin-bottom: 32px;
+}
+
+.user-comment {
+  width: 752px;
+  height: 230px;
+  resize: none;
+  box-sizing: border-box;
+  padding-right: 45px;
+  padding-top: 10px;
+  padding-left: 45px;
+  padding-bottom: 10px;
+  overflow-y: auto;
+  text-align: left;
+  vertical-align: top;
+}
+
+.user-comment::-webkit-scrollbar {
+  width: 7px;
+}
+
+.user-comment::-webkit-scrollbar-thumb {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  border: 2px solid #7A7A7A;
+  /* Создаем видимость тонкости */
+}
+
+.user-comment::-webkit-scrollbar-track {
+  background-color: #7A7A7A;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.send-button {
+  display: flex;
+  align-self: center;
+  margin-bottom: 60px;
+}
+
+/* Родительский элемент должен иметь относительное позиционирование */
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.left-bottom-circle,
+.left-top-circle,
+.right-circle,
+.second-right-circle,
+.third-right-circle {
+  width: 95vw;
+  height: 95vw;
+  max-width: 1600px;
+  max-height: 1600px;
+  background: linear-gradient(50deg,
+      #1E93FF,
+      #01FFF0,
+      #C0FFE4,
+      #A5F4FF,
+      #F5FDFF);
+  border-radius: 50%;
+  filter: blur(150px);
+  position: absolute;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+.left-top-circle {
+  left: -1200px;
+  top: 300px;
+}
+
+.left-bottom-circle {
+  left: -1200px;
+  top: 2100px;
+}
+
+.right-circle {
+  left: 87.5vw;
+  top: 1200px;
+}
+
+.second-right-circle,
+.third-right-circle {
+  display: none;
+}
+
+
+@media (max-width: 780px) {
+
+  .main-title {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  .bold-part {
+    font-size: 16px;
+  }
+
+  .main-text {
+    font-size: 14px;
+  }
+
+  .pair-time-container .pair-date {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .pair-time-container {
+    margin-bottom: 20px;
+  }
+
+  .subject-name {
+    margin-bottom: 20px;
+  }
+
+  .teacher-name {
+    margin-bottom: 32px;
+  }
+
+  .user-fio {
+    width: 368px;
+    box-sizing: border-box;
+    padding-left: 30px;
+  }
+
+  .input-fio-container .user-fio-header,
+  .comment-container .comment-header {
+    margin-bottom: 10px;
+  }
+
+  .input-fio-container {
+    margin-bottom: 32px;
+  }
+
+  /*  */
+
+  .main-content {
+    width: 368px;
+  }
+
+  .question-block {
+    margin-bottom: 32px;
+  }
+
+  .question-text {
+    width: 380px;
+    margin-bottom: 20px;
+  }
+
+  .comment-container {
+    margin-bottom: 52px;
+  }
+
+  .user-comment {
+    width: 368px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .comment-text {
+    font-size: 16px;
+  }
+
+  .left-bottom-circle,
+  .left-top-circle,
+  .right-circle,
+  .second-right-circle,
+  .third-right-circle {
+    width: 240px;
+    height: 240px;
+    filter: blur(30px);
+  }
+
+  .left-top-circle {
+    left: -150px;
+    top: 0px;
+  }
+
+  .left-bottom-circle {
+    left: -150px;
+    top: 2250px;
+  }
+
+  .right-circle {
+    left: 92vw;
+    top: 400px;
+  }
+
+  .second-right-circle {
+    display: block;
+    /* Показываем мини-круг */
+    left: 92vw;
+    top: 1100px;
+  }
+
+  .third-right-circle {
+    display: block;
+    left: 92vw;
+    top: 1800px;
+  }
+
+  .disable-container {
+    height: 1200px;
+    align-items: center;
+  }
+
+  .disable-main-title {
+    font-size: 18px;
+    margin-top: 182px;
+    margin-bottom: 24px;
+    color: #7A7A7A;
+  }
+
+  .disable-title {
+    font-size: 14px;
+    color: #7A7A7A;
+  }
+}

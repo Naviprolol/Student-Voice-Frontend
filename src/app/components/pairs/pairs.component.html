@@ -31,9 +31,10 @@
     </div>
     <div class="top-right-content">
       <div class="search-bar">
-        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" placeholder="Введите название предмета" class="search-input" [(ngModel)]="searchTerm"
-          (ngModelChange)="onSearchTermChange()">
+        <img src="/img/search-icon.svg" alt="search-icon" class="search-icon" (click)="onSearchClick()">
+        <!-- Запрос по клику -->
+        <input type="text" placeholder="Введите название пары" class="search-input" [(ngModel)]="searchTerm"
+          (keydown)="onKeyPress($event)"> <!-- Запрос по нажатию Enter -->
       </div>
       <div class="filters">
         <button class="filter">
@@ -80,9 +81,11 @@
           <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
           <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
         </div>
-        <img *ngIf="!row.rating" src="/img/qr-code-icon.svg" alt="qr-code-icon.svg" class="icon">
+        <img *ngIf="!row.rating" src="/img/qr-code-icon.svg" alt="qr-code-icon.svg" class="icon"
+          [routerLink]="['/edit/pair-qr', row.lesson_id]">
         <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon" [routerLink]="['/edit/pair', row.lesson_id]">
-        <img src="/img/students-icon.png" alt="students-icon.png" class="icon">
+        <img src="/img/students-icon.png" alt="students-icon.png" class="icon"
+          [routerLink]="['/pair', row.lesson_id, 'visit-list']">
       </div>
     </div>
 
