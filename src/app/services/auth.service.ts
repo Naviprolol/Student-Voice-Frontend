@@ -2,6 +2,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+const API_BASE_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     const data = { username, password }
 
-    return this.http.post<{ token: string }>('http://213.189.217.151:8000/api/login', data).pipe(
+    return this.http.post<{ token: string }>(`${API_BASE_URL}/login`, data).pipe(
       map((response) => {
         // Сохраняем токен (например, в localStorage) и перенаправляем пользователя
         localStorage.setItem('authToken', response.token);

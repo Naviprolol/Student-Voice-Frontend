@@ -59,8 +59,6 @@ export class QrFilledComponent {
 
     this.qrService.getQrByPairId(pairId!).subscribe(response => {
       this.qrCodeImage = `data:image/png;base64,${response}`;
-
-      console.log(this.qrCodeImage)
     })
 
     this.isEditMode = !!pairId; // Если ID есть, режим редактирования
@@ -139,7 +137,6 @@ export class QrFilledComponent {
     this.isDropdownOpen[key] = false; // Закрыть список
   }
 
-
   formatDate(date: string): string {
     if (!date) {
       return ''; // Если дата пустая, возвращаем пустую строку
@@ -162,4 +159,53 @@ export class QrFilledComponent {
       return ''; // Возвращаем пустую строку при ошибке
     }
   }
+
+
+  // Скачка куаркода
+  downloadQrCode(): void {
+    if (!this.qrCodeImage) {
+      console.error('QR-код отсутствует.');
+      return;
+    }
+
+    // Создаем элемент изображения
+    const img = new Image();
+    img.src = this.qrCodeImage;
+
+    // Ждем, пока изображение загрузится
+    img.onload = () => {
+      // Создаем canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Рисуем изображение на canvas
+        ctx.drawImage(img, 0, 0);
+
+        // Конвертируем canvas в Blob и загружаем
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            console.error('Ошибка создания Blob.');
+            return;
+          }
+
+          // Создаем ссылку для скачивания
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = 'qr-code.jpg'; // Имя файла
+          link.click();
+
+          // Освобождаем память
+          URL.revokeObjectURL(link.href);
+        }, 'image/jpeg'); // Указываем тип файла
+      }
+    };
+
+    img.onerror = () => {
+      console.error('Ошибка загрузки изображения.');
+    };
+  }
+
 }

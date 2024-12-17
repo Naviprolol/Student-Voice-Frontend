@@ -206,7 +206,7 @@
     </div>
     <div class="right-content">
       <div class="qr-img-container" *ngIf="qrCodeImage"><img [src]="qrCodeImage" alt="qr-img" class="qr-img" /></div>
-      <button class="blue-button small-button save-img-button">Скачать изображение</button>
+      <button class="blue-button small-button save-img-button" (click)="downloadQrCode()">Скачать изображение</button>
       <div class="copy-link-container">
         <a class="copy-link">Скопировать ссылку</a>
         <img src="img/copy-icon.svg" alt="">
