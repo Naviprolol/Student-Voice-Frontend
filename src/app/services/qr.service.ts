@@ -14,7 +14,7 @@ export class QrService {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get(`http://213.189.217.151:8000/api/lessons/qr-code/${id}`, { headers, responseType: 'text' });
+    return this.http.get(`https://213.189.217.151:8000/api/lessons/qr-code/${id}`, { headers, responseType: 'text' });
   }
 
 }

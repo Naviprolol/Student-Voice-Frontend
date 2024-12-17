@@ -54,8 +54,8 @@
           <div class="dropdown-list" *ngIf="isDropdownOpen['institute']">
             <div class="dropdown-items-container">
               <div class="dropdown-item" *ngFor="let institute of institutes; let last = last; let first = first;"
-                [ngClass]="{'last-row': last}" (click)="selectOption('institute', institute)">
-                {{ institute }}
+                [ngClass]="{'last-row': last}" (click)="selectOption('institute', institute.institute_full_name)">
+                {{ institute.institute_full_name }}
               </div>
             </div>
           </div>

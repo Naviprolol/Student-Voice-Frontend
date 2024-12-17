@@ -10,7 +10,7 @@ import { GetSubjectApiResponse, GetSubjectsApiResponse } from '../interfaces/int
 export class SubjectsService {
 
 
-  private apiUrl = 'http://213.189.217.151:8000/api/courses/list'; // URL для запроса
+  private apiUrl = 'https://213.189.217.151:8000/api/courses/list'; // URL для запроса
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -30,6 +30,6 @@ export class SubjectsService {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.get<GetSubjectApiResponse>(`http://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
+    return this.http.get<GetSubjectApiResponse>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
   }
 }

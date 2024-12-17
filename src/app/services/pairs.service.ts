@@ -7,7 +7,7 @@ import { GetPairsApiResponse, GetReviewsApiResponse, Pair, Review } from '../int
   providedIn: 'root'
 })
 export class PairsService {
-  private apiUrl = 'http://213.189.217.151:8000/api/lessons'; // URL для запроса
+  private apiUrl = 'https://213.189.217.151:8000/api/lessons'; // URL для запроса
 
   constructor(private http: HttpClient) { }
 
@@ -42,7 +42,7 @@ export class PairsService {
   getReviewsByPair(lesson_id: number, page: number, size: number): Observable<GetReviewsApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    return this.http.get<GetReviewsApiResponse>(`http://213.189.217.151:8000/api/reviews/list/by-lesson/${lesson_id}?page=${page}&size=${size}`, { headers: headers })
+    return this.http.get<GetReviewsApiResponse>(`https://213.189.217.151:8000/api/reviews/list/by-lesson/${lesson_id}?page=${page}&size=${size}`, { headers: headers })
   }
 
 }

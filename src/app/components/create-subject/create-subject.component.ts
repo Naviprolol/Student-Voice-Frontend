@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubjectsService } from '../../services/subjects.service';
+import { OtherService } from '../../services/other.service';
 
 @Component({
   selector: 'app-create-subject',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, RouterModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   templateUrl: './create-subject.component.html',
   styleUrl: './create-subject.component.css'
 })
@@ -22,22 +23,40 @@ export class CreateSubjectComponent implements OnInit {
   selectedInstitute: string | null = null;
   selectedTeachers: string[] | null = null;
 
-  addresses: string[] = ['Адрес 1', 'Адрес 2', 'Адрес 3', 'Адрес 4', 'Адрес 5', 'Адрес 6', 'Адрес 7', 'Адрес 8'];
-  institutes: string[] = ['Институт 1', 'Институт 2', 'Институт 3'];
-  teachers: string[] = ['Преподаватель 1', 'Преподаватель 2', 'Преподаватель 3', 'Преподаватель 4'];
-
   subjectName: string = '';
 
   isCheckboxActive: boolean = false;
 
-  constructor(private subjectsService: SubjectsService, private route: ActivatedRoute) { }
+  subjectForm!: FormGroup;
+  addresses: string[] = ['Адрес 1', 'Адрес 2', 'Адрес 3', 'Адрес 4'];
+  institutes: { institute_id: number; institute_full_name: string }[] = [];
+  selectedInstituteId: number | null = null;
+  teachers: string[] = ['Преподаватель 1', 'Преподаватель 2', 'Преподаватель 3', 'Преподаватель 4'];
+
+  constructor(private subjectsService: SubjectsService, private route: ActivatedRoute, private otherService: OtherService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.initForm();
+
+    this.otherService.getInstitutes().subscribe((response) => {
+      this.institutes = response;
+    });
+
     const subjectId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
     this.isEditMode = !!subjectId; // Если ID есть, режим редактирования
     if (this.isEditMode) {
       this.loadSubjectData(Number(subjectId));
     }
+  }
+
+  initForm(): void {
+    this.subjectForm = this.fb.group({
+      course_name: ['', Validators.required], // Название предмета
+      address: ['', Validators.required], // Адрес
+      institute_id: [null, Validators.required], // ID института
+      isConstantlyLink: [false], // Чекбокс
+      professor_id: [null], // Временный мок
+    });
   }
 
   loadSubjectData(id: number): void {
@@ -47,6 +66,20 @@ export class CreateSubjectComponent implements OnInit {
       // this.selectedInstitute = subject.;
       // this.selectedTeachers = subject.teachers || []; Добавить обработку института и преподавателей у предмета при редактировании
     });
+  }
+
+  onSubmit(): void {
+    if (this.subjectForm.valid) {
+      const formData = this.subjectForm.value;
+      console.log('Данные для отправки:', formData);
+
+      // После реализации метода отправки:
+      // this.subjectsService.createSubject(formData).subscribe((response) => {
+      //   console.log('Предмет создан:', response);
+      // });
+    } else {
+      console.error('Форма заполнена некорректно!');
+    }
   }
 
   toggleDropdown(type: string): void {

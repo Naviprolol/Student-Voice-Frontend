@@ -112,3 +112,8 @@ export interface GetReviewsApiResponse {
   numberOfElements: number;
   empty: boolean;
 }
+
+export interface Institute {
+  institute_id: number;
+  institute_full_name: string;
+}
