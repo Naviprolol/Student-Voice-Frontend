@@ -25,6 +25,7 @@ export class PairsComponent implements OnInit {
 
   rows: Pair[] = []; // Данные, полученные с сервера
   totalPages: number = 0;
+  totalElements: number = 0;
 
   currentPage = 0;
   itemsPerPage = 5;
@@ -42,6 +43,7 @@ export class PairsComponent implements OnInit {
     this.pairsService.getPairsByPage(page, searchText).subscribe(response => {
       this.rows = response.content;
       this.totalPages = response.totalPages;
+      this.totalElements = response.totalElements;
     });
   }
 

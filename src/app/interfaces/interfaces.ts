@@ -117,3 +117,16 @@ export interface Institute {
   institute_id: number;
   institute_full_name: string;
 }
+
+export interface Professor {
+  professor_id: number;
+  professor_fio: string;
+}
+
+export interface CreateSubjectApiResponse {
+  course_name: string;
+  address: string | null;
+  institute_id: number | null;
+  isConstantlyLink: boolean;
+  professor_ids: number[];
+}

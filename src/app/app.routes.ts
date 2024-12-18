@@ -32,7 +32,7 @@ export const routes: Routes = [
   { path: 'edit/pair/:id', canActivate: [AuthGuard], component: CreatePairComponent },
   { path: 'qr', canActivate: [AuthGuard], component: QrFilledComponent },
   { path: 'edit/pair-qr/:id', canActivate: [AuthGuard], component: QrFilledComponent },
-  { path: 'form', canActivate: [AuthGuard], component: QrFormComponent }
+  { path: 'form/:id', component: QrFormComponent }
 ];
 
 @NgModule({

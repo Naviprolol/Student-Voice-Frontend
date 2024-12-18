@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, resolveForwardRef } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
 import { CustomDatePickerComponent } from "../../shared/custom-datepicker/custom-datepicker.component";
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -26,6 +26,7 @@ export class SubjectDetailsComponent implements OnInit {
   itemsPerPage = 5;
   rows: Pair[] = [];
   totalPages: number = 0;
+  totalElements: number = 0;
 
   subjectName: string = '';
 
@@ -38,6 +39,9 @@ export class SubjectDetailsComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.courseId = params['id'];
+      this.subjectService.getSubjectById(this.courseId).subscribe((response) => {
+        this.subjectName = response.name
+      })
       this.loadPairsOfSubject(this.courseId, this.currentPage);
     });
   }
@@ -47,7 +51,7 @@ export class SubjectDetailsComponent implements OnInit {
     this.pairsService.getPairsOfSubject(courseId, page).subscribe(response => {
       this.rows = response.content;
       this.totalPages = response.totalPages;
-      this.subjectName = response.content[0].course_name;
+      this.totalElements = response.totalElements;
     });
   }
 

@@ -41,6 +41,18 @@
       Ничего не найдено
     </div>
 
+    <!-- Модальное окно -->
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" (click)="closeModal()">
+        <h3>Вы действительно хотите удалить предмет?</h3>
+        <div class="modal-buttons">
+          <button class="confirm-button" (click)="confirmDelete()">Да</button>
+          <button class="cancel-button" (click)="closeModal()">Отмена</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Таблица и её строки -->
     <div *ngFor="let row of rows" class="table-row" [routerLink]="['/subject', row.course_id]">
       <!-- Содержимое строки -->
@@ -55,14 +67,15 @@
           <h4 class="rating">{{ row.rating.toFixed(1) }}</h4>
           <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
         </div>
-        <img src="/img/delete-icon.svg" alt="delete-icon.svg" class="icon">
+        <div><img src="/img/delete-icon.svg" alt="delete-icon.svg" class="icon"
+            (click)="openDeleteModal(row.course_id); $event.stopPropagation()"></div>
         <img src="/img/edit-icon.svg" alt="edit-icon.svg" class="icon" [routerLink]="['/edit/subject', row.course_id]">
         <button class="blue-button reviews-button"><span class="reviews-text main-text">Отзывы</span></button>
       </div>
     </div>
 
     <!-- Пагинация -->
-    <div class="pagination" *ngIf="rows && rows.length > 5">
+    <div class="pagination" *ngIf="rows && totalElements > 5">
       <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
         <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
       </button>

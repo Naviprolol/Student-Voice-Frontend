@@ -20,12 +20,16 @@ import { Subject as RxSubject } from 'rxjs';
 export class SubjectsComponent implements OnInit {
 
   totalPages: number = 0;
+  totalElements: number = 0;
   rows: Subject[] = [];
 
   searchTerm: string = '';
 
   currentPage = 0;
   itemsPerPage = 5;
+
+  isModalOpen: boolean = false; // Контролирует отображение модалки
+  courseIdToDelete: number | null = null; // Хранит ID предмета для удаления
 
   constructor(private subjectsService: SubjectsService) { }
 
@@ -40,6 +44,7 @@ export class SubjectsComponent implements OnInit {
     this.subjectsService.getSubjectsByPage(page, searchText).subscribe(response => {
       this.rows = response.content;
       this.totalPages = response.totalPages;
+      this.totalElements = response.totalElements;
     });
   }
 
@@ -66,6 +71,35 @@ export class SubjectsComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.loadSubjects(this.currentPage);
+    }
+  }
+
+
+  // Метод для открытия модального окна
+  openDeleteModal(courseId: number): void {
+    this.isModalOpen = true; // Открываем модалку
+    this.courseIdToDelete = courseId; // Сохраняем ID предмета
+  }
+
+  // Метод для закрытия модального окна
+  closeModal(): void {
+    this.isModalOpen = false; // Закрываем модалку
+    this.courseIdToDelete = null; // Очищаем ID предмета
+  }
+
+  // Метод для подтверждения удаления
+  confirmDelete(): void {
+    if (this.courseIdToDelete !== null) {
+      this.subjectsService.deleteSubject(this.courseIdToDelete).subscribe({
+        next: () => {
+          this.currentPage = 0;
+          this.loadSubjects(this.currentPage); // Обновляем список предметов
+          this.closeModal(); // Закрываем модалку
+        },
+        error: (err) => {
+          console.error('Ошибка удаления:', err);
+        },
+      });
     }
   }
 }

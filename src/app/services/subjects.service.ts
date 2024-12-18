@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { GetSubjectApiResponse, GetSubjectsApiResponse } from '../interfaces/interfaces';
+import { CreateSubjectApiResponse, GetSubjectApiResponse, GetSubjectsApiResponse } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +31,26 @@ export class SubjectsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
     return this.http.get<GetSubjectApiResponse>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
+  }
+
+  createSubject(data: CreateSubjectApiResponse): Observable<CreateSubjectApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.post<CreateSubjectApiResponse>('https://213.189.217.151:8000/api/courses/create', data, { headers: headers })
+  }
+
+  editSubject(courseId: number, data: CreateSubjectApiResponse): Observable<CreateSubjectApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.put<CreateSubjectApiResponse>(`https://213.189.217.151:8000/api/courses/${courseId}`, data, { headers: headers })
+  }
+
+  deleteSubject(courseId: number): Observable<any> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.delete<any>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers })
   }
 }

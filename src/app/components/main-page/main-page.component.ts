@@ -22,6 +22,7 @@ export class MainPageComponent implements OnInit {
   rows: Subject[] = [];
   searchTerm: string = '';
   totalPages: number = 0;
+  totalElements: number = 0;
 
   currentPage = 0;
   itemsPerPage = 5;
@@ -62,6 +63,7 @@ export class MainPageComponent implements OnInit {
     this.subjectsService.getSubjectsByPage(page, searchText).subscribe(response => {
       this.rows = response.content;
       this.totalPages = response.totalPages;
+      this.totalElements = response.totalElements;
     });
   }
 

@@ -43,6 +43,7 @@ export class PairVisitListComponent implements OnInit {
   lessonId!: number;
   rows!: Review[];
   totalPages!: number
+  totalElements: number = 0;
 
   currentPage = 0;
   studentsPerPage = 24; // 12 в каждом столбце
@@ -72,6 +73,7 @@ export class PairVisitListComponent implements OnInit {
         this.rows = [];
       }
       this.totalPages = reviews.totalPages || 1;
+      this.totalElements = reviews.totalElements;
 
       // Обновляем пагинацию после загрузки
       this.updatePaginatedStudents();

@@ -90,7 +90,7 @@
     </div>
 
     <!-- Пагинация -->
-    <div class="pagination" *ngIf="rows && rows.length > 5">
+    <div class="pagination" *ngIf="rows && totalElements > 5">
       <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
         <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
       </button>

@@ -41,6 +41,7 @@ export class PairDetailsComponent implements OnInit {
 
   rows: Review[] = [];
   totalPages: number = 0
+  totalElements: number = 0;
   turn_expanded: boolean = false;
 
   constructor(private pairsService: PairsService, private route: ActivatedRoute) { }
@@ -59,6 +60,7 @@ export class PairDetailsComponent implements OnInit {
     this.pairsService.getReviewsByPair(lesson_id, page, 5).subscribe(reviews => {
       this.rows = reviews.content
       this.totalPages = reviews.totalPages;
+      this.totalElements = reviews.totalElements;
       if (!this.turn_expanded) {
         this.turn_expanded = true;
         this.rows.forEach(row => {

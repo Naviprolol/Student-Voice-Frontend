@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { PairsService } from '../../services/pairs.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-qr-form',
@@ -9,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './qr-form.component.html',
   styleUrl: './qr-form.component.css'
 })
-export class QrFormComponent {
+export class QrFormComponent implements OnInit {
 
   setting: boolean = true;
 
@@ -30,6 +33,30 @@ export class QrFormComponent {
   ];
 
   selectedRatings: number[] = Array(this.questions.length).fill(0);
+
+  pairAddress: string = '';
+  pairName: string = '';
+  pairTimeStart: string = '';
+  pairTimeEnd: string = '';
+  pairDate: string = '';
+
+  constructor(private pairsService: PairsService, private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    const lessonId = this.route.snapshot.paramMap.get('id');
+    this.pairsService.getPairById(Number(lessonId)).subscribe(pair => {
+      this.pairAddress = pair.address;
+      this.pairName = pair.course_name;
+
+
+      const dateStart = new Date(pair.date_start);
+      const dateEnd = new Date(pair.date_end);
+
+      this.pairTimeStart = format(dateStart, 'HH:mm'); // Форматируем в "10:15"
+      this.pairTimeEnd = format(dateEnd, 'HH:mm');     // Форматируем в "11:45"
+      this.pairDate = format(dateStart, 'dd.MM.yyyy'); // Форматируем в "13.12.2024"
+    })
+  }
 
   selectRating(questionIndex: number, ratingValue: number): void {
     this.selectedRatings[questionIndex] = ratingValue;

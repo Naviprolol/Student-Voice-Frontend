@@ -81,11 +81,12 @@
           <div class="dropdown-list" *ngIf="isDropdownOpen['teachers']">
             <div class="dropdown-items-container">
               <div class="dropdown-item" *ngFor="let teacher of teachers; let last = last;"
-                [ngClass]="{'last-row': last, 'selected': selectedTeachers?.includes(teacher)}"
-                (click)="selectOption('teachers', teacher)">
-                {{ teacher }}
+                [ngClass]="{'last-row': last, 'selected': selectedTeachers?.includes(teacher.professor_fio)}"
+                (click)="selectOption('teachers', teacher.professor_fio)">
+                {{ teacher.professor_fio }}
                 <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon"
-                  *ngIf="selectedTeachers?.includes(teacher)" (click)="removeTeacher(teacher, $event)" />
+                  *ngIf="selectedTeachers?.includes(teacher.professor_fio)"
+                  (click)="removeTeacher(teacher.professor_fio, $event)" />
               </div>
             </div>
           </div>
@@ -101,7 +102,7 @@
 
     </div>
 
-    <button class="small-button blue-button create-button">
+    <button class="small-button blue-button create-button" (click)="onSubmit()">
       {{ isEditMode ? 'Сохранить' : 'Создать' }}
     </button>
   </div>

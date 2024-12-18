@@ -69,12 +69,15 @@
                 <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-img">
               </div>
 
-              <div class="row-review-text">
-                <span class="review-text" *ngIf="row.comment.length > 130 && !row.expanded">{{
-                  row.comment.substring(0, 130) + '...' || 'Отзыв отсутствует' }}</span>
-                <span class="review-text" *ngIf="row.comment.length < 130 || row.expanded">
-                  {{ row.comment || 'Отзыв отсутствует' }} </span>
-                <div class="toggle-button" (click)="toggleReview(row)" *ngIf="!row.expanded">Развернуть</div>
+              <div class="row-review-text" *ngIf="row">
+                <span class="review-text" *ngIf="row.comment && row.comment.length > 130 && !row.expanded">{{
+                  row.comment.substring(0, 130) + '...' }}</span>
+                <span class="review-text" *ngIf="row.comment && (row.comment.length < 130 || row.expanded)">
+                  {{ row.comment }} </span>
+                <span class="review-text" *ngIf="!row.comment">Отзыв отсутствует</span>
+                <div class="toggle-button" (click)="toggleReview(row)"
+                  *ngIf="!row.expanded && (row.statistic_rating_list.length !== 0 || (row.comment && row.comment.length > 130))">
+                  Развернуть</div>
                 <div class="review-details" *ngIf="row.expanded">
                   <div class="review-category" *ngFor="let stat of row.statistic_rating_list">
                     <span class="review-category-text">{{stat.category_name}}</span>
@@ -94,7 +97,7 @@
           </div>
 
           <!-- Пагинация -->
-          <div class="pagination" *ngIf="rows.length > 5">
+          <div class="pagination" *ngIf="rows && totalElements > 5">
             <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">
               <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
             </button>
@@ -121,7 +124,7 @@
             </div>
           </div>
           <!-- Пагинация -->
-          <div class="pagination" *ngIf="rows.length > 5">
+          <div class="pagination" *ngIf="rows && totalElements > 5">
             <button (click)="goToPreviousPage_off()" [disabled]="currentPage_off === 0">
               <img src="/img/pagination-button.svg" alt="Previous Page" class="pagination-arrow left-arrow">
             </button>

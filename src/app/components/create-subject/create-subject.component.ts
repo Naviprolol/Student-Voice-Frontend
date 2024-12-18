@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../shared/header/header.component";
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { SubjectsService } from '../../services/subjects.service';
 import { OtherService } from '../../services/other.service';
+import { CreateSubjectApiResponse, Institute, Professor } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-create-subject',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [HeaderComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './create-subject.component.html',
   styleUrl: './create-subject.component.css'
 })
@@ -27,36 +28,25 @@ export class CreateSubjectComponent implements OnInit {
 
   isCheckboxActive: boolean = false;
 
-  subjectForm!: FormGroup;
-  addresses: string[] = ['Адрес 1', 'Адрес 2', 'Адрес 3', 'Адрес 4'];
-  institutes: { institute_id: number; institute_full_name: string }[] = [];
-  selectedInstituteId: number | null = null;
-  teachers: string[] = ['Преподаватель 1', 'Преподаватель 2', 'Преподаватель 3', 'Преподаватель 4'];
+  addresses: string[] = [];
+  teachers: Professor[] = [];
+  institutes: Institute[] = [];
 
-  constructor(private subjectsService: SubjectsService, private route: ActivatedRoute, private otherService: OtherService, private fb: FormBuilder) { }
+  courseId!: number;
+
+  constructor(private subjectsService: SubjectsService, private route: ActivatedRoute, private otherService: OtherService, private router: Router) { }
 
   ngOnInit(): void {
-    this.initForm();
-
-    this.otherService.getInstitutes().subscribe((response) => {
-      this.institutes = response;
-    });
+    this.otherService.getInstitutes().subscribe((response) => this.institutes = response);
+    this.otherService.getAddresses().subscribe((response) => this.addresses = response);
+    this.otherService.getProfessors().subscribe((response) => this.teachers = response)
 
     const subjectId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
+    this.courseId = Number(subjectId);
     this.isEditMode = !!subjectId; // Если ID есть, режим редактирования
     if (this.isEditMode) {
       this.loadSubjectData(Number(subjectId));
     }
-  }
-
-  initForm(): void {
-    this.subjectForm = this.fb.group({
-      course_name: ['', Validators.required], // Название предмета
-      address: ['', Validators.required], // Адрес
-      institute_id: [null, Validators.required], // ID института
-      isConstantlyLink: [false], // Чекбокс
-      professor_id: [null], // Временный мок
-    });
   }
 
   loadSubjectData(id: number): void {
@@ -66,20 +56,6 @@ export class CreateSubjectComponent implements OnInit {
       // this.selectedInstitute = subject.;
       // this.selectedTeachers = subject.teachers || []; Добавить обработку института и преподавателей у предмета при редактировании
     });
-  }
-
-  onSubmit(): void {
-    if (this.subjectForm.valid) {
-      const formData = this.subjectForm.value;
-      console.log('Данные для отправки:', formData);
-
-      // После реализации метода отправки:
-      // this.subjectsService.createSubject(formData).subscribe((response) => {
-      //   console.log('Предмет создан:', response);
-      // });
-    } else {
-      console.error('Форма заполнена некорректно!');
-    }
   }
 
   toggleDropdown(type: string): void {
@@ -125,6 +101,63 @@ export class CreateSubjectComponent implements OnInit {
     event.stopPropagation();
     if (this.selectedTeachers) {
       this.selectedTeachers = this.selectedTeachers.filter(t => t !== teacher);
+    }
+  }
+
+
+
+  onSubmit(): void {
+    // Если `selectedInstitute` — строка, нужно найти ID института
+
+    if (!this.selectedInstitute || !this.selectedAddress || !this.selectedTeachers) { return; }
+
+    const selectedInstituteId = this.institutes.find(inst => inst.institute_full_name === this.selectedInstitute)?.institute_id || null;
+    const selectedTeachersId = this.selectedTeachers!
+      .map(teacherName => this.teachers.find(teacher => teacher.professor_fio === teacherName)?.professor_id)
+      .filter(id => id !== undefined) as number[];
+
+    // Собираем данные для отправки
+    const payload: CreateSubjectApiResponse = {
+      course_name: this.subjectName,
+      address: this.selectedAddress,
+      institute_id: selectedInstituteId,
+      isConstantlyLink: this.isCheckboxActive,
+      professor_ids: selectedTeachersId, // Пока временно передаем мок
+    };
+
+    // Проверяем валидность данных
+    if (!payload.course_name || !payload.address || !payload.institute_id || !payload.professor_ids) {
+      console.error('Форма заполнена некорректно. Проверьте обязательные поля.');
+      return;
+    }
+
+
+    if (this.isEditMode) {
+      this.subjectsService.editSubject(this.courseId, payload).subscribe({
+        next: (response) => {
+
+          setTimeout(() => {
+            this.router.navigate(['/subjects']);
+          }, 500);
+        },
+        error: (err) => {
+          console.error('Ошибка создания:', err);
+        }
+      });
+    }
+
+    else {
+      this.subjectsService.createSubject(payload).subscribe({
+        next: (response) => {
+
+          setTimeout(() => {
+            this.router.navigate(['/subjects']);
+          }, 500);
+        },
+        error: (err) => {
+          console.error('Ошибка создания:', err);
+        }
+      });
     }
   }
 }
