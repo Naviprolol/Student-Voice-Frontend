@@ -5,6 +5,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PairsService } from '../../services/pairs.service';
 import { format, parseISO } from 'date-fns';
+import { OtherService } from '../../services/other.service';
+import { Institute } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-create-pair',
@@ -43,14 +45,17 @@ export class CreatePairComponent implements OnInit {
   subjects: string[] = ['Математика', 'Физика', 'Программирование', 'Программирование 3', 'Программировани 5', 'Программирование 6', 'Программирование', 'Программирование', 'Программирование'];
   startTimes: string[] = ['08:30', '10:15', '12:00', '14:15', '16:00', '17:40', '19:15', '20:50'];
   endTimes: string[] = ['10:00', '11:45', '13:30', '15:45', '17:30', '19:10', '20:45', '22:20'];
-  addresses: string[] = ['Корпус 1', 'Корпус 2', 'Корпус 3'];
-  institutes: string[] = ['Институт ИТ', 'Институт физики', 'Институт математики'];
+  addresses: string[] = [];
+  institutes: Institute[] = [];
   classrooms: string[] = ['101', '102', '103'];
   teachers: string[] = ['Иванов Иван', 'Петров Петр', 'Сидорова Анна'];
 
-  constructor(private pairsService: PairsService, private route: ActivatedRoute) { }
+  constructor(private pairsService: PairsService, private otherService: OtherService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.otherService.getInstitutes().subscribe((response) => this.institutes = response);
+    this.otherService.getAddresses().subscribe((response) => this.addresses = response);
+
     const pairId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
     this.isEditMode = !!pairId; // Если ID есть, режим редактирования
     if (this.isEditMode) {
@@ -62,7 +67,7 @@ export class CreatePairComponent implements OnInit {
     this.pairsService.getPairById(id).subscribe(pair => {
       console.log(pair)
 
-      this.pairName = pair.course_name;
+      // this.pairName = pair.course_name;
       this.selectedAddress = pair.address;
       this.selectedStartTime = format(pair.date_start, 'HH:mm'); // Форматируем время начала
       this.selectedEndTime = format(pair.date_end, 'HH:mm'); // Форматируем время окончания
@@ -121,5 +126,40 @@ export class CreatePairComponent implements OnInit {
   removeTeacher(teacher: string, event: MouseEvent): void {
     event.stopPropagation();
     this.selectedTeachers = this.selectedTeachers.filter(t => t !== teacher);
+  }
+
+  //
+  onSubmit(): void {
+    if (!this.selectedDate || !this.selectedStartTime || !this.selectedEndTime) {
+      console.error('Дата, время начала или окончания не выбраны!');
+      return;
+    }
+
+    // Объединяем дату и время для начала и конца
+    const localStartDate = new Date(`${this.selectedDate}T${this.selectedStartTime}:00`);
+    const localEndDate = new Date(`${this.selectedDate}T${this.selectedEndTime}:00`);
+
+    // Преобразуем в ISO строку без учета сдвига времени
+    const startDateTime = new Date(localStartDate.getTime() - localStartDate.getTimezoneOffset() * 60000).toISOString();
+    const endDateTime = new Date(localEndDate.getTime() - localEndDate.getTimezoneOffset() * 60000).toISOString();
+
+    const requestData = {
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+      address: this.selectedAddress || '',
+      cabinet: this.selectedClassroom || '',
+      link: '',
+      name_lesson: this.pairName,
+      course_id: 0, // Укажи ID курса, если требуется
+      full_time: this.selectedFormat === 'Очное',
+      institute_id: 0,
+    };
+
+    console.log('Данные для отправки:', requestData);
+
+    // Пример вызова сервиса для отправки данных
+    // this.pairsService.createPair(requestBody).subscribe(response => {
+    //   console.log('Успешный ответ:', response);
+    // });
   }
 }

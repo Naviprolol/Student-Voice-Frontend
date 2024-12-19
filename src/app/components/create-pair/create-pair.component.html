@@ -14,7 +14,7 @@
       <!-- Название пары -->
       <div class="row subject-name">
         <h3 class="row-title">Название пары</h3>
-        <input type="text" class="custom-input" placeholder="Введите название пары" />
+        <input type="text" class="custom-input" placeholder="Введите название пары" [(ngModel)]="pairName" />
       </div>
 
       <!-- Предмет -->
@@ -139,8 +139,8 @@
           <div class="dropdown-list" *ngIf="isDropdownOpen['institute']">
             <div class="dropdown-items-container">
               <div class="dropdown-item" *ngFor="let institute of institutes"
-                (click)="selectOption('institute', institute)">
-                {{ institute }}
+                (click)="selectOption('institute', institute.institute_full_name)">
+                {{ institute.institute_full_name }}
               </div>
             </div>
           </div>
@@ -149,6 +149,10 @@
 
       <!-- Кабинет -->
       <div class="row classroom">
+        <h3 class="row-title">Кабинет</h3>
+        <input type="text" class="custom-input" placeholder="Введите номер кабинета" [(ngModel)]="selectedClassroom" />
+      </div>
+      <!-- <div class="row classroom">
         <h3 class="row-title">Кабинет</h3>
         <div class="custom-select-container">
           <div class="custom-select" (click)="toggleDropdown('classroom')">
@@ -168,7 +172,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Преподаватели -->
       <!-- <div class="row teacher-names">
@@ -199,6 +203,6 @@
   </div>
 
   <div class="bottom-content">
-    <button class="small-button blue-button create-button">Запланировать</button>
+    <button class="small-button blue-button create-button" (click)="onSubmit()">Запланировать</button>
   </div>
 </div>
