@@ -130,3 +130,15 @@ export interface CreateSubjectApiResponse {
   isConstantlyLink: boolean;
   professor_ids: number[];
 }
+
+export interface CreatePairApiResponse {
+  startDateTime: string,
+  endDateTime: string,
+  address?: string,
+  cabinet?: string,
+  link?: string,
+  name_lesson: string,
+  course_id: number,
+  full_time: boolean,
+  institute_id?: number;
+}

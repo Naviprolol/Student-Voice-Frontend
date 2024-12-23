@@ -41,6 +41,8 @@ export class QrFilledComponent {
   selectedAddress: string | null = null;
   selectedInstitute: string | null = null;
 
+  lessonId: string | null = null;
+
   // Данные для выпадающих списков
   subjects: string[] = ['Математика', 'Физика', 'Программирование', 'Программирование 3', 'Программировани 5', 'Программирование 6', 'Программирование', 'Программирование', 'Программирование'];
   startTimes: string[] = ['08:30', '10:15', '12:00', '14:15', '16:00', '17:40', '19:15', '20:50'];
@@ -56,6 +58,7 @@ export class QrFilledComponent {
 
   ngOnInit(): void {
     const pairId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
+    this.lessonId = pairId;
 
     this.qrService.getQrByPairId(pairId!).subscribe(response => {
       this.qrCodeImage = `data:image/png;base64,${response}`;
@@ -206,6 +209,20 @@ export class QrFilledComponent {
     img.onerror = () => {
       console.error('Ошибка загрузки изображения.');
     };
+  }
+
+  copyLinkToClipboard(): void {
+    const domain = window.location.origin;
+    const link = `${domain}/form/${this.lessonId}`;
+
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        console.log('Ссылка скопирована:', link);
+        alert('Ссылка успешно скопирована!');
+      })
+      .catch(err => {
+        console.error('Ошибка копирования ссылки:', err);
+      });
   }
 
 }

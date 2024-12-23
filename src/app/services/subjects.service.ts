@@ -53,4 +53,11 @@ export class SubjectsService {
 
     return this.http.delete<any>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers })
   }
+
+  getAllSubjects(): Observable<GetSubjectsApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.get<GetSubjectsApiResponse>('https://213.189.217.151:8000/api/courses/list?page=0', { headers })
+  }
 }

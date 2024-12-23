@@ -274,3 +274,9 @@
 .bottom-content {
   padding-bottom: 60px;
 }
+
+.link-input {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #222222;
+}

@@ -167,8 +167,9 @@
         </div>
       </div>
 
-      <button class="small-button transparent-button redirect-to-form-button"><span>Перейти к форме
-          отзыва</span></button>
+      <button class="small-button transparent-button redirect-to-form-button"
+        [routerLink]="['/form', lessonId]"><span>Перейти к
+          форме отзыва</span></button>
 
       <div class="time-picker-container">
         <h3 class="time-picker-title">Выберите время, на которое ссылка станет рабочей</h3>
@@ -208,7 +209,7 @@
       <div class="qr-img-container" *ngIf="qrCodeImage"><img [src]="qrCodeImage" alt="qr-img" class="qr-img" /></div>
       <button class="blue-button small-button save-img-button" (click)="downloadQrCode()">Скачать изображение</button>
       <div class="copy-link-container">
-        <a class="copy-link">Скопировать ссылку</a>
+        <a class="copy-link" (click)="copyLinkToClipboard()">Скопировать ссылку</a>
         <img src="img/copy-icon.svg" alt="">
       </div>
     </div>

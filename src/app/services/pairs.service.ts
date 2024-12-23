@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetPairsApiResponse, GetReviewsApiResponse, Pair, Review } from '../interfaces/interfaces';
+import { CreatePairApiResponse, GetPairsApiResponse, GetReviewsApiResponse, Pair, Review } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +43,20 @@ export class PairsService {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     return this.http.get<GetReviewsApiResponse>(`https://213.189.217.151:8000/api/reviews/list/by-lesson/${lesson_id}?page=${page}&size=${size}`, { headers: headers })
+  }
+
+  createPair(data: CreatePairApiResponse): Observable<GetPairsApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.post<GetPairsApiResponse>('https://213.189.217.151:8000/api/lessons', data, { headers: headers })
+  }
+
+  editPair(lessonId: number, data: CreatePairApiResponse): Observable<CreatePairApiResponse> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.put<CreatePairApiResponse>(`https://213.189.217.151:8000/api/lessons/${lessonId}`, data, { headers: headers })
   }
 
 }

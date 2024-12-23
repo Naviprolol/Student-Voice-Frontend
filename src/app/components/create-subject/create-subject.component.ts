@@ -141,7 +141,7 @@ export class CreateSubjectComponent implements OnInit {
           }, 500);
         },
         error: (err) => {
-          console.error('Ошибка создания:', err);
+          console.error('Ошибка редактирования:', err);
         }
       });
     }

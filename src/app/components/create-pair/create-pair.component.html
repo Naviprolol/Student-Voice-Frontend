@@ -32,7 +32,7 @@
           <div class="dropdown-list" *ngIf="isDropdownOpen['subject']">
             <div class="dropdown-items-container">
               <div class="dropdown-item" *ngFor="let subject of subjects" (click)="selectOption('subject', subject)">
-                {{ subject }}
+                {{ subject.name }}
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
       </div>
 
       <!-- Адрес -->
-      <div class="row address">
+      <div class="row address" *ngIf="selectedFormat === 'Очное'">
         <h3 class="row-title">Адрес</h3>
         <div class="custom-select-container">
           <div class="custom-select" (click)="toggleDropdown('address')">
@@ -125,7 +125,7 @@
       </div>
 
       <!-- Институт -->
-      <div class="row institute">
+      <div class="row institute" *ngIf="selectedFormat === 'Очное'">
         <h3 class="row-title">Институт</h3>
         <div class="custom-select-container">
           <div class="custom-select" (click)="toggleDropdown('institute')">
@@ -139,7 +139,7 @@
           <div class="dropdown-list" *ngIf="isDropdownOpen['institute']">
             <div class="dropdown-items-container">
               <div class="dropdown-item" *ngFor="let institute of institutes"
-                (click)="selectOption('institute', institute.institute_full_name)">
+                (click)="selectOption('institute', institute)">
                 {{ institute.institute_full_name }}
               </div>
             </div>
@@ -148,9 +148,19 @@
       </div>
 
       <!-- Кабинет -->
-      <div class="row classroom">
+      <div class="row classroom" *ngIf="selectedFormat === 'Очное'">
         <h3 class="row-title">Кабинет</h3>
         <input type="text" class="custom-input" placeholder="Введите номер кабинета" [(ngModel)]="selectedClassroom" />
+      </div>
+
+      <!-- Поля для онлайн формата -->
+      <div *ngIf="selectedFormat === 'Онлайн'">
+        <!-- Ссылка на пару -->
+        <div class="row link">
+          <h3 class="row-title">Ссылка на пару</h3>
+          <input type="text" class="custom-input link-input" placeholder="Введите ссылку на пару"
+            [(ngModel)]="selectedLink" />
+        </div>
       </div>
       <!-- <div class="row classroom">
         <h3 class="row-title">Кабинет</h3>
