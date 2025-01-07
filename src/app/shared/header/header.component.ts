@@ -1,8 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { OtherService } from '../../services/other.service';
 
 @Component({
   selector: 'app-header',
@@ -37,12 +38,19 @@ import { Router, RouterModule } from '@angular/router';
   ]
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   isDropdownOpen = false;
   isNavOpen = false;
+  userName: string | null = null;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private otherService: OtherService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.otherService.getUserInfo().subscribe((user) => {
+      this.userName = user.fio
+    })
+  }
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -55,5 +63,6 @@ export class HeaderComponent {
   logout(event: Event) {
     event.preventDefault()
     this.auth.logout()
+    this.otherService.clearCache(); // Очищаем кэш при выходе
   }
 }

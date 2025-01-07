@@ -17,4 +17,20 @@ export class QrService {
     return this.http.get(`https://213.189.217.151:8000/api/lessons/qr-code/${id}`, { headers, responseType: 'text' });
   }
 
+  getFormInfo(lesson_id: number): Observable<any> {
+    return this.http.get<any>(`https://213.189.217.151:8000/api/forms/${lesson_id}`);
+  }
+
+  createQrTimer(lesson_id: number, hours: number, minutes: number): Observable<void> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<void>(`https://213.189.217.151:8000/api/lessons/start-timer/${lesson_id}?hours=${hours}&minutes=${minutes}`, null, { headers });
+  }
+
+  sendReviewOfPair(lessing_id: number, data: any): Observable<void> {
+
+    return this.http.post<void>(`https://213.189.217.151:8000/api/forms/${lessing_id}`, data);
+  }
+
 }

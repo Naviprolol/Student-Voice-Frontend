@@ -7,6 +7,7 @@ import { PairsService } from '../../../services/pairs.service';
 import { format, parse } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { QrService } from '../../../services/qr.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-qr-filled',
@@ -53,6 +54,8 @@ export class QrFilledComponent {
   teachers: string[] = ['Иванов Иван', 'Петров Петр', 'Сидорова Анна'];
 
   qrCodeImage: string | null = null;
+
+  isModalOpen: boolean = false; // Контролирует отображение модалки
 
   constructor(private pairsService: PairsService, private route: ActivatedRoute, private qrService: QrService) { }
 
@@ -217,11 +220,24 @@ export class QrFilledComponent {
 
     navigator.clipboard.writeText(link)
       .then(() => {
-        console.log('Ссылка скопирована:', link);
         alert('Ссылка успешно скопирована!');
       })
       .catch(err => {
         console.error('Ошибка копирования ссылки:', err);
+      });
+  }
+
+  enableTemporaryLink(): void {
+    this.qrService.createQrTimer(Number(this.lessonId), this.hours, this.minutes)
+      .subscribe({
+        next: () => {
+          console.log(`Таймер на время ${this.hours} часов и ${this.minutes} минут успешно включен.`);
+          this.isModalOpen = true; // Открываем модалку
+          setTimeout(() => {
+            this.isModalOpen = false;
+          }, 2000);
+        },
+        error: (err) => console.error('Ошибка включения таймера:', err)
       });
   }
 

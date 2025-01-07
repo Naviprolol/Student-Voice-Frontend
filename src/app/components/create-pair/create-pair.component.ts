@@ -71,14 +71,14 @@ export class CreatePairComponent implements OnInit {
 
   loadPairData(id: number): void {
     this.pairsService.getPairById(id).subscribe(pair => {
-      console.log(pair)
 
       // this.pairName = pair.course_name;
       this.selectedAddress = pair.address;
       this.selectedStartTime = format(pair.date_start, 'HH:mm'); // Форматируем время начала
       this.selectedEndTime = format(pair.date_end, 'HH:mm'); // Форматируем время окончания
       this.selectedDate = format(pair.date_start, 'yyyy-MM-dd'); // Преобразуем дату в нужный формат
-      this.selectedSubject = pair.course_name
+      this.selectedSubject = pair.course_name;
+      this.selectedSubjectId = pair.course_id;
 
       // this.selectedInstitute = pair.;
       // this.selectedTeachers = pair.teachers || []; Добавить обработку института и преподавателей у предмета при редактировании
@@ -141,11 +141,8 @@ export class CreatePairComponent implements OnInit {
       return;
     }
 
-    const localStartDate = new Date(`${this.selectedDate}T${this.selectedStartTime}:00`);
-    const localEndDate = new Date(`${this.selectedDate}T${this.selectedEndTime}:00`);
-
-    const startDateTime = new Date(localStartDate.getTime() - localStartDate.getTimezoneOffset() * 60000).toISOString();
-    const endDateTime = new Date(localEndDate.getTime() - localEndDate.getTimezoneOffset() * 60000).toISOString();
+    const startDateTime = `${this.selectedDate}T${this.selectedStartTime}:00`;
+    const endDateTime = `${this.selectedDate}T${this.selectedEndTime}:00`;
 
     let requestData: any;
 

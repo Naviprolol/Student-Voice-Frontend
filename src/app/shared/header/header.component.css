@@ -79,10 +79,6 @@
   box-shadow: 0px 1px 5px 0px #00000040;
 }
 
-.dropdown-item {
-  padding-left: 12px;
-}
-
 .dropdown-text {
   color: #0F2B5E;
 }
@@ -97,7 +93,9 @@
 
 .dropdown-item {
   color: #333;
+  padding-left: 12px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .nav-buttons {

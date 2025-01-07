@@ -67,7 +67,6 @@ export class PairDetailsComponent implements OnInit {
           row.expanded = false;
         });
       }
-      console.log(this.rows)
     })
   }
 

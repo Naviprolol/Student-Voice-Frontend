@@ -13,13 +13,17 @@
       <p><span class="main-text pair-time">{{pairTimeStart}}-{{pairTimeEnd}}</span></p>
     </div>
     <p class="subject-name"><span class="main-text">Предмет “{{pairName}}”</span></p>
-    <p class="teacher-name"><span class="main-text">Преподаватель: Иванов Иван Иванович</span></p>
+    <div *ngIf="teachers.length > 0" class="teacher-name-container">
+      <p class="teacher-name" *ngFor="let teacher of teachers">
+        <span class="main-text">Преподаватель: {{teacher}}</span>
+      </p>
+    </div>
   </div>
 
   <div class="main-content" *ngIf="setting">
     <div class="input-fio-container">
       <p class="user-fio-header"><span class="main-text">ФИО</span><span class="required-star">*</span></p>
-      <input id="user-fio" type="text" class="input-field user-fio" placeholder="Введите ваше ФИО">
+      <input id="user-fio" type="text" class="input-field user-fio" placeholder="Введите ваше ФИО" [(ngModel)]="fio">
     </div>
     <div *ngFor="let question of questions; let i = index" class="question-block">
       <p class="question-text blue main-text">Насколько вы удовлетворены
@@ -36,11 +40,11 @@
 
     <div class="comment-container">
       <p class="comment-header blue"><span class="main-text comment-text">Комментарий</span></p>
-      <textarea id="user-comment" type="text" class="input-field user-comment"
-        placeholder="Введите комментарий"></textarea>
+      <textarea id="user-comment" type="text" class="input-field user-comment" placeholder="Введите комментарий"
+        [(ngModel)]="comment"></textarea>
     </div>
 
-    <button class="blue-button small-button send-button">Отправить</button>
+    <button class="blue-button small-button send-button" (click)="onSubmit()">Отправить</button>
   </div>
 
   <div class="main-content disable-container" *ngIf="!setting">

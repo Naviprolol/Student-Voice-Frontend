@@ -57,9 +57,6 @@ export class AuthService {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    console.log('Token:', token); // Проверяем, что возвращается из localStorage
-    console.log('123')
-
     return this.http.get<any[]>(`https://213.189.217.151:8000/api/courses/list?page=${page}&size=5`, { headers: headers })
   }
 

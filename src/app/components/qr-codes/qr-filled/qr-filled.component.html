@@ -203,7 +203,15 @@
           </div>
         </div>
       </div>
-      <button class="blue-button small-button">Временно включить ссылку</button>
+      <button class="blue-button small-button" (click)="enableTemporaryLink()">Временно включить ссылку</button>
+
+      <!-- Модальное окно -->
+      <div class="modal-overlay" *ngIf="isModalOpen">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <h3>Ссылка на QR-код будет работать в течение {{hours}} часов {{minutes}} минут!</h3>
+        </div>
+      </div>
+
     </div>
     <div class="right-content">
       <div class="qr-img-container" *ngIf="qrCodeImage"><img [src]="qrCodeImage" alt="qr-img" class="qr-img" /></div>

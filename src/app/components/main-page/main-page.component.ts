@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RatingRow, Subject } from '../../interfaces/interfaces';
 import { RouterModule } from '@angular/router';
 import { SubjectsService } from '../../services/subjects.service';
+import { OtherService } from '../../services/other.service';
 
 @Component({
   selector: 'app-main-page',
@@ -41,7 +42,7 @@ export class MainPageComponent implements OnInit {
     { dayOfWeek: this.getDayOfWeek(2), date: this.getFormattedDate(2), pairs: [] }
   ];
 
-  constructor(private subjectsService: SubjectsService) { }
+  constructor(private subjectsService: SubjectsService, private otherService: OtherService) { }
 
   ngOnInit() {
     this.loadSubjects(this.currentPage);
@@ -110,5 +111,11 @@ export class MainPageComponent implements OnInit {
       this.currentPage--;
       this.loadSubjects(this.currentPage);
     }
+  }
+
+  updateModeus() {
+    this.otherService.updatePairsFromModeus(1, '1', '1').subscribe(() => {
+      console.log('Отправили запро обновления модеуса!')
+    })
   }
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PairsService } from '../../services/pairs.service';
 import { format } from 'date-fns';
+import { QrService } from '../../services/qr.service';
 
 @Component({
   selector: 'app-qr-form',
@@ -39,32 +40,83 @@ export class QrFormComponent implements OnInit {
   pairTimeStart: string = '';
   pairTimeEnd: string = '';
   pairDate: string = '';
+  lessonId: string | null = null;
 
-  constructor(private pairsService: PairsService, private route: ActivatedRoute) { }
+  fio: string = '';
+  comment: string = '';
+  teachers: string[] = []; // Инициализируем пустым массивом
+
+  constructor(private pairsService: PairsService, private route: ActivatedRoute, private qrService: QrService, private router: Router) { }
 
   ngOnInit(): void {
-    const lessonId = this.route.snapshot.paramMap.get('id');
-    this.pairsService.getPairById(Number(lessonId)).subscribe(pair => {
-      this.pairAddress = pair.address;
-      this.pairName = pair.course_name;
+    this.lessonId = this.route.snapshot.paramMap.get('id');
 
-
-      const dateStart = new Date(pair.date_start);
-      const dateEnd = new Date(pair.date_end);
+    this.qrService.getFormInfo(Number(this.lessonId)).subscribe(response => {
+      this.pairName = response.course_name;
+      const dateStart = new Date(response.start_date_time);
+      const dateEnd = new Date(response.end_date_time);
 
       this.pairTimeStart = format(dateStart, 'HH:mm'); // Форматируем в "10:15"
       this.pairTimeEnd = format(dateEnd, 'HH:mm');     // Форматируем в "11:45"
       this.pairDate = format(dateStart, 'dd.MM.yyyy'); // Форматируем в "13.12.2024"
+
+      // Распаковка списка преподавателей
+      this.teachers = response.professor_list.map((professor: { professor_fio: any; }) => professor.professor_fio);
     })
   }
 
   selectRating(questionIndex: number, ratingValue: number): void {
     this.selectedRatings[questionIndex] = ratingValue;
-    console.log('Текущие оценки:', this.selectedRatings); // Проверяем обновление массива
   }
 
   isRatingSelected(questionIndex: number, ratingValue: number): boolean {
     return this.selectedRatings[questionIndex] === ratingValue;
+  }
+
+  // Метод для получения имени вопроса на основе текста (если это необходимо)
+  getQuestionName(question: string): string {
+    switch (question) {
+      case 'подачей материала?':
+        return 'Подача материала';
+      case 'полезностью материала?':
+        return 'Полезность материала';
+      case 'взаимодействием со студентами?':
+        return 'Взаимодействие со студентами';
+      case 'аудиторией и оборудованием?':
+        return 'Аудитория и оборудование';
+      case 'атмосферой на паре?':
+        return 'Атмосфера на паре';
+      default:
+        return question;
+    }
+  }
+
+  onSubmit() {
+    // Создаем объект category_review_list с подставленными значениями
+    const categoryReviewList = this.questions.map((question, index) => {
+      return {
+        name: this.getQuestionName(question),  // Имя вопроса, например "Подача материала"
+        value: this.selectedRatings[index]     // Значение рейтинга, выбранное пользователем
+      };
+    });
+
+    // Формируем запрос
+    const requestData = {
+      fio: this.fio,
+      comment: this.comment,
+      category_review_list: categoryReviewList  // Заполняем динамически
+    };
+
+    // Отправка запроса
+    this.qrService.sendReviewOfPair(Number(this.lessonId), requestData).subscribe(
+      () => {
+        console.log("Отзыв успешно отправлен");
+        this.router.navigate([`/pair/${this.lessonId}`]);
+      },
+      (error) => {
+        console.error("Ошибка при отправке отзыва:", error);
+      }
+    );
   }
 
 }
