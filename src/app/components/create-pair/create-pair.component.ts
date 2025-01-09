@@ -168,8 +168,6 @@ export class CreatePairComponent implements OnInit {
       };
     }
 
-    console.log('Данные для отправки:', requestData);
-
     if (this.isEditMode) {
       this.pairsService.editPair(this.lessonId, requestData).subscribe({
         next: (response) => {

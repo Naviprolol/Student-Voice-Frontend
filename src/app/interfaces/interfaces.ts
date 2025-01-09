@@ -54,6 +54,11 @@ export interface Pair {
 
   rating: number;
   address: string;
+
+  formattedDateTime?: string; // Новое поле
+
+  end_date_time: string | number | Date;
+  start_date_time: string | number | Date;
 }
 
 export interface GetPairsApiResponse {

@@ -3,35 +3,21 @@
   <div class="rating-and-notifications-container flex">
 
     <div class="left-side">
-      <div class="rating-row flex week-rating-row">
+      <div class="rating-row flex week-rating-row" *ngIf="rating !== null">
         <h4>Рейтинг за текущую неделю</h4>
         <div class="rating-container flex">
           <div class="rating-stars">
-            <div *ngFor="let star of starsArray; let i = index" class="star-container">
-              <img src="/img/full-star.svg" alt="/img/full-star.svg">
-              <!-- <img src="/img/empty-star.svg" alt="/img/full-star.svg"> -->
-              <!-- <img src="/img/half-star.svg" alt="/img/full-star.svg"> -->
-            </div>
-          </div>
-          <h4 class="rating">5.0</h4>
-        </div>
-      </div>
-      <div class="rating-row flex criteria-rating-row" *ngFor="let row of ratingRows; let last = last"
-        [ngClass]="{'last-row': last}">
-        <span class="main-text">{{row.title}}</span>
-        <div class="rating-container flex">
-          <div class="rating-stars">
-            <div *ngFor="let goodStar of row.goodStars; let i = index" class="star-container">
+            <div *ngFor="let goodStar of goodStars; let i = index" class="star-container">
               <img src="/img/full-star.svg" alt="/img/full-star.svg">
             </div>
-            <div *ngIf="row.halfStar">
+            <div *ngIf="halfStars">
               <img src="/img/half-star.svg" alt="/img/half-star.svg">
             </div>
-            <div *ngFor="let badStar of row.badStars">
+            <div *ngFor="let badStar of badStars">
               <img src="/img/empty-star.svg" alt="/img/empty-star.svg">
             </div>
           </div>
-          <span class="rating">{{row.rating.toFixed(1)}}</span>
+          <h4 class="rating">{{rating.toFixed(1)}}</h4>
         </div>
       </div>
       <div class="flex rating-buttons-container">
@@ -43,17 +29,22 @@
 
     <div class="notifications-container">
       <h3 class="notifications-title">Уведомления</h3>
-      <div class="notification">
-        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
-          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
-      </div>
-      <div class="notification">
-        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
-          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
-      </div>
-      <div class="notification last-notification">
-        <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к прошедшей паре “Информационная безопасность”
-          8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+      <div class="notification-pair-container">
+        <div class="notification" *ngFor="let pair of notificationPairs; let i = index">
+          <p class="main-text notification-text">
+            Сгенерируйте <b>QR-код</b> к будущей паре “{{pair.course_name}}”
+            {{pair.formattedDateTime}}, {{pair.address}} &nbsp;&nbsp;&nbsp;
+            <a class="notification-redirect" [routerLink]="['/edit/pair-qr', pair.lesson_id]">Перейти</a>
+          </p>
+        </div>
+        <!-- <div class="notification">
+          <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к будущей паре “Информационная безопасность”
+            8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+        </div>
+        <div class="notification last-notification">
+          <p class="main-text notification-text">Сгенерируйте <b>QR-код</b> к будущей паре “Информационная безопасность”
+            8:30-9:00, Мира 32/Р232 &nbsp;&nbsp;&nbsp;<a class="notification-redirect">Перейти</a></p>
+        </div> -->
       </div>
       <button class="watch-all-notifications-button"><span class="watch-all-notifications-button-text">Смотреть
           все</span></button>
@@ -106,6 +97,18 @@
       </div>
     </div>
 
+    <!-- Модальное окно -->
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <img src="/img/cancel-icon.svg" alt="cancel-icon" class="cancel-icon" (click)="closeModal()">
+        <h3>Вы действительно хотите удалить предмет?</h3>
+        <div class="modal-buttons">
+          <button class="confirm-button" (click)="confirmDelete()">Да</button>
+          <button class="cancel-button" (click)="closeModal()">Отмена</button>
+        </div>
+      </div>
+    </div>
+
     <div class="subjects-container">
       <div class="subjects-headers flex">
         <h4 class="column subject-title">Название</h4>
@@ -130,7 +133,8 @@
               <h4 class="rating-subject">{{ row.rating.toFixed(1) }}</h4>
               <img src="/img/white-rating-star.svg" alt="white-rating-star.svg" class="rating-subject-img">
             </div>
-            <img src="/img/delete-icon.svg" alt="delete-icon" class="icon">
+            <img src="/img/delete-icon.svg" alt="delete-icon" class="icon"
+              (click)="openDeleteModal(row.course_id); $event.stopPropagation()">
             <img src="/img/edit-icon.svg" alt="edit-icon" class="icon icon-last"
               [routerLink]="['/edit/subject', row.course_id]">
             <button class="blue-button reviews-button">Отзывы</button>

@@ -231,7 +231,6 @@ export class QrFilledComponent {
     this.qrService.createQrTimer(Number(this.lessonId), this.hours, this.minutes)
       .subscribe({
         next: () => {
-          console.log(`Таймер на время ${this.hours} часов и ${this.minutes} минут успешно включен.`);
           this.isModalOpen = true; // Открываем модалку
           setTimeout(() => {
             this.isModalOpen = false;

@@ -110,7 +110,6 @@ export class QrFormComponent implements OnInit {
     // Отправка запроса
     this.qrService.sendReviewOfPair(Number(this.lessonId), requestData).subscribe(
       () => {
-        console.log("Отзыв успешно отправлен");
         this.router.navigate([`/pair/${this.lessonId}`]);
       },
       (error) => {

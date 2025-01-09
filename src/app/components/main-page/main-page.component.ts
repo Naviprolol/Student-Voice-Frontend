@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CustomDatePickerComponent } from '../../shared/custom-datepicker/custom-datepicker.component';
 import { FormsModule } from '@angular/forms';
-import { RatingRow, Subject } from '../../interfaces/interfaces';
+import { Pair, RatingRow, Subject } from '../../interfaces/interfaces';
 import { RouterModule } from '@angular/router';
 import { SubjectsService } from '../../services/subjects.service';
 import { OtherService } from '../../services/other.service';
@@ -17,7 +17,7 @@ import { OtherService } from '../../services/other.service';
 })
 export class MainPageComponent implements OnInit {
 
-  rating: number = 5.0; // Рейтинг от 0 до 5
+  rating: number | null = null;
   starsArray: number[] = [1, 2, 3, 4, 5]; // Массив для пяти звезд
 
   rows: Subject[] = [];
@@ -25,37 +25,99 @@ export class MainPageComponent implements OnInit {
   totalPages: number = 0;
   totalElements: number = 0;
 
+  goodStars: any[] = [];
+  halfStars: boolean = false;
+  badStars: any[] = [];
+
   currentPage = 0;
   itemsPerPage = 5;
 
-  ratingRows: RatingRow[] = [
-    { title: 'Подача материала', rating: 4.8 },
-    { title: 'Полезность материала', rating: 2.7 },
-    { title: 'Взаимодействие со студентами', date: '30.10.2024', time: '11:00-12:30', status: 'Запланировано', rating: 5.0 },
-    { title: 'Аудитория и оборудование', rating: 1.3 },
-    { title: 'Атмосфера на паре', rating: 4.0 }
-  ];
+  notificationPairs: Pair[] = [];
 
-  schedule = [
-    { dayOfWeek: this.getDayOfWeek(0), date: this.getFormattedDate(0), pairs: [{ time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }, { time: '8:30-9:00', location: 'Мира 32/Р232', subject: 'Информационная безопасность' }] },
-    { dayOfWeek: this.getDayOfWeek(1), date: this.getFormattedDate(1), pairs: [{ time: '10:00-11:30', location: 'Мира 32/Р232', subject: 'Математика' }] },
-    { dayOfWeek: this.getDayOfWeek(2), date: this.getFormattedDate(2), pairs: [] }
-  ];
+  schedule: any[] = [];
+
+  isModalOpen: boolean = false;
+  courseIdToDelete: number | null = null;
 
   constructor(private subjectsService: SubjectsService, private otherService: OtherService) { }
 
   ngOnInit() {
     this.loadSubjects(this.currentPage);
 
-    this.ratingRows.forEach(row => {
-      const fullStars = Math.floor(row.rating); // Полные звезды
-      const hasHalfStar = row.rating % 1 > 0; // Есть ли половинчатая звезда
-      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Пустые звезды
+    this.otherService.rating$.subscribe((rating) => {
+      this.rating = rating;
 
-      row.goodStars = Array(fullStars)
-      row.halfStar = hasHalfStar; // Boolean, есть ли половинчатая звезда
-      row.badStars = Array(emptyStars).fill(1); // Массив из emptyStars элементов
+      if (this.rating !== null) {
+        const fullStars = Math.floor(this.rating); // Полные звезды
+        const hasHalfStar = this.rating % 1 > 0; // Есть ли половинчатая звезда
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Пустые звезды
+
+        this.goodStars = Array(fullStars)
+        this.halfStars = hasHalfStar; // Boolean, есть ли половинчатая звезда
+        this.badStars = Array(emptyStars).fill(1); // Массив из emptyStars элементов
+      }
+    })
+
+    this.otherService.getNotificationPairs().subscribe((pairs: Pair[]) => {
+      this.notificationPairs = pairs.map(pair => {
+        const startDate = new Date(pair.start_date_time);
+        const endDate = new Date(pair.end_date_time);
+
+        // Форматируем дату и время
+        const formattedDate = startDate.toLocaleDateString('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+        });
+
+        const startTime = startDate.toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+
+        const endTime = endDate.toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+
+        // Добавляем отформатированные данные в объект
+        return {
+          ...pair,
+          formattedDateTime: `${formattedDate} ${startTime}-${endTime}`, // новая строка времени
+        };
+      });
     });
+
+    this.otherService.getShortSchedule().subscribe((schedule) => {
+      this.schedule = schedule.map((day: any) => {
+        // Преобразуем каждую дату в нужный формат
+        return {
+          dayOfWeek: this.getDayOfWeek(day.date), // День недели
+          date: this.formatDate(day.date), // Преобразуем дату в формат "ДД.ММ"
+          pairs: day.listLessons.map((lesson: any) => ({
+            time: `${this.formatTime(lesson.date_start)}-${this.formatTime(lesson.date_end)}`, // Время пары
+            location: lesson.address, // Адрес
+            subject: lesson.course_name // Название предмета
+          }))
+        };
+      });
+    });
+
+  }
+
+  // Форматирование даты в "ДД.ММ"
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}.${month}`;
+  }
+
+  // Форматирование времени в "ЧЧ:ММ"
+  formatTime(dateString: string): string {
+    const date = new Date(dateString);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
   }
 
   // Метод для загрузки предметов
@@ -81,11 +143,11 @@ export class MainPageComponent implements OnInit {
   }
 
   // Получаем название дня недели на основе смещения
-  getDayOfWeek(dayOffset: number): string {
+  getDayOfWeek(dateString: string): string {
     const daysOfWeek = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-    const date = new Date();
-    date.setDate(date.getDate() + dayOffset);
-    return daysOfWeek[date.getDay()];
+    const date = new Date(dateString);
+    const dayIndex = date.getDay();
+    return daysOfWeek[dayIndex];
   }
 
   // Получаем текущую дату с учетом смещения
@@ -117,5 +179,35 @@ export class MainPageComponent implements OnInit {
     this.otherService.updatePairsFromModeus(1, '1', '1').subscribe(() => {
       console.log('Отправили запро обновления модеуса!')
     })
+  }
+
+
+  // Удаление предмета
+  // Метод для открытия модального окна
+  openDeleteModal(courseId: number): void {
+    this.isModalOpen = true; // Открываем модалку
+    this.courseIdToDelete = courseId; // Сохраняем ID предмета
+  }
+
+  // Метод для закрытия модального окна
+  closeModal(): void {
+    this.isModalOpen = false; // Закрываем модалку
+    this.courseIdToDelete = null; // Очищаем ID предмета
+  }
+
+  // Метод для подтверждения удаления
+  confirmDelete(): void {
+    if (this.courseIdToDelete !== null) {
+      this.subjectsService.deleteSubject(this.courseIdToDelete).subscribe({
+        next: () => {
+          this.currentPage = 0;
+          this.loadSubjects(this.currentPage); // Обновляем список предметов
+          this.closeModal(); // Закрываем модалку
+        },
+        error: (err) => {
+          console.error('Ошибка удаления:', err);
+        },
+      });
+    }
   }
 }

@@ -42,8 +42,8 @@
         <button class="redirect-button small-button" [routerLink]="['/pair', pair.lesson_id, 'visit-list']">
           Перейти к выгрузке списка
         </button>
-        <button (click)="toggleSetting()" class="small-button red-button setting-on-button">
-          {{setting ? 'Отключить настройку' : 'Включить настройку'}}</button>
+        <!-- <button (click)="toggleSetting()" class="small-button red-button setting-on-button">
+          {{setting ? 'Отключить настройку' : 'Включить настройку'}}</button> -->
       </div>
 
       <div class="students-table-container" *ngIf="setting">
