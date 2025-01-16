@@ -7,7 +7,7 @@ import { CreatePairApiResponse, GetPairsApiResponse, GetReviewsApiResponse, Pair
   providedIn: 'root'
 })
 export class PairsService {
-  private apiUrl = 'https://213.189.217.151:8000/api/lessons'; // URL для запроса
+  private apiUrl = 'http://213.189.217.151:8000/api/lessons'; // URL для запроса
 
   constructor(private http: HttpClient) { }
 
@@ -42,21 +42,21 @@ export class PairsService {
   getReviewsByPair(lesson_id: number, page: number, size: number): Observable<GetReviewsApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    return this.http.get<GetReviewsApiResponse>(`https://213.189.217.151:8000/api/reviews/list/by-lesson/${lesson_id}?page=${page}&size=${size}`, { headers: headers })
+    return this.http.get<GetReviewsApiResponse>(`http://213.189.217.151:8000/api/reviews/list/by-lesson/${lesson_id}?page=${page}&size=${size}`, { headers: headers })
   }
 
   createPair(data: CreatePairApiResponse): Observable<GetPairsApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.post<GetPairsApiResponse>('https://213.189.217.151:8000/api/lessons', data, { headers: headers })
+    return this.http.post<GetPairsApiResponse>('http://213.189.217.151:8000/api/lessons', data, { headers: headers })
   }
 
   editPair(lessonId: number, data: CreatePairApiResponse): Observable<CreatePairApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.put<CreatePairApiResponse>(`https://213.189.217.151:8000/api/lessons/${lessonId}`, data, { headers: headers })
+    return this.http.put<CreatePairApiResponse>(`http://213.189.217.151:8000/api/lessons/${lessonId}`, data, { headers: headers })
   }
 
 }

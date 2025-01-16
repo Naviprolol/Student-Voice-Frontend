@@ -24,7 +24,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     const data = { username, password }
 
-    return this.http.post<{ token: string }>('https://213.189.217.151:8000/api/login', data, httpOptions).pipe(
+    return this.http.post<{ token: string }>('http://213.189.217.151:8000/api/login', data, httpOptions).pipe(
       map((response) => {
         // Сохраняем токен (например, в localStorage) и перенаправляем пользователя
         localStorage.setItem('authToken', response.token);
@@ -57,7 +57,7 @@ export class AuthService {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.get<any[]>(`https://213.189.217.151:8000/api/courses/list?page=${page}&size=5`, { headers: headers })
+    return this.http.get<any[]>(`http://213.189.217.151:8000/api/courses/list?page=${page}&size=5`, { headers: headers })
   }
 
 }

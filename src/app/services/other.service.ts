@@ -38,7 +38,7 @@ export class OtherService {
     }
 
     const headers = this.getAuthHeaders();
-    return this.http.get<any>('https://213.189.217.151:8000/api/institutes/list', { headers }).pipe(
+    return this.http.get<any>('http://213.189.217.151:8000/api/institutes/list', { headers }).pipe(
       tap((data) => (this.institutesCache = data)),
       shareReplay(1)
     );
@@ -51,7 +51,7 @@ export class OtherService {
     }
 
     const headers = this.getAuthHeaders();
-    return this.http.get<any>('https://213.189.217.151:8000/api/institutes/address/list', { headers }).pipe(
+    return this.http.get<any>('http://213.189.217.151:8000/api/institutes/address/list', { headers }).pipe(
       tap((data) => (this.addressesCache = data)),
       shareReplay(1)
     );
@@ -64,7 +64,7 @@ export class OtherService {
     }
 
     const headers = this.getAuthHeaders();
-    return this.http.get<any>('https://213.189.217.151:8000/api/professors/list', { headers }).pipe(
+    return this.http.get<any>('http://213.189.217.151:8000/api/professors/list', { headers }).pipe(
       tap((data) => (this.professorsCache = data)),
       shareReplay(1)
     );
@@ -80,7 +80,7 @@ export class OtherService {
     }
 
     const headers = this.getAuthHeaders();
-    this.userInfo$ = this.http.get<any>('https://213.189.217.151:8000/api/user/info', { headers }).pipe(
+    this.userInfo$ = this.http.get<any>('http://213.189.217.151:8000/api/user/info', { headers }).pipe(
       tap((data) => {
         this.userInfoCache = data;
         this.ratingSubject.next(data.rating); // Обновляем рейтинг при получении данных
@@ -102,21 +102,21 @@ export class OtherService {
 
   updatePairsFromModeus(professor_id: number, fromDate: string, toDate: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post<any>(`https://213.189.217.151:8000/api/integrations/import/modeus/${professor_id}?fromDate=${fromDate}&toDate=${toDate}`, { headers })
+    return this.http.post<any>(`http://213.189.217.151:8000/api/integrations/import/modeus/${professor_id}?fromDate=${fromDate}&toDate=${toDate}`, { headers })
   }
 
   getNotificationPairs(): Observable<Pair[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<Pair[]>(`https://213.189.217.151:8000/api/lessons/notification`, { headers })
+    return this.http.get<Pair[]>(`http://213.189.217.151:8000/api/lessons/notification`, { headers })
   }
 
   getShortSchedule(): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`https://213.189.217.151:8000/api/lessons/schedule-short`, { headers })
+    return this.http.get<any>(`http://213.189.217.151:8000/api/lessons/schedule-short`, { headers })
   }
 
   getFullSchedule(): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`https://213.189.217.151:8000/api/lessons/schedule`, { headers })
+    return this.http.get<any>(`http://213.189.217.151:8000/api/lessons/schedule`, { headers })
   }
 }

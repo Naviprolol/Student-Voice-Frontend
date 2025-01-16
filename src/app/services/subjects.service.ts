@@ -10,7 +10,7 @@ import { CreateSubjectApiResponse, GetSubjectApiResponse, GetSubjectsApiResponse
 export class SubjectsService {
 
 
-  private apiUrl = 'https://213.189.217.151:8000/api/courses/list'; // URL для запроса
+  private apiUrl = 'http://213.189.217.151:8000/api/courses/list'; // URL для запроса
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -30,34 +30,34 @@ export class SubjectsService {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.get<GetSubjectApiResponse>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
+    return this.http.get<GetSubjectApiResponse>(`http://213.189.217.151:8000/api/courses/${courseId}`, { headers: headers })
   }
 
   createSubject(data: CreateSubjectApiResponse): Observable<CreateSubjectApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.post<CreateSubjectApiResponse>('https://213.189.217.151:8000/api/courses/create', data, { headers: headers })
+    return this.http.post<CreateSubjectApiResponse>('http://213.189.217.151:8000/api/courses/create', data, { headers: headers })
   }
 
   editSubject(courseId: number, data: CreateSubjectApiResponse): Observable<CreateSubjectApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.put<CreateSubjectApiResponse>(`https://213.189.217.151:8000/api/courses/${courseId}`, data, { headers: headers })
+    return this.http.put<CreateSubjectApiResponse>(`http://213.189.217.151:8000/api/courses/${courseId}`, data, { headers: headers })
   }
 
   deleteSubject(courseId: number): Observable<any> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.delete<any>(`https://213.189.217.151:8000/api/courses/${courseId}`, { headers })
+    return this.http.delete<any>(`http://213.189.217.151:8000/api/courses/${courseId}`, { headers })
   }
 
   getAllSubjects(): Observable<GetSubjectsApiResponse> {
     const token = localStorage.getItem('authToken')
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.get<GetSubjectsApiResponse>('https://213.189.217.151:8000/api/courses/list?page=0', { headers })
+    return this.http.get<GetSubjectsApiResponse>('http://213.189.217.151:8000/api/courses/list?page=0', { headers })
   }
 }
