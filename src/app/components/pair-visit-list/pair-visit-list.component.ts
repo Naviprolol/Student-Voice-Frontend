@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PairsService } from '../../services/pairs.service';
 import { Review } from '../../interfaces/interfaces';
+import { OtherService } from '../../services/other.service';
 
 @Component({
   selector: 'app-pair-visit-list',
@@ -26,15 +27,8 @@ export class PairVisitListComponent implements OnInit {
     }
   }
 
-  formats: string[] = ['CSV', 'XLSX']; // Список форматов
-  selectedFormat: string = 'CSV'; // Выбранный формат
-
   types: string[] = ['Отзывы', 'Список студентов', 'Список студентов с отзывами'];
   selectedType: string | null = 'Отзывы';
-
-  selectFormat(format: string): void {
-    this.selectedFormat = format; // Сохраняем выбранный формат
-  }
 
   selectType(type: string | null): void {
     this.selectedType = type; // Сохраняем выбранный тип
@@ -50,7 +44,7 @@ export class PairVisitListComponent implements OnInit {
   paginatedStudents: any[] = []; // Массив для текущей страницы студентов
   columns = 2; // Количество столбцов
 
-  constructor(private route: ActivatedRoute, private pairsService: PairsService) { }
+  constructor(private route: ActivatedRoute, private pairsService: PairsService, private otherService: OtherService) { }
 
   ngOnInit() {
     if (!this.setting) {
@@ -110,6 +104,50 @@ export class PairVisitListComponent implements OnInit {
     this.paginatedStudents = Array.from({ length: this.columns }, (_, colIndex) =>
       currentStudents.slice(colIndex * studentsPerColumn, (colIndex + 1) * studentsPerColumn)
     );
+  }
+
+
+
+  downloadReport(): void {
+    if (!this.selectedType) {
+      console.error('Не выбран тип отчета');
+      return;
+    }
+
+    let reportObservable;
+
+    switch (this.selectedType) {
+      case 'Список студентов':
+        reportObservable = this.otherService.getReportOnlyStudents(this.lessonId);
+        break;
+      case 'Список студентов с отзывами':
+        reportObservable = this.otherService.getReportReviewsWithStudents(this.lessonId);
+        break;
+      case 'Отзывы':
+        reportObservable = this.otherService.getReportOnlyReviews(this.lessonId);
+        break;
+      default:
+        console.error('Неверный тип отчета');
+        return;
+    }
+
+    reportObservable.subscribe({
+      next: (response) => {
+        this.handleReportDownload(response, `${this.selectedType}.xlsx`);
+      },
+      error: (err) => {
+        console.error('Ошибка при скачивании отчета:', err);
+      }
+    });
+  }
+
+  handleReportDownload(response: Blob, fileName: string): void {
+    const url = window.URL.createObjectURL(response);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fileName;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
   }
 
 }

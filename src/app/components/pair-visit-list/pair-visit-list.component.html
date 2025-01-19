@@ -36,7 +36,7 @@
     <div class="settings-container">
       <div class="settings-table">
         <h3 class="table-title">Настройки для выгрузки списка посещения</h3>
-        <div class="file-format-container">
+        <!-- <div class="file-format-container">
           <p><span>Выберите формат сохранения документа:</span></p>
           <div class="formats-container">
             <div class="custom-radio formats-radio" *ngFor="let format of formats" (click)="selectFormat(format)">
@@ -45,8 +45,8 @@
               <span>{{ format }}</span>
             </div>
           </div>
-        </div>
-        <div class="file-type-container" *ngIf="setting">
+        </div> -->
+        <div class="file-type-container">
           <p><span>Выберите, что будете выгружать:</span></p>
           <div class="types-container">
             <div class="custom-radio types-radio" *ngFor="let type of types" (click)="selectType(type)">
@@ -57,7 +57,8 @@
           </div>
         </div>
       </div>
-      <button class="blue-button small-button save-file-button">Выгрузить список</button>
+      <button class="blue-button small-button save-file-button" (click)="downloadReport()"
+        [disabled]="!selectedType">Выгрузить список</button>
     </div>
   </div>
 

@@ -218,13 +218,23 @@ export class QrFilledComponent {
     const domain = window.location.origin;
     const link = `${domain}/form/${this.lessonId}`;
 
-    navigator.clipboard.writeText(link)
-      .then(() => {
-        alert('Ссылка успешно скопирована!');
-      })
-      .catch(err => {
-        console.error('Ошибка копирования ссылки:', err);
-      });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link)
+        .then(() => {
+          alert('Ссылка успешно скопирована!');
+        })
+        .catch(err => {
+          console.error('Ошибка копирования ссылки:', err);
+        });
+    } else {
+      const tempInput = document.createElement('input');
+      tempInput.value = link;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Ссылка на форму отзыва успешно скопирована!');
+    }
   }
 
   enableTemporaryLink(): void {

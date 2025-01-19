@@ -45,6 +45,7 @@ export class QrFormComponent implements OnInit {
   fio: string = '';
   comment: string = '';
   teachers: string[] = []; // Инициализируем пустым массивом
+  isModalOpen: boolean = false;
 
   constructor(private pairsService: PairsService, private route: ActivatedRoute, private qrService: QrService, private router: Router) { }
 
@@ -110,12 +111,16 @@ export class QrFormComponent implements OnInit {
     // Отправка запроса
     this.qrService.sendReviewOfPair(Number(this.lessonId), requestData).subscribe(
       () => {
-        this.router.navigate([`/pair/${this.lessonId}`]);
+        this.openModal();
       },
       (error) => {
         console.error("Ошибка при отправке отзыва:", error);
       }
     );
+  }
+
+  openModal(): void {
+    this.isModalOpen = true; // Открываем модалку
   }
 
 }

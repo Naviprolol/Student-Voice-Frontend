@@ -119,4 +119,19 @@ export class OtherService {
     const headers = this.getAuthHeaders();
     return this.http.get<any>(`http://213.189.217.151:8000/api/lessons/schedule`, { headers })
   }
+
+  getReportOnlyStudents(lesson_id: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`http://213.189.217.151:8000/api/reports/xslx/download-report/students/${lesson_id}`, { headers })
+  }
+
+  getReportReviewsWithStudents(lesson_id: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`http://213.189.217.151:8000/api/reports/xslx/download-report/reviews-with-students/${lesson_id}`, { headers })
+  }
+
+  getReportOnlyReviews(lesson_id: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`http://213.189.217.151:8000/api/reports/xslx/download-report/reviews-only/${lesson_id}`, { headers })
+  }
 }
