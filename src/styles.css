@@ -403,6 +403,11 @@ button {
   transition: border-color 0.3s ease;
 }
 
+.blocked {
+  background-color: #c9c9c9 !important;
+  ;
+}
+
 /* Плейсхолдер (неактивное поле) */
 .input-field::placeholder {
   color: #7A7A7A;

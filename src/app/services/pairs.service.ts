@@ -59,4 +59,11 @@ export class PairsService {
     return this.http.put<CreatePairApiResponse>(`http://213.189.217.151:8000/api/lessons/${lessonId}`, data, { headers: headers })
   }
 
+  getPairsForQR(): Observable<any> {
+    const token = localStorage.getItem('authToken')
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+    return this.http.get<any>(`http://213.189.217.151:8000/api/lessons/list-for-qr-code`, { headers: headers })
+  }
+
 }

@@ -64,7 +64,8 @@
         <div class="row time-range">
           <h3 class="row-title">Время проведения</h3>
           <div class="time-select-container">
-            <div class="custom-select time-select" (click)="toggleDropdown('startTime')">
+            <div class="custom-select time-select" [class.blocked]="!isEditMode">
+              <!-- (click)="toggleDropdown('startTime')" -->
               <span class="placeholder" *ngIf="!selectedStartTime">Выберите время начала пары</span>
               <div class="selected-value-container">
                 <span class="selected-value" *ngIf="selectedStartTime">{{ selectedStartTime }}</span>
@@ -81,7 +82,8 @@
             </div>
           </div>
           <div class="time-select-container">
-            <div class="custom-select time-select" (click)="toggleDropdown('endTime')">
+            <div class="custom-select time-select" [class.blocked]="!isEditMode">
+              <!-- (click)="toggleDropdown('endTime')" -->
               <span class="placeholder" *ngIf="!selectedEndTime">Выберите время окончания пары</span>
               <div class="selected-value-container">
                 <span class="selected-value" *ngIf="selectedEndTime">{{ selectedEndTime }}</span>
@@ -101,8 +103,8 @@
         <!-- Дата проведения -->
         <div class="row date-picker">
           <h3 class="row-title">Дата проведения</h3>
-          <input type="date" class="custom-input date-input" [placeholder]="selectedDate ? '' : 'Выберите дату'"
-            [(ngModel)]="selectedDate" />
+          <input type="date" class="custom-input date-input" [class.blocked]="!isEditMode" [disabled]="!isEditMode"
+            [placeholder]="selectedDate ? '' : 'Выберите дату'" [(ngModel)]="selectedDate" />
         </div>
         <!-- Формат -->
         <div class="row format">
@@ -111,22 +113,24 @@
             <label>
               <img [src]="selectedFormat === 'Очное' ? '/img/active-radio.svg' : '/img/disable-radio.svg'"
                 alt="radio" />
-              <input type="radio" name="format" [(ngModel)]="selectedFormat" [value]="'Очное'" />
+              <input type="radio" name="format" [disabled]="!isEditMode" [(ngModel)]="selectedFormat"
+                [value]="'Очное'" />
               Очно
             </label>
             <label>
               <img [src]="selectedFormat === 'Онлайн' ? '/img/active-radio.svg' : '/img/disable-radio.svg'"
                 alt="radio" />
-              <input type="radio" name="format" [(ngModel)]="selectedFormat" [value]="'Онлайн'" />
+              <input type="radio" name="format" [disabled]="!isEditMode" [(ngModel)]="selectedFormat"
+                [value]="'Онлайн'" />
               Онлайн
             </label>
           </div>
         </div>
         <!-- Адрес -->
-        <div class="row address">
+        <div class="row address" *ngIf="selectedFormat === 'Очное' || !selectedFormat">
           <h3 class="row-title">Адрес</h3>
           <div class="custom-select-container">
-            <div class="custom-select" (click)="toggleDropdown('address')">
+            <div class="custom-select" [class.blocked]="!isEditMode"> <!-- (click)="toggleDropdown('address')" -->
               <span class="placeholder" *ngIf="!selectedAddress">Выберите адрес</span>
               <div class="selected-value-container">
                 <span class="selected-value" *ngIf="selectedAddress">{{ selectedAddress }}</span>
@@ -144,10 +148,10 @@
           </div>
         </div>
         <!-- Институт -->
-        <div class="row institute">
+        <div class="row institute" *ngIf="selectedFormat === 'Очное' || !selectedFormat">
           <h3 class="row-title">Институт</h3>
           <div class="custom-select-container">
-            <div class="custom-select" (click)="toggleDropdown('institute')">
+            <div class="custom-select" [class.blocked]="!isEditMode"> <!-- (click)="toggleDropdown('institute')" -->
               <span class="placeholder" *ngIf="!selectedInstitute">Выберите институт</span>
               <div class="selected-value-container">
                 <span class="selected-value" *ngIf="selectedInstitute">{{ selectedInstitute }}</span>
@@ -167,11 +171,11 @@
         </div>
       </div>
 
-      <button class="small-button transparent-button redirect-to-form-button"
+      <button class="small-button transparent-button redirect-to-form-button" *ngIf="lessonId"
         [routerLink]="['/form', lessonId]"><span>Перейти к
           форме отзыва</span></button>
 
-      <div class="time-picker-container">
+      <div class="time-picker-container" *ngIf="lessonId">
         <h3 class="time-picker-title">Выберите время, на которое ссылка станет рабочей</h3>
         <div class="time-picker-main-container">
           <!-- Часы -->
@@ -203,7 +207,8 @@
           </div>
         </div>
       </div>
-      <button class="blue-button small-button" (click)="enableTemporaryLink()">Временно включить ссылку</button>
+      <button class="blue-button small-button" (click)="enableTemporaryLink()" *ngIf="lessonId">Временно включить
+        ссылку</button>
 
       <!-- Модальное окно -->
       <div class="modal-overlay" *ngIf="isModalOpen">
@@ -213,7 +218,7 @@
       </div>
 
     </div>
-    <div class="right-content">
+    <div class="right-content" *ngIf="lessonId">
       <div class="qr-img-container" *ngIf="qrCodeImage"><img [src]="qrCodeImage" alt="qr-img" class="qr-img" /></div>
       <button class="blue-button small-button save-img-button" (click)="downloadQrCode()">Скачать изображение</button>
       <div class="copy-link-container">

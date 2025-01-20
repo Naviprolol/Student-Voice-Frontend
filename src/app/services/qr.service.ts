@@ -10,7 +10,7 @@ export class QrService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getQrByPairId(id: string): Observable<string> {
+  getQrByPairId(id: number): Observable<string> {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 

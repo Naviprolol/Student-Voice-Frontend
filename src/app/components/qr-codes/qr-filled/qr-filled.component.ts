@@ -45,7 +45,7 @@ export class QrFilledComponent {
   lessonId: string | null = null;
 
   // Данные для выпадающих списков
-  subjects: string[] = ['Математика', 'Физика', 'Программирование', 'Программирование 3', 'Программировани 5', 'Программирование 6', 'Программирование', 'Программирование', 'Программирование'];
+  subjects: string[] = ['Frontend-разработка на React', 'Физика', 'Программирование', 'Программирование 3', 'Программировани 5', 'Программирование 6', 'Программирование', 'Программирование', 'Программирование'];
   startTimes: string[] = ['08:30', '10:15', '12:00', '14:15', '16:00', '17:40', '19:15', '20:50'];
   endTimes: string[] = ['10:00', '11:45', '13:30', '15:45', '17:30', '19:10', '20:45', '22:20'];
   addresses: string[] = ['Корпус 1', 'Корпус 2', 'Корпус 3'];
@@ -56,6 +56,7 @@ export class QrFilledComponent {
   qrCodeImage: string | null = null;
 
   isModalOpen: boolean = false; // Контролирует отображение модалки
+  pairs: any[] = [];
 
   constructor(private pairsService: PairsService, private route: ActivatedRoute, private qrService: QrService) { }
 
@@ -63,14 +64,24 @@ export class QrFilledComponent {
     const pairId = this.route.snapshot.paramMap.get('id'); // Получение ID предмета из URL
     this.lessonId = pairId;
 
-    this.qrService.getQrByPairId(pairId!).subscribe(response => {
-      this.qrCodeImage = `data:image/png;base64,${response}`;
-    })
-
     this.isEditMode = !!pairId; // Если ID есть, режим редактирования
     if (this.isEditMode) {
       this.setting = true;
       this.loadPairData(Number(pairId));
+      this.getQR(Number(pairId))
+    }
+
+    else if (!this.isEditMode) {
+      this.pairsService.getPairsForQR().subscribe((pairs) => {
+        this.pairs = pairs;
+        if (pairs && pairs.length > 0) {
+          this.subjects = pairs.map((pair: { course_and_lesson: any; }) => pair.course_and_lesson); // Список всех предметов
+          this.startTimes = pairs.map((pair: { startDateTime: any; }) => format(pair.startDateTime, 'HH:mm'));
+          this.endTimes = pairs.map((pair: { endDateTime: any; }) => format(pair.endDateTime, 'HH:mm'));
+          this.addresses = pairs.map((pair: { address: any; }) => pair.address);
+          this.institutes = pairs.map((pair: { institute_full_name: any; }) => pair.institute_full_name);
+        }
+      })
     }
   }
 
@@ -88,6 +99,12 @@ export class QrFilledComponent {
       // this.selectedInstitute = pair.;
       // this.selectedTeachers = pair.teachers || []; Добавить обработку института и преподавателей у предмета при редактировании
     });
+  }
+
+  getQR(id: number): void {
+    this.qrService.getQrByPairId(id).subscribe(response => {
+      this.qrCodeImage = `data:image/png;base64,${response}`;
+    })
   }
 
   // Увеличить часы
@@ -121,27 +138,44 @@ export class QrFilledComponent {
     }
   }
 
-  // Выбор элемента из выпадающего списка
   selectOption(key: string, value: string): void {
-    switch (key) {
-      case 'subject':
-        this.selectedSubject = value;
-        break;
-      case 'startTime':
-        this.selectedStartTime = value;
-        break;
-      case 'endTime':
-        this.selectedEndTime = value;
-        break;
-      case 'address':
-        this.selectedAddress = value;
-        break;
-      case 'institute':
-        this.selectedInstitute = value;
-        break;
+    if (key === 'subject') {
+      const selectedPair = this.pairs.find((pair: { course_and_lesson: string; }) => pair.course_and_lesson === value);
+
+      if (selectedPair) {
+        this.selectedSubject = selectedPair.course_and_lesson;
+        this.selectedStartTime = format(selectedPair.startDateTime, 'HH:mm');
+        this.selectedEndTime = format(selectedPair.endDateTime, 'HH:mm');
+        this.selectedDate = format(selectedPair.startDateTime, 'yyyy-MM-dd');
+        this.selectedInstitute = selectedPair.institute_full_name;
+        this.selectedAddress = selectedPair.address;
+        this.lessonId = selectedPair.lesson_id;
+        this.selectedFormat = selectedPair.full_time ? 'Очное' : 'Онлайн';
+        this.isDropdownOpen[key] = false;
+
+        this.getQR(Number(this.lessonId))
+      }
     }
-    this.isDropdownOpen[key] = false; // Закрыть список
+    else {
+      // Обработка других вариантов выбора
+      switch (key) {
+        case 'startTime':
+          this.selectedStartTime = value;
+          break;
+        case 'endTime':
+          this.selectedEndTime = value;
+          break;
+        case 'address':
+          this.selectedAddress = value;
+          break;
+        case 'institute':
+          this.selectedInstitute = value;
+          break;
+      }
+      this.isDropdownOpen[key] = false; // Закрыть список
+    }
   }
+
 
   formatDate(date: string): string {
     if (!date) {
