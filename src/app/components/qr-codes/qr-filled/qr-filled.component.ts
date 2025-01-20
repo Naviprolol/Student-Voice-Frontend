@@ -7,7 +7,6 @@ import { PairsService } from '../../../services/pairs.service';
 import { format, parse } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { QrService } from '../../../services/qr.service';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-qr-filled',
@@ -45,18 +44,19 @@ export class QrFilledComponent {
   lessonId: string | null = null;
 
   // Данные для выпадающих списков
-  subjects: string[] = ['Frontend-разработка на React', 'Физика', 'Программирование', 'Программирование 3', 'Программировани 5', 'Программирование 6', 'Программирование', 'Программирование', 'Программирование'];
-  startTimes: string[] = ['08:30', '10:15', '12:00', '14:15', '16:00', '17:40', '19:15', '20:50'];
-  endTimes: string[] = ['10:00', '11:45', '13:30', '15:45', '17:30', '19:10', '20:45', '22:20'];
-  addresses: string[] = ['Корпус 1', 'Корпус 2', 'Корпус 3'];
-  institutes: string[] = ['Институт ИТ', 'Институт физики', 'Институт математики'];
-  classrooms: string[] = ['101', '102', '103'];
-  teachers: string[] = ['Иванов Иван', 'Петров Петр', 'Сидорова Анна'];
+  subjects: string[] = [];
+  startTimes: string[] = [];
+  endTimes: string[] = [];
+  addresses: string[] = [];
+  institutes: string[] = [];
+  classrooms: string[] = [];
+  teachers: string[] = [];
 
   qrCodeImage: string | null = null;
 
   isModalOpen: boolean = false; // Контролирует отображение модалки
   pairs: any[] = [];
+  isLoading: boolean = true;
 
   constructor(private pairsService: PairsService, private route: ActivatedRoute, private qrService: QrService) { }
 
@@ -81,6 +81,7 @@ export class QrFilledComponent {
           this.addresses = pairs.map((pair: { address: any; }) => pair.address);
           this.institutes = pairs.map((pair: { institute_full_name: any; }) => pair.institute_full_name);
         }
+        this.isLoading = false;
       })
     }
   }

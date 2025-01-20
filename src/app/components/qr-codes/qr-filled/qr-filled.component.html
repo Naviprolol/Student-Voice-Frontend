@@ -8,7 +8,11 @@
     </div>
   </div>
 
-  <div class="main-content">
+  <h2 *ngIf="!isLoading && !setting && pairs.length === 0" class="title-text">
+    Нет пар, на которые можно сгенерировать QR-код!
+  </h2>
+
+  <div class="main-content" *ngIf="setting || (!setting && pairs.length !== 0)">
     <div class="left-content">
       <h3 class="pair-name" *ngIf="setting">{{selectedSubject}}</h3>
 
